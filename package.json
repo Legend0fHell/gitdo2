@@ -1,0 +1,22 @@
+{
+  "name": "chatbot",
+  "version": "1.0.0",
+  "description": "GitDo2 - CYB Technophile",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon --exec ./node_modules/.bin/babel-node src/server.js"
+  },
+  "author": "Loli",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/core": "^7.17.8",
+    "@babel/node": "^7.16.8",
+    "@babel/preset-env": "^7.16.11",
+    "body-parser": "^1.19.2",
+    "dotenv": "^16.0.0",
+    "ejs": "^3.1.6",
+    "express": "^4.17.3",
+    "nodemon": "^2.0.15"
+  }
+}
