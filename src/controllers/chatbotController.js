@@ -103,10 +103,11 @@ function TKBOutput(sender_psid, answer) {
                     "attachment": {
                         "type": "image",
                         "payload": {
-                            "attachment_id": res2.AttId,
+                            "attachment_id": '"' + res2.AttId + '"',
                         }
                     }
                 }
+                console.log(response);
                 callSendAPI(sender_psid, response);
             }
             else {
