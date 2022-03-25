@@ -79,37 +79,40 @@ function handlePostback(sender_psid, received_postback) {
 }
 
 function TKBOutput(sender_psid, answer) {
+    response = { "text": "Đang tìm TKB lớp " + answer.text + ", chờ tớ một chút!" };
+    callSendAPI(sender_psid, response);
     let response;
     cache[sender_psid] = null;
     let request_body = {
         "mode": 2,
         "id": answer.text
     }
-    let resp = callSheetAPI(request_body);
-    response = { "text": "TKB của lớp " + answer.text + " là gì em có biết đâu ._." };
-    callSendAPI(sender_psid, response);
-    response = {
-        "attachment": {
-            "type": "image",
-            "payload": {
-                "attachment_id": "511884430542411"
-            }
-        }
-    }
-    callSendAPI(sender_psid, response);
-}
-
-function callSheetAPI(json) {
     request({
-        "uri": "https://script.google.com/macros/s/AKfycbz_r3_Fg9yrCojeAAzXxy762IEh-R8Z-OBLkrwOL74_isB1FPDnkF1epNq4vO1TFJYaeA/exec",
-        "method": "POST",
-        "json": json
+        uri: "https://script.google.com/macros/s/AKfycbz_r3_Fg9yrCojeAAzXxy762IEh-R8Z-OBLkrwOL74_isB1FPDnkF1epNq4vO1TFJYaeA/exec",
+        method: "POST",
+        followAllRedirects: true,
+        body: JSON.stringify(request_body)
     }, (err, res, body) => {
         if (!err) {
             console.log('Message sent!');
-            console.log(res);
-            console.log(body);
-            return body;
+            var res2 = JSON.parse(body);
+            if(res2.Status === 'SUCCESS') {
+                response = { "text": "TKB lớp " + res2.Class + ", có hiệu lực từ " + res2.Update + ": \n" + res2.Text };
+                callSendAPI(sender_psid, response);
+                response = {
+                    "attachment": {
+                        "type": "image",
+                        "payload": {
+                            "attachment_id": res2.AttId,
+                        }
+                    }
+                }
+                callSendAPI(sender_psid, response);
+            }
+            else {
+                response = { "text": "TKB của lớp " + answer.text + " là gì tớ có biết đâu ._." };
+                callSendAPI(sender_psid, response);
+            }
         } else {
             console.error("Unable to send message:" + err);
         }
