@@ -69,8 +69,8 @@ function handlePostback(sender_psid, received_postback) {
     let payload = received_postback.payload;
     // Set the response based on the postback payload
     if (payload === 'TKB') {
-      question = { "text": "Bạn hãy nhập tên lớp cần tra cứu (Ví dụ: 12TT):" }
-      let inp = userInput(sender_psid, question);
+      response = { "text": "Bạn hãy nhập tên lớp cần tra cứu (Ví dụ: 12TT):" }
+      let inp = userInput(sender_psid, response);
       if(inp == 2) {
         response = { "text": inp };
         callSendAPI(sender_psid, response);
