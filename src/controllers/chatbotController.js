@@ -81,6 +81,11 @@ function handlePostback(sender_psid, received_postback) {
 function TKBOutput(sender_psid, answer) {
     let response;
     cache[sender_psid] = null;
+    let request_body = {
+        "mode": 2,
+        "id": answer.text
+    }
+    let resp = callSheetAPI(request_body);
     response = { "text": "TKB của lớp " + answer.text + " là gì em có biết đâu ._." };
     callSendAPI(sender_psid, response);
     response = {
@@ -94,6 +99,23 @@ function TKBOutput(sender_psid, answer) {
     callSendAPI(sender_psid, response);
 }
 
+function callSheetAPI(json) {
+    request({
+        "uri": "https://script.google.com/macros/s/AKfycbz_r3_Fg9yrCojeAAzXxy762IEh-R8Z-OBLkrwOL74_isB1FPDnkF1epNq4vO1TFJYaeA/exec",
+        "method": "POST",
+        "json": json
+    }, (err, res, body) => {
+        if (!err) {
+            console.log('Message sent!');
+            console.log(res);
+            console.log(body);
+            return body;
+        } else {
+            console.error("Unable to send message:" + err);
+        }
+    });
+}
+
 // Sends response messages via the Send API
 function callSendAPI(sender_psid, response) {
     // Construct the message body
@@ -103,8 +125,6 @@ function callSendAPI(sender_psid, response) {
         },
         "message": response
     }
-
-    // Send the HTTP request to the Messenger Platform
     request({
         "uri": "https://graph.facebook.com/v2.6/me/messages",
         "qs": { "access_token": PAGE_ACCESS_TOKEN },
