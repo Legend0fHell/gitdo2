@@ -81,7 +81,17 @@ function handlePostback(sender_psid, received_postback) {
 function TKBOutput(sender_psid, answer) {
     let response;
     cache[sender_psid] = null;
-    response = { "text": "TKB của lớp " + answer.text + "là gì em có biết đâu ._." };
+    response = { "text": "TKB của lớp " + answer.text + " là gì em có biết đâu ._." };
+    callSendAPI(sender_psid, response);
+    response = {
+        "attachment": {
+            "type": "image",
+            "payload": {
+                "is_reuseable": true,
+                "url": "https://imgur.com/download/VTpQokx/"
+            }
+        }
+    }
     callSendAPI(sender_psid, response);
 }
 
