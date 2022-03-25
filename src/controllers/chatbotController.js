@@ -28,19 +28,13 @@ let postWebhook = (req, res) => {
     let body = req.body;
     if (body.object === 'page') {
         body.entry.forEach(function (entry) {
-            // Gets the body of the webhook event
             let webhook_event = entry.messaging[0];
             console.log(webhook_event);
-
-
-            // Get the sender PSID
             let sender_psid = webhook_event.sender.id;
             console.log('Sender PSID: ' + sender_psid);
-
-            // Check if the event is a message or postback and
-            // pass the event to the appropriate handler function
             if (webhook_event.message) {
-                handleMessage(sender_psid, webhook_event.message);
+                if(cache[sender_psid]) userInput(sender_psid, webhook_event.message);
+                else handleMessage(sender_psid, webhook_event.message);
             } else if (webhook_event.postback) {
                 handlePostback(sender_psid, webhook_event.postback);
             }
@@ -70,7 +64,32 @@ function handleMessage(sender_psid, received_message) {
 
 // Handles messaging_postbacks events
 function handlePostback(sender_psid, received_postback) {
+    let response;
+    // Get the payload for the postback
+    let payload = received_postback.payload;
+    // Set the response based on the postback payload
+    if (payload === 'TKB') {
+      question = { "text": "Bạn hãy nhập tên lớp cần tra cứu (Ví dụ: 12TT):" }
+      let inp = userInput(sender_psid, question);
+      if(inp == 2) {
+        response = { "text": inp };
+        callSendAPI(sender_psid, response);
+      }
+    } else if (payload === 'LDT') {
+      response = { "text": "Chưa có lịch dạy thay bạn eii" };
+      callSendAPI(sender_psid, response);
+    }
+}
 
+function userInput(sender_psid, question) {
+    if(cache[sender_psid]) {
+        cache[sender_psid] = '';
+        return question.text;
+    }
+    else {
+        callSendAPI(sender_psid, question);
+        cache[sender_psid] = true;
+    }
 }
 
 // Sends response messages via the Send API
