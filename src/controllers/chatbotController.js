@@ -30,7 +30,6 @@ let postWebhook = (req, res) => {
     if (body.object === 'page') {
         body.entry.forEach(function (entry) {
             let webhook_event = entry.messaging[0];
-            console.log(webhook_event);
             let sender_psid = webhook_event.sender.id;
             if (webhook_event.message) {
                 if(cache[sender_psid] === 'TKB') TKBOutput(sender_psid, webhook_event.message);
@@ -103,11 +102,10 @@ function TKBOutput(sender_psid, answer) {
                     "attachment": {
                         "type": "image",
                         "payload": {
-                            "attachment_id": '"' + res2.AttId + '"',
+                            "attachment_id": res2.AttID,
                         }
                     }
                 }
-                console.log(response);
                 callSendAPI(sender_psid, response);
             }
             else {
