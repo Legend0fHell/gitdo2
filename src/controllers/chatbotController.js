@@ -32,9 +32,8 @@ let postWebhook = (req, res) => {
             let webhook_event = entry.messaging[0];
             console.log(webhook_event);
             let sender_psid = webhook_event.sender.id;
-            console.log('Sender PSID: ' + sender_psid);
             if (webhook_event.message) {
-                if(cache[sender_psid]) userInput(sender_psid, webhook_event.message);
+                if(cache[sender_psid] === 'TKB') TKBOutput(sender_psid, webhook_event.message);
                 else handleMessage(sender_psid, webhook_event.message);
             } else if (webhook_event.postback) {
                 handlePostback(sender_psid, webhook_event.postback);
@@ -71,26 +70,19 @@ function handlePostback(sender_psid, received_postback) {
     // Set the response based on the postback payload
     if (payload === 'TKB') {
       response = { "text": "Bạn hãy nhập tên lớp cần tra cứu (Ví dụ: 12TT):" }
-      let inp = userInput(sender_psid, response);
-      if(inp == 2) {
-        response = { "text": inp };
-        callSendAPI(sender_psid, response);
-      }
+      callSendAPI(sender_psid, response);
+      cache[sender_psid] = payload;
     } else if (payload === 'LDT') {
       response = { "text": "Chưa có lịch dạy thay bạn eii" };
       callSendAPI(sender_psid, response);
     }
 }
 
-function userInput(sender_psid, question) {
-    if(cache[sender_psid]) {
-        cache[sender_psid] = '';
-        return question.text;
-    }
-    else {
-        callSendAPI(sender_psid, question);
-        cache[sender_psid] = true;
-    }
+function TKBOutput(sender_psid, answer) {
+    let response;
+    cache[sender_psid] = null;
+    response = { "text": "TKB của lớp " + answer.text + "là gì em có biết đâu ._." };
+    callSendAPI(sender_psid, response);
 }
 
 // Sends response messages via the Send API
