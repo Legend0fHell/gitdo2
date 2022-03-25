@@ -87,8 +87,7 @@ function TKBOutput(sender_psid, answer) {
         "attachment": {
             "type": "image",
             "payload": {
-                "is_reuseable": true,
-                "url": "https://imgur.com/download/VTpQokx/"
+                "attachment_id": "684504792975520"
             }
         }
     }
