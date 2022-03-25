@@ -87,7 +87,7 @@ function TKBOutput(sender_psid, answer) {
         "attachment": {
             "type": "image",
             "payload": {
-                "attachment_id": "684504792975520"
+                "attachment_id": "511884430542411"
             }
         }
     }
