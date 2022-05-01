@@ -31,15 +31,13 @@ let postWebhook = (req, res) => {
         body.entry.forEach(function (entry) {
             let webhook_event = entry.messaging[0];
             let sender_psid = webhook_event.sender.id;
+            console.log("An activity was fired.\r");
             if (webhook_event.message) {
                 if(cache[sender_psid] === 'TKB') TKBOutput(sender_psid, webhook_event.message);
-                handleMessage(sender_psid, webhook_event.message);
-                console.log('Received message: ', sender_psid, 'Cache: ', cache[sender_psid]);
+                else handleMessage(sender_psid, webhook_event.message);
             } else if (webhook_event.postback) {
                 handlePostback(sender_psid, webhook_event.postback);
-                console.log('Received postback: ', sender_psid);
             }
-            
         });
         res.status(200).send('EVENT_RECEIVED');
     }
@@ -50,6 +48,7 @@ let postWebhook = (req, res) => {
 
 // Handles messages events
 function handleMessage(sender_psid, received_message) {
+    if(sender_psid != '306816786589318') console.log('Received message: ', sender_psid, 'Content: ', received_message.text);
     let response;
 
     // Check if the message contains text
@@ -66,6 +65,7 @@ function handleMessage(sender_psid, received_message) {
 
 // Handles messaging_postbacks events
 function handlePostback(sender_psid, received_postback) {
+    
     let response;
     // Get the payload for the postback
     let payload = received_postback.payload;
@@ -81,7 +81,7 @@ function handlePostback(sender_psid, received_postback) {
         default:
             break;
     }
-    console.log('Postback: ', sender_psid, 'Type: ', payload);
+    if(sender_psid != '306816786589318') console.log('Received postback: ', sender_psid, 'Type: ', payload);
     if (payload === 'TKB') {
       response = { "text": "Bạn hãy nhập tên lớp cần tra cứu (Ví dụ: 11SD):" }
       callSendAPI(sender_psid, response);
@@ -93,8 +93,7 @@ function handlePostback(sender_psid, received_postback) {
 }
 
 function TKBOutput(sender_psid, answer) {
-    response = { "text": "Đang tìm TKB lớp " + answer.text + ", chờ tớ một chút!" };
-    callSendAPI(sender_psid, response);
+    if(sender_psid != '306816786589318') console.log('TKB phase 2: ', sender_psid, 'Content: ', answer.text);
     let response;
     cache[sender_psid] = null;
     let request_body = {
@@ -108,7 +107,6 @@ function TKBOutput(sender_psid, answer) {
         body: JSON.stringify(request_body)
     }, (err, res, body) => {
         if (!err) {
-            console.log('A response was sent!');
             var res2 = JSON.parse(body);
             if(res2.Status === 'SUCCESS') {
                 response = { "text": "TKB lớp " + res2.Class + ", có hiệu lực từ " + res2.Update + ": \n" + res2.Text };
@@ -148,9 +146,7 @@ function callSendAPI(sender_psid, response) {
         "method": "POST",
         "json": request_body
     }, (err, res, body) => {
-        if (!err) {
-            console.log('Message sent!')
-        } else {
+        if (err) {
             console.error("Unable to send message:" + err);
         }
     });
