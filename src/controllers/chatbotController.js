@@ -34,7 +34,7 @@ let postWebhook = (req, res) => {
             if(sender_psid != '306816786589318') console.log("An activity was fired.\r");
             if (webhook_event.message) {
                 if(cache[sender_psid] === 'TKB') TKBOutput(sender_psid, webhook_event.message);
-                handleMessage(sender_psid, webhook_event.message);
+                else handleMessage(sender_psid, webhook_event.message);
             } else if (webhook_event.postback) {
                 handlePostback(sender_psid, webhook_event.postback);
             }
@@ -146,10 +146,7 @@ function callSendAPI(sender_psid, response) {
         "method": "POST",
         "json": request_body
     }, (err, res, body) => {
-        if (!err) {
-            console.log("normal", sender_psid, res);
-        }
-        else {
+        if (err) {
             console.error("Unable to send message:" + err);
         }
     });
