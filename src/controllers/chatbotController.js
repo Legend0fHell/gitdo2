@@ -68,11 +68,21 @@ function handlePostback(sender_psid, received_postback) {
     let payload = received_postback.payload;
     // Set the response based on the postback payload
     // console.log(payload);
-    if (payload === 'TKB' || payload === 'postback_card_5ba34e8758aa1b5c10000050') {
+    switch (payload) {
+        case 'postback_card_5ba34e8758aa1b5c10000050':
+            payload = 'TKB';
+            break;
+        case 'postback_card_5ba8b4a158aa1bac32000070':
+            payload = 'LDT';
+            break;
+        default:
+            break;
+    }
+    if (payload === 'TKB') {
       response = { "text": "Bạn hãy nhập tên lớp cần tra cứu (Ví dụ: 11SD):" }
       callSendAPI(sender_psid, response);
       cache[sender_psid] = payload;
-    } else if (payload === 'LDT' || payload === 'postback_card_5ba8b4a158aa1bac32000070') {
+    } else if (payload === 'LDT') {
       response = { "text": "Chưa có lịch dạy thay bạn eii" };
       callSendAPI(sender_psid, response);
     }
