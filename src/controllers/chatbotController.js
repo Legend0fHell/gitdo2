@@ -31,7 +31,7 @@ let postWebhook = (req, res) => {
         body.entry.forEach(function (entry) {
             let webhook_event = entry.messaging[0];
             let sender_psid = webhook_event.sender.id;
-            console.log("An activity was fired.\r");
+            if(sender_psid != '306816786589318') console.log("An activity was fired.\r");
             if (webhook_event.message) {
                 if(cache[sender_psid] === 'TKB') TKBOutput(sender_psid, webhook_event.message);
                 else handleMessage(sender_psid, webhook_event.message);
@@ -50,7 +50,6 @@ let postWebhook = (req, res) => {
 function handleMessage(sender_psid, received_message) {
     if(sender_psid != '306816786589318') console.log('Received message: ', sender_psid, 'Content: ', received_message.text);
     let response;
-
     // Check if the message contains text
     if (received_message.text) {
         // Create the payload for a basic text message
