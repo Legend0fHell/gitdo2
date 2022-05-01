@@ -33,10 +33,13 @@ let postWebhook = (req, res) => {
             let sender_psid = webhook_event.sender.id;
             if (webhook_event.message) {
                 if(cache[sender_psid] === 'TKB') TKBOutput(sender_psid, webhook_event.message);
-                else handleMessage(sender_psid, webhook_event.message);
+                handleMessage(sender_psid, webhook_event.message);
+                console.log('Received message: ', sender_psid, 'Cache: ', cache[sender_psid]);
             } else if (webhook_event.postback) {
                 handlePostback(sender_psid, webhook_event.postback);
+                console.log('Received postback: ', sender_psid);
             }
+            
         });
         res.status(200).send('EVENT_RECEIVED');
     }
@@ -78,6 +81,7 @@ function handlePostback(sender_psid, received_postback) {
         default:
             break;
     }
+    console.log('Postback: ', sender_psid, 'Type: ', payload);
     if (payload === 'TKB') {
       response = { "text": "Bạn hãy nhập tên lớp cần tra cứu (Ví dụ: 11SD):" }
       callSendAPI(sender_psid, response);
@@ -104,7 +108,7 @@ function TKBOutput(sender_psid, answer) {
         body: JSON.stringify(request_body)
     }, (err, res, body) => {
         if (!err) {
-            console.log('Message sent!');
+            console.log('A response was sent!');
             var res2 = JSON.parse(body);
             if(res2.Status === 'SUCCESS') {
                 response = { "text": "TKB lớp " + res2.Class + ", có hiệu lực từ " + res2.Update + ": \n" + res2.Text };
