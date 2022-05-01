@@ -93,12 +93,13 @@ function handlePostback(sender_psid, received_postback) {
 }
 
 function TKBOutput(sender_psid, answer) {
+    let classAsking = answer.text.toUpperCase();
     if(sender_psid != '306816786589318') console.log('TKB phase 2: ', sender_psid, 'Content: ', answer.text);
     let response;
     cache[sender_psid] = null;
     let request_body = {
         "mode": 2,
-        "id": answer.text
+        "id": classAsking
     }
     request({
         uri: "https://script.google.com/macros/s/AKfycbz_r3_Fg9yrCojeAAzXxy762IEh-R8Z-OBLkrwOL74_isB1FPDnkF1epNq4vO1TFJYaeA/exec",
@@ -122,7 +123,7 @@ function TKBOutput(sender_psid, answer) {
                 callSendAPI(sender_psid, response);
             }
             else {
-                response = { "text": "TKB của lớp " + answer.text + " là gì tớ có biết đâu ._." };
+                response = { "text": "TKB của lớp " + classAsking + " là gì tớ có biết đâu ._." };
                 callSendAPI(sender_psid, response);
             }
         } else {
