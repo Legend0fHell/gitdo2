@@ -82,6 +82,7 @@ function handlePostback(sender_psid, received_postback) {
     }
     if(sender_psid != '306816786589318') console.log('Received postback: ', sender_psid, 'Type: ', payload);
     if (payload === 'TKB') {
+      console.log('TKB phase 1, procedding to ask: ', sender_psid);
       response = { "text": "Bạn hãy nhập tên lớp cần tra cứu (Ví dụ: 11SD):" }
       callSendAPI(sender_psid, response);
       cache[sender_psid] = payload;
