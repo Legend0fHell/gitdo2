@@ -53,7 +53,7 @@ function handleMessage(sender_psid, received_message) {
     if (received_message.text) {
         // Create the payload for a basic text message
         response = {
-            "text": `You sent the message: "${received_message.text}". Now send me an image!`
+            "text": `GitDo sẽ quay trở lại phục vụ các bạn trong khoảng thời gian sớm nhất nhe! Hiện tại các bạn có thể trải nghiệm trước tính năng xem Thời khóa biểu và Lịch dạy thay. Nhấn vào Menu để tìm hiểu thêm nhé!`
         }
     }
 
@@ -67,12 +67,12 @@ function handlePostback(sender_psid, received_postback) {
     // Get the payload for the postback
     let payload = received_postback.payload;
     // Set the response based on the postback payload
-    console.log(payload);
-    if (payload === 'TKB') {
-      response = { "text": "Bạn hãy nhập tên lớp cần tra cứu (Ví dụ: 12TT):" }
+    // console.log(payload);
+    if (payload === 'TKB' || payload === 'postback_card_5ba34e8758aa1b5c10000050') {
+      response = { "text": "Bạn hãy nhập tên lớp cần tra cứu (Ví dụ: 11SD):" }
       callSendAPI(sender_psid, response);
       cache[sender_psid] = payload;
-    } else if (payload === 'LDT') {
+    } else if (payload === 'LDT' || payload === 'postback_card_5ba8b4a158aa1bac32000070') {
       response = { "text": "Chưa có lịch dạy thay bạn eii" };
       callSendAPI(sender_psid, response);
     }
