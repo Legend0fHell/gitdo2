@@ -90,6 +90,12 @@ function handlePostback(sender_psid, received_postback) {
       response = { "text": "Chưa có lịch dạy thay bạn eii" };
       callSendAPI(sender_psid, response);
     }
+    else {
+        response = {
+            "text": `GitDo sẽ quay trở lại phục vụ các bạn trong khoảng thời gian sớm nhất nhe! Hiện tại các bạn có thể trải nghiệm trước tính năng xem Thời khóa biểu và Lịch dạy thay. Nhấn vào Menu để tìm hiểu thêm nhé!`
+        }
+        callSendAPI(sender_psid, response);
+    }
 }
 
 function TKBOutput(sender_psid, answer) {
