@@ -32,13 +32,9 @@ let postWebhook = (req, res) => {
             let webhook_event = entry.messaging[0];
             let sender_psid = webhook_event.sender.id;
             if (webhook_event.message) {
-                if(cache[sender_psid] === 'TKB') TKBOutput(sender_psid, webhook_event.message);
-                else handleMessage(sender_psid, webhook_event.message);
+                handleMessage(sender_psid, webhook_event.message);
             } else if (webhook_event.postback) {
                 handlePostback(sender_psid, webhook_event.postback);
-            }
-            else {
-                if(sender_psid != '306816786589318') console.log('Received unknown event: ', sender_psid, "Content: ", webhook_event);
             }
         });
         res.status(200).send('EVENT_RECEIVED');
@@ -50,27 +46,40 @@ let postWebhook = (req, res) => {
 
 // Handles messages events
 function handleMessage(sender_psid, received_message) {
-    if(sender_psid != '306816786589318') console.log('Received message: ', sender_psid, 'Content: ', received_message.text);
-    // let response;
-    // // Check if the message contains text
-    // if (received_message.text) {
-    //     // Create the payload for a basic text message
-    //     response = {
-    //         "text": `GitDo sẽ quay trở lại phục vụ các bạn trong khoảng thời gian sớm nhất nhe! Hiện tại các bạn có thể trải nghiệm trước tính năng xem Thời khóa biểu và Lịch dạy thay. Nhấn vào Menu để tìm hiểu thêm nhé!`
-    //     }
-    // }
+    // Don't analyze message from the bot itself.
+    if(sender_psid == '306816786589318') return;
 
-    // // Sends the response message
-    // callSendAPI(sender_psid, response);
+    // Debugging line
+    console.log('Received message: ', sender_psid, 'Content: ', received_message.text);
+
+    // Normalize case by uppercase, trim whitespace, de-Vietnamese.
+    var strNormalized = received_message.text.replace( / +/g, '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D').toUpperCase();
+
+    // Check if the line is saying about TKB:
+    if(cache[sender_psid] === 'TKB' || strNormalized.includes("TKB") || strNormalized.includes("THOIKHOABIEU") || strNormalized.includes("MONGI") || strNormalized.includes("HOCGI")) {
+        
+        if(/\d/.test(strNormalized)) {
+            // If the line contains number, auto pass it to the GSheet to try it:
+            TKBOutput(sender_psid, strNormalized);
+        }
+        else {
+            // If the line doesn't contain number, if it was from phase1, incorrect input, else ask:
+            if(cache[sender_psid] === 'TKB') {
+                cache[sender_psid] = null;
+                let response;
+                response = { "text": "TKB của lớp bạn vừa nhập là gì tớ có biết đâu ._." };
+                callSendAPI(sender_psid, response);
+            }
+            else {
+                TKBPhase1(sender_psid);
+            }
+        }
+    }
 }
 
-// Handles messaging_postbacks events
 function handlePostback(sender_psid, received_postback) {
     let response;
-    // Get the payload for the postback
     let payload = received_postback.payload;
-    // Set the response based on the postback payload
-    // console.log(payload);
     switch (payload) {
         case 'postback_card_626f695446be37888700002d':
             payload = 'TKB';
@@ -83,17 +92,23 @@ function handlePostback(sender_psid, received_postback) {
     }
     if(sender_psid != '306816786589318') console.log('Received postback: ', sender_psid, 'Type: ', payload);
     if (payload === 'TKB') {
-      console.log('TKB phase 1, procedding to ask: ', sender_psid);
-      cache[sender_psid] = payload;
-    } else if (payload === 'LDT') {
+      TKBPhase1(sender_psid);
+    } 
+    else if (payload === 'LDT') {
       response = { "text": "Chưa có lịch dạy thay bạn eii" };
       callSendAPI(sender_psid, response);
     }
 }
 
+// Set the cache if the user request TKB.
+function TKBPhase1(sender_psid) {
+    console.log('TKB phase 1, procedding to ask: ', sender_psid);
+    cache[sender_psid] = "TKB";
+}
+
 function TKBOutput(sender_psid, answer) {
-    let classAsking = answer.text.toUpperCase();
-    if(sender_psid != '306816786589318') console.log('TKB phase 2: ', sender_psid, 'Content: ', answer.text);
+    let classAsking = answer;
+    if(sender_psid != '306816786589318') console.log('TKB phase 2: ', sender_psid, 'Content: ', answer);
     let response;
     cache[sender_psid] = null;
     let request_body = {
@@ -109,9 +124,8 @@ function TKBOutput(sender_psid, answer) {
         if (!err) {
             var res2 = JSON.parse(body);
             if(res2.Status === 'SUCCESS') {
-                response = { "text": "TKB lớp " + res2.Class + ", có hiệu lực từ " + res2.Update + ": \n" + res2.Text };
-                callSendAPI(sender_psid, response);
-                response = {
+                response = { 
+                    "text": "TKB lớp " + res2.Class + ", có hiệu lực từ " + res2.Update + ": \n" + res2.Text,
                     "attachment": {
                         "type": "image",
                         "payload": {
@@ -122,7 +136,7 @@ function TKBOutput(sender_psid, answer) {
                 callSendAPI(sender_psid, response);
             }
             else {
-                response = { "text": "TKB của lớp " + classAsking + " là gì tớ có biết đâu ._." };
+                response = { "text": "TKB của lớp bạn vừa nhập là gì tớ có biết đâu ._." };
                 callSendAPI(sender_psid, response);
             }
         } else {
