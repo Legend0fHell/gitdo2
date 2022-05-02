@@ -31,12 +31,14 @@ let postWebhook = (req, res) => {
         body.entry.forEach(function (entry) {
             let webhook_event = entry.messaging[0];
             let sender_psid = webhook_event.sender.id;
-            if(sender_psid != '306816786589318') console.log("An activity was fired.\r");
             if (webhook_event.message) {
                 if(cache[sender_psid] === 'TKB') TKBOutput(sender_psid, webhook_event.message);
-                // else handleMessage(sender_psid, webhook_event.message);
+                else handleMessage(sender_psid, webhook_event.message);
             } else if (webhook_event.postback) {
                 handlePostback(sender_psid, webhook_event.postback);
+            }
+            else {
+                console.log('Received unknown event: ', sender_psid, "Content: ", webhook_event);
             }
         });
         res.status(200).send('EVENT_RECEIVED');
@@ -49,22 +51,21 @@ let postWebhook = (req, res) => {
 // Handles messages events
 function handleMessage(sender_psid, received_message) {
     if(sender_psid != '306816786589318') console.log('Received message: ', sender_psid, 'Content: ', received_message.text);
-    let response;
-    // Check if the message contains text
-    if (received_message.text) {
-        // Create the payload for a basic text message
-        response = {
-            "text": `GitDo sẽ quay trở lại phục vụ các bạn trong khoảng thời gian sớm nhất nhe! Hiện tại các bạn có thể trải nghiệm trước tính năng xem Thời khóa biểu và Lịch dạy thay. Nhấn vào Menu để tìm hiểu thêm nhé!`
-        }
-    }
+    // let response;
+    // // Check if the message contains text
+    // if (received_message.text) {
+    //     // Create the payload for a basic text message
+    //     response = {
+    //         "text": `GitDo sẽ quay trở lại phục vụ các bạn trong khoảng thời gian sớm nhất nhe! Hiện tại các bạn có thể trải nghiệm trước tính năng xem Thời khóa biểu và Lịch dạy thay. Nhấn vào Menu để tìm hiểu thêm nhé!`
+    //     }
+    // }
 
-    // Sends the response message
-    callSendAPI(sender_psid, response);
+    // // Sends the response message
+    // callSendAPI(sender_psid, response);
 }
 
 // Handles messaging_postbacks events
 function handlePostback(sender_psid, received_postback) {
-    console.log('Postback got: ', sender_psid, "Payload:", payload);
     let response;
     // Get the payload for the postback
     let payload = received_postback.payload;
