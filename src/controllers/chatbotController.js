@@ -46,6 +46,8 @@ let postWebhook = (req, res) => {
 
 // Handles messages events
 function handleMessage(sender_psid, received_message) {
+    let response;
+
     // Don't analyze message from the bot itself.
     if(sender_psid == '306816786589318') return;
 
@@ -66,7 +68,6 @@ function handleMessage(sender_psid, received_message) {
             // If the line doesn't contain number, if it was from phase1, incorrect input, else ask:
             if(cache[sender_psid] === 'TKB') {
                 cache[sender_psid] = null;
-                let response;
                 response = { "text": "TKB của lớp bạn vừa nhập là gì tớ có biết đâu ._." };
                 callSendAPI(sender_psid, response);
             }
