@@ -34,7 +34,7 @@ let postWebhook = (req, res) => {
             if(sender_psid != '306816786589318') console.log("An activity was fired.\r");
             if (webhook_event.message) {
                 if(cache[sender_psid] === 'TKB') TKBOutput(sender_psid, webhook_event.message);
-                else handleMessage(sender_psid, webhook_event.message);
+                // else handleMessage(sender_psid, webhook_event.message);
             } else if (webhook_event.postback) {
                 handlePostback(sender_psid, webhook_event.postback);
             }
@@ -71,10 +71,10 @@ function handlePostback(sender_psid, received_postback) {
     // Set the response based on the postback payload
     // console.log(payload);
     switch (payload) {
-        case 'postback_card_5ba34e8758aa1b5c10000050':
+        case 'postback_card_626f695446be37888700002d':
             payload = 'TKB';
             break;
-        case 'postback_card_5ba8b4a158aa1bac32000070':
+        case 'postback_card_626f69a746be37888700002f':
             payload = 'LDT';
             break;
         default:
@@ -83,18 +83,10 @@ function handlePostback(sender_psid, received_postback) {
     if(sender_psid != '306816786589318') console.log('Received postback: ', sender_psid, 'Type: ', payload);
     if (payload === 'TKB') {
       console.log('TKB phase 1, procedding to ask: ', sender_psid);
-      response = { "text": "Bạn hãy nhập tên lớp cần tra cứu (Ví dụ: 11SD):" }
-      callSendAPI(sender_psid, response);
       cache[sender_psid] = payload;
     } else if (payload === 'LDT') {
       response = { "text": "Chưa có lịch dạy thay bạn eii" };
       callSendAPI(sender_psid, response);
-    }
-    else {
-        response = {
-            "text": `GitDo sẽ quay trở lại phục vụ các bạn trong khoảng thời gian sớm nhất nhe! Hiện tại các bạn có thể trải nghiệm trước tính năng xem Thời khóa biểu và Lịch dạy thay. Nhấn vào Menu để tìm hiểu thêm nhé!`
-        }
-        callSendAPI(sender_psid, response);
     }
 }
 
