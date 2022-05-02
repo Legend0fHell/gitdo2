@@ -38,7 +38,7 @@ let postWebhook = (req, res) => {
                 handlePostback(sender_psid, webhook_event.postback);
             }
             else {
-                console.log('Received unknown event: ', sender_psid, "Content: ", webhook_event);
+                if(sender_psid != '306816786589318') console.log('Received unknown event: ', sender_psid, "Content: ", webhook_event);
             }
         });
         res.status(200).send('EVENT_RECEIVED');
