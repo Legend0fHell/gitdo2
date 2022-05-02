@@ -71,6 +71,8 @@ function handleMessage(sender_psid, received_message) {
                 callSendAPI(sender_psid, response);
             }
             else {
+                response = { "text": "Tip: Bạn có thể tìm nhanh theo cú pháp: \"tkb + tên lớp\" nhaa (VD: tkb ttk31). \nBạn hãy nhập tên lớp cần tra cứu (Ví dụ: 11SD):" };
+                callSendAPI(sender_psid, response);
                 TKBPhase1(sender_psid);
             }
         }
