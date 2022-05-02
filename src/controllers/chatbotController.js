@@ -124,8 +124,9 @@ function TKBOutput(sender_psid, answer) {
         if (!err) {
             var res2 = JSON.parse(body);
             if(res2.Status === 'SUCCESS') {
-                response = { 
-                    "text": "TKB lớp " + res2.Class + ", có hiệu lực từ " + res2.Update + ": \n" + res2.Text,
+                response = { "text": "TKB lớp " + res2.Class + ", có hiệu lực từ " + res2.Update + ": \n" + res2.Text };
+                callSendAPI(sender_psid, response);
+                response = {
                     "attachment": {
                         "type": "image",
                         "payload": {
