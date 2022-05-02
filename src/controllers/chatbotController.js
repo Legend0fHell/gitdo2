@@ -80,15 +80,11 @@ function handleMessage(sender_psid, received_message) {
 function handlePostback(sender_psid, received_postback) {
     let response;
     let payload = received_postback.payload;
-    switch (payload) {
-        case 'postback_card_626f695446be37888700002d':
-            payload = 'TKB';
-            break;
-        case 'postback_card_626f69a746be37888700002f':
-            payload = 'LDT';
-            break;
-        default:
-            break;
+    if(payload.includes('postback_card_626f695446be37888700002d')) {
+        payload = 'TKB';
+    }
+    else if(payload.includes('postback_card_626f69a746be37888700002f')) {
+        payload = 'LDT';
     }
     if(sender_psid != '306816786589318') console.log('Received postback: ', sender_psid, 'Type: ', payload);
     if (payload === 'TKB') {
