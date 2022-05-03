@@ -64,7 +64,6 @@ function handleMessage(sender_psid, received_message) {
     
     // Check if the line is saying about TKB:
     if(cache[sender_psid] === 'TKB' || strNormalized.includes("TKB") || strNormalized.includes("THOIKHOABIEU") || strNormalized.includes("MONGI") || strNormalized.includes("HOCGI")) {
-        
         if(/\d/.test(strNormalized)) {
             // If the line contains number, auto pass it to the GSheet to try it:
             TKBOutput(sender_psid, strNormalized);
@@ -77,7 +76,9 @@ function handleMessage(sender_psid, received_message) {
                 callSendAPI(sender_psid, response);
             }
             else {
-                response = { "text": "Tip: Bạn có thể tìm nhanh theo cú pháp: \"tkb + tên lớp\" nhaa (VD: tkb ttk31). \nBạn hãy nhập tên lớp cần tra cứu (Ví dụ: 12SD):" };
+                // If it is not the special format used in Quick Replies, resend the helping guide.
+                if(received_message.text != "[Thời khóa biểu]")
+                    response = { "text": "Tip: Lần sau, thay vì nhấn Thời khóa biểu, bạn có thể nhắn nhanh theo cú pháp: \"tkb + tên lớp\" nhaa! \nBạn hãy nhập tên lớp cần tra cứu (Ví dụ: 12SD):" };
                 callSendAPI(sender_psid, response);
                 TKBPhase1(sender_psid);
             }
@@ -91,16 +92,9 @@ function handlePostback(sender_psid, received_postback) {
     if(payload.includes('postback_card_626f695446be37888700002d')) {
         payload = 'TKB';
     }
-    else if(payload.includes('postback_card_626f69a746be37888700002f')) {
-        payload = 'LDT';
-    }
     if(sender_psid != '306816786589318') console.log('Received postback: ', sender_psid, 'Type: ', payload);
     if (payload === 'TKB') {
-      TKBPhase1(sender_psid);
-    } 
-    else if (payload === 'LDT') {
-      response = { "text": "Chưa có lịch dạy thay bạn eii" };
-      callSendAPI(sender_psid, response);
+        TKBPhase1(sender_psid);
     }
 }
 
