@@ -6,7 +6,6 @@ const VERIFY_TOKEN = process.env.VERIFY_TOKEN;
 
 let cache = {};
 let getHomePage = (req, res) => {
-    CLBPhase1('debug');
     return res.send("Hello")
 };
 
@@ -106,6 +105,9 @@ function handlePostback(sender_psid, received_postback) {
     if (payload === 'TKB') {
         TKBPhase1(sender_psid);
     }
+    else if(payload === 'CLBP2') {
+
+    }
 }
 
 // Set the cache if the user request TKB.
@@ -115,13 +117,13 @@ function TKBPhase1(sender_psid) {
 }
 
 // Set the cache if the user request CLB.
-function CLBPhase1(sender_psid) {
+function CLBPhase1(sender_psid, showMode = "Pg1") {
     console.log('CLB phase 1, procedding to ask: ', sender_psid);
     // cache[sender_psid] = "CLB";
     let response;
     let request_body = {
         "mode": 3,
-        "showMode": "Pg1"
+        "showMode": showMode
     }
     request({
         uri: "https://script.google.com/macros/s/AKfycbz_r3_Fg9yrCojeAAzXxy762IEh-R8Z-OBLkrwOL74_isB1FPDnkF1epNq4vO1TFJYaeA/exec",
@@ -151,6 +153,10 @@ function CLBPhase1(sender_psid) {
             console.error("Unable to send message:" + err);
         }
     });
+}
+
+function CLBPhase2(sender_psid, answer) {
+    console.log('kms');
 }
 
 function TKBOutput(sender_psid, answer) {
