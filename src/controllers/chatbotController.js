@@ -32,10 +32,11 @@ let postWebhook = (req, res) => {
         body.entry.forEach(function (entry) {
             let webhook_event = entry.messaging[0];
             let sender_psid = webhook_event.sender.id;
-            if (webhook_event.message) {
-                handleMessage(sender_psid, webhook_event.message);
-            } else if (webhook_event.postback) {
+            if (webhook_event.postback) {
                 handlePostback(sender_psid, webhook_event.postback);
+            }
+            else if (webhook_event.message) {
+                handleMessage(sender_psid, webhook_event.message);
             }
         });
         res.status(200).send('EVENT_RECEIVED');
@@ -148,7 +149,6 @@ function CLBPhase1(sender_psid, showMode = "Pg1") {
                 "text": "Cậu muốn hỏi về CLB nào trong trường nhỉ? :v",
                 "quick_replies": arraySend
             }
-            console.log(arraySend);
             callSendAPI(sender_psid, response);
         } else {
             console.error("Unable to send message:" + err);
