@@ -35,6 +35,9 @@ let postWebhook = (req, res) => {
             if (webhook_event.postback) {
                 handlePostback(sender_psid, webhook_event.postback);
             }
+            else if (webhook_event.message.quick_reply.payload) {
+                handleQuickReply(sender_psid, webhook_event.message.quick_reply.payload);
+            }
             else if (webhook_event.message) {
                 handleMessage(sender_psid, webhook_event.message);
             }
@@ -45,6 +48,10 @@ let postWebhook = (req, res) => {
         res.sendStatus(404);
     }
 };
+
+function handleQuickReply(sender_psid, received_payload) {
+    console.log('kms', received_payload);
+}
 
 // Handles messages events
 function handleMessage(sender_psid, received_message) {
