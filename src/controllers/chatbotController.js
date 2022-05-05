@@ -87,7 +87,7 @@ function handleMessage(sender_psid, received_message) {
     }
 
     // Check if the line is saying about CLB:
-    if(received_message.text != "[Câu lạc bộ]") {
+    if(received_message.text == "[Câu lạc bộ]") {
         CLBPhase1(sender_psid);
     }
 
