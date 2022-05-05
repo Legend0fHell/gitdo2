@@ -91,9 +91,9 @@ function handleMessage(sender_psid, received_message) {
         CLBPhase1(sender_psid);
     }
 
-    if(cache[sender_psid] === 'CLB') {
-        CLBPhase2(sender_psid, received_message.text);
-    }
+    // if(cache[sender_psid] === 'CLB') {
+    //     CLBPhase2(sender_psid, received_message.text);
+    // }
 }
 
 function handlePostback(sender_psid, received_postback) {
@@ -117,7 +117,7 @@ function TKBPhase1(sender_psid) {
 // Set the cache if the user request CLB.
 function CLBPhase1(sender_psid, showMode = "pg1") {
     console.log('CLB phase 1, procedding to ask: ', sender_psid);
-    cache[sender_psid] = "CLB";
+    // cache[sender_psid] = "CLB";
     let response;
     let request_body = {
         "mode": 3,
@@ -131,10 +131,8 @@ function CLBPhase1(sender_psid, showMode = "pg1") {
     }, (err, res, body) => {
         if (!err) {
             let res2 = JSON.parse(body);
-            console.log(res2);
             let arraySend = [];
             for(var i = 0; i<res2.length; ++i) {
-                console.log(res2[i]);
                 let tmp = {
                     "content_type": "text",
                     "title": res2[i][2],
@@ -144,7 +142,7 @@ function CLBPhase1(sender_psid, showMode = "pg1") {
             }
             response = {
                 "text": "Cậu muốn hỏi về CLB nào trong trường nhỉ? :v",
-                "quick_replies": arraySend,
+                "quick_replies": arraySend
             }
             console.log(arraySend);
             callSendAPI(sender_psid, response);
