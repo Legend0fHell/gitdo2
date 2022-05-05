@@ -6,7 +6,7 @@ const VERIFY_TOKEN = process.env.VERIFY_TOKEN;
 
 let cache = {};
 let getHomePage = (req, res) => {
-    // CLBPhase1('debug');
+    CLBPhase1('debug');
     return res.send("Hello")
 };
 
@@ -121,7 +121,7 @@ function CLBPhase1(sender_psid) {
     let response;
     let request_body = {
         "mode": 3,
-        "showMode": "pg1"
+        "showMode": "Pg1"
     }
     request({
         uri: "https://script.google.com/macros/s/AKfycbz_r3_Fg9yrCojeAAzXxy762IEh-R8Z-OBLkrwOL74_isB1FPDnkF1epNq4vO1TFJYaeA/exec",
