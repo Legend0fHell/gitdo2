@@ -1,4 +1,5 @@
 require("dotenv").config();
+import { send } from "express/lib/response";
 import request from "request";
 
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
@@ -90,9 +91,9 @@ function handleMessage(sender_psid, received_message) {
         CLBPhase1(sender_psid);
     }
 
-    // if(cache[sender_psid] === 'CLB') {
-    //     CLBPhase2(sender_psid, received_message.text);
-    // }
+    if(cache[sender_psid] === 'CLB') {
+        CLBPhase2(sender_psid, received_message.text);
+    }
 }
 
 function handlePostback(sender_psid, received_postback) {
@@ -105,8 +106,8 @@ function handlePostback(sender_psid, received_postback) {
     if (payload === 'TKB') {
         TKBPhase1(sender_psid);
     }
-    else if(payload === 'CLBP2') {
-
+    else if(payload.includes('CLBP2')) {
+        CLBPhase2(sender_psid, payload.substring(6));
     }
 }
 
@@ -139,7 +140,7 @@ function CLBPhase1(sender_psid, showMode = "Pg1") {
                 let tmp = {
                     "content_type": "text",
                     "title": res2[i][2],
-                    "payload": "CLBP2"
+                    "payload": "CLBP2_" + i
                 }
                 arraySend.push(tmp);
             }
@@ -156,7 +157,7 @@ function CLBPhase1(sender_psid, showMode = "Pg1") {
 }
 
 function CLBPhase2(sender_psid, answer) {
-    console.log('kms');
+    console.log('kms', answer);
 }
 
 function TKBOutput(sender_psid, answer) {
