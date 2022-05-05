@@ -35,9 +35,6 @@ let postWebhook = (req, res) => {
             if (webhook_event.postback) {
                 handlePostback(sender_psid, webhook_event.postback);
             }
-            else if (webhook_event.message.quick_reply.payload) {
-                handleQuickReply(sender_psid, webhook_event.message.quick_reply.payload);
-            }
             else if (webhook_event.message) {
                 handleMessage(sender_psid, webhook_event.message);
             }
@@ -61,7 +58,7 @@ function handleMessage(sender_psid, received_message) {
     if(sender_psid == '306816786589318') return;
 
     // Debugging line
-    console.log('Received message: ', sender_psid, 'Content: ', received_message.text);
+    console.log('Received message: ', sender_psid, 'Content: ', received_message);
 
     // Normalize case by uppercase, trim whitespace, de-Vietnamese.
     var strNormalized = "";
