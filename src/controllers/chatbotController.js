@@ -115,13 +115,13 @@ function TKBPhase1(sender_psid) {
 }
 
 // Set the cache if the user request CLB.
-function CLBPhase1(sender_psid, showMode = "pg1") {
+function CLBPhase1(sender_psid) {
     console.log('CLB phase 1, procedding to ask: ', sender_psid);
     // cache[sender_psid] = "CLB";
     let response;
     let request_body = {
         "mode": 3,
-        "showMode": showMode
+        "showMode": "pg1"
     }
     request({
         uri: "https://script.google.com/macros/s/AKfycbz_r3_Fg9yrCojeAAzXxy762IEh-R8Z-OBLkrwOL74_isB1FPDnkF1epNq4vO1TFJYaeA/exec",
@@ -131,6 +131,7 @@ function CLBPhase1(sender_psid, showMode = "pg1") {
     }, (err, res, body) => {
         if (!err) {
             let res2 = JSON.parse(body);
+            console.log(res2);
             let arraySend = [];
             for(var i = 0; i<res2.length; ++i) {
                 let tmp = {
