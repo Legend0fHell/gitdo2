@@ -6,6 +6,7 @@ const VERIFY_TOKEN = process.env.VERIFY_TOKEN;
 
 let cache = {};
 let getHomePage = (req, res) => {
+    // CLBPhase1('debug');
     return res.send("Hello")
 };
 
@@ -84,6 +85,15 @@ function handleMessage(sender_psid, received_message) {
             }
         }
     }
+
+    // Check if the line is saying about CLB:
+    if(received_message.text != "[Câu lạc bộ]") {
+        CLBPhase1(sender_psid);
+    }
+
+    if(cache[sender_psid] === 'CLB') {
+        CLBPhase2(sender_psid, received_message.text);
+    }
 }
 
 function handlePostback(sender_psid, received_postback) {
@@ -102,6 +112,46 @@ function handlePostback(sender_psid, received_postback) {
 function TKBPhase1(sender_psid) {
     console.log('TKB phase 1, procedding to ask: ', sender_psid);
     cache[sender_psid] = "TKB";
+}
+
+// Set the cache if the user request CLB.
+function CLBPhase1(sender_psid, showMode = "pg1") {
+    console.log('CLB phase 1, procedding to ask: ', sender_psid);
+    cache[sender_psid] = "CLB";
+    let response;
+    let request_body = {
+        "mode": 3,
+        "showMode": showMode
+    }
+    request({
+        uri: "https://script.google.com/macros/s/AKfycbz_r3_Fg9yrCojeAAzXxy762IEh-R8Z-OBLkrwOL74_isB1FPDnkF1epNq4vO1TFJYaeA/exec",
+        method: "POST",
+        followAllRedirects: true,
+        body: JSON.stringify(request_body)
+    }, (err, res, body) => {
+        if (!err) {
+            let res2 = JSON.parse(body);
+            console.log(res2);
+            let arraySend = [];
+            for(var i = 0; i<res2.length; ++i) {
+                console.log(res2[i]);
+                let tmp = {
+                    "content_type": "text",
+                    "title": res2[i][2],
+                    "payload": "CLBP2"
+                }
+                arraySend.push(tmp);
+            }
+            response = {
+                "text": "Cậu muốn hỏi về CLB nào trong trường nhỉ? :v",
+                "quick_replies": arraySend,
+            }
+            console.log(arraySend);
+            callSendAPI(sender_psid, response);
+        } else {
+            console.error("Unable to send message:" + err);
+        }
+    });
 }
 
 function TKBOutput(sender_psid, answer) {
