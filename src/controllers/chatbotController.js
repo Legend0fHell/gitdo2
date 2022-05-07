@@ -192,7 +192,7 @@ function CLBPhase2(sender_psid, answer) {
                 button.push(
                     {
                         "type": "web_url",
-                        "url": res[0][3],
+                        "url": res2[0][3],
                         "title": "Facebook"
                     }
                 );
@@ -201,7 +201,7 @@ function CLBPhase2(sender_psid, answer) {
                 button.push(
                     {
                         "type": "web_url",
-                        "url": res[0][4],
+                        "url": res2[0][4],
                         "title": "Instagram"
                     }
                 );
@@ -210,7 +210,7 @@ function CLBPhase2(sender_psid, answer) {
                 button.push(
                     {
                         "type": "web_url",
-                        "url": res[0][5],
+                        "url": res2[0][5],
                         "title": "Khác"
                     }
                 );
