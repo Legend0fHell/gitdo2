@@ -58,7 +58,19 @@ let postWebhook = (req, res) => {
 function handleQuickReply(sender_psid, received_payload) {
     console.log('kms', received_payload);
     if (received_payload.includes('CLBP2')) {
-        CLBPhase2(sender_psid, payload.substring(6));
+        if(payload.substring(6) == "5") {
+            CLBPhase1(sender_psid, "MH");
+        }
+        else if(payload.substring(6) == "10") {
+            CLBPhase1(sender_psid, "Pg2");
+        }
+        else if(payload.substring(6) == "19") {
+            CLBPhase1(sender_psid, "Pg1");
+        }
+        else CLBPhase2(sender_psid, payload.substring(6));
+    } 
+    else if(received_payload.includes('postback_card_626f69d246be3760af000038')) {
+        CLBPhase1(sender_psid, "Pg1");
     }
 }
 
