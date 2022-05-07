@@ -73,6 +73,11 @@ function handleQuickReply(sender_psid, received_payload) {
     else if(received_payload.includes('postback_card_626f69d246be3760af000038')) {
         CLBPhase1(sender_psid, "Pg1");
     }
+    else if(received_payload.includes('postback_card_626f695446be37888700002d')) {
+        response = { "text": "Tip: Lần sau, thay vì nhấn Thời khóa biểu, bạn có thể nhắn nhanh theo cú pháp: \"tkb + tên lớp\" nhaa! \nBạn hãy nhập tên lớp cần tra cứu (Ví dụ: 12SD):" };
+        callSendAPI(sender_psid, response);
+        TKBPhase1(sender_psid);
+    }
 }
 
 // Handles messages events
@@ -107,9 +112,7 @@ function handleMessage(sender_psid, received_message) {
                 callSendAPI(sender_psid, response);
             }
             else {
-                // If it is not the special format used in Quick Replies, resend the helping guide.
-                if (received_message.text != "[Thời khóa biểu]")
-                    response = { "text": "Tip: Lần sau, thay vì nhấn Thời khóa biểu, bạn có thể nhắn nhanh theo cú pháp: \"tkb + tên lớp\" nhaa! \nBạn hãy nhập tên lớp cần tra cứu (Ví dụ: 12SD):" };
+                response = { "text": "Tip: Lần sau, thay vì nhấn Thời khóa biểu, bạn có thể nhắn nhanh theo cú pháp: \"tkb + tên lớp\" nhaa! \nBạn hãy nhập tên lớp cần tra cứu (Ví dụ: 12SD):" };
                 callSendAPI(sender_psid, response);
                 TKBPhase1(sender_psid);
             }
