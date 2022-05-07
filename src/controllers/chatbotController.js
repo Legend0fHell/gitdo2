@@ -58,17 +58,17 @@ let postWebhook = (req, res) => {
 function handleQuickReply(sender_psid, received_payload) {
     console.log('Received QuickReply payload: ', sender_psid, 'Content: ', received_payload);
     if (received_payload.includes('CLBP2')) {
-        console.log('CLB', payload.substring(6));
-        if(payload.substring(6) == '5') {
+        console.log('CLB', received_payload.substring(6));
+        if(received_payload.substring(6) == '5') {
             CLBPhase1(sender_psid, "MH");
         }
-        else if(payload.substring(6) == '10') {
+        else if(received_payload.substring(6) == '10') {
             CLBPhase1(sender_psid, "Pg2");
         }
-        else if(payload.substring(6) == '19') {
+        else if(received_payload.substring(6) == '19') {
             CLBPhase1(sender_psid, "Pg1");
         }
-        else CLBPhase2(sender_psid, payload.substring(6));
+        else CLBPhase2(sender_psid, received_payload.substring(6));
     } 
     else if(received_payload.includes('postback_card_626f69d246be3760af000038')) {
         CLBPhase1(sender_psid, "Pg1");
@@ -114,15 +114,6 @@ function handleMessage(sender_psid, received_message) {
                 TKBPhase1(sender_psid);
             }
         }
-    }
-
-    // Check if the line is saying about CLB:
-    if (received_message.text == "[Câu lạc bộ]") {
-        CLBPhase1(sender_psid);
-    }
-
-    if (cache[sender_psid] === 'CLB') {
-        CLBPhase2(sender_psid, received_message.text);
     }
 }
 
@@ -182,7 +173,7 @@ function CLBPhase1(sender_psid, showMode = "Pg1") {
 }
 
 function CLBPhase2(sender_psid, answer) {
-    if (sender_psid != '306816786589318') console.log('TKB phase 2: ', sender_psid, 'Content: ', answer);
+    if (sender_psid != '306816786589318') console.log('CLB phase 2: ', sender_psid, 'Content: ', answer);
     let response;
     let request_body = {
         "mode": 4,
