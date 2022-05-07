@@ -36,6 +36,14 @@ let postWebhook = (req, res) => {
                 handlePostback(sender_psid, webhook_event.postback);
             }
             else if (webhook_event.message) {
+                try {
+                    if(webhook_event.message.quick_reply.payload) {
+                        handleQuickReply(sender_psid, webhook_event.message.quick_reply.payload);
+                    }
+                } catch (error) {
+
+                }
+
                 handleMessage(sender_psid, webhook_event.message);
             }
         });
@@ -48,6 +56,9 @@ let postWebhook = (req, res) => {
 
 function handleQuickReply(sender_psid, received_payload) {
     console.log('kms', received_payload);
+    if (received_payload.includes('CLBP2')) {
+        CLBPhase2(sender_psid, payload.substring(6));
+    }
 }
 
 // Handles messages events
@@ -55,7 +66,7 @@ function handleMessage(sender_psid, received_message) {
     let response;
 
     // Don't analyze message from the bot itself.
-    if(sender_psid == '306816786589318') return;
+    if (sender_psid == '306816786589318') return;
 
     // Debugging line
     console.log('Received message: ', sender_psid, 'Content: ', received_message);
@@ -63,27 +74,27 @@ function handleMessage(sender_psid, received_message) {
     // Normalize case by uppercase, trim whitespace, de-Vietnamese.
     var strNormalized = "";
     try {
-        strNormalized = received_message.text.replace( / +/g, '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D').toUpperCase();
+        strNormalized = received_message.text.replace(/ +/g, '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D').toUpperCase();
     } catch (error) {
         return;
     }
-    
+
     // Check if the line is saying about TKB:
-    if(cache[sender_psid] === 'TKB' || strNormalized.includes("TKB") || strNormalized.includes("THOIKHOABIEU") || strNormalized.includes("MONGI") || strNormalized.includes("HOCGI")) {
-        if(/\d/.test(strNormalized)) {
+    if (cache[sender_psid] === 'TKB' || strNormalized.includes("TKB") || strNormalized.includes("THOIKHOABIEU") || strNormalized.includes("MONGI") || strNormalized.includes("HOCGI")) {
+        if (/\d/.test(strNormalized)) {
             // If the line contains number, auto pass it to the GSheet to try it:
             TKBOutput(sender_psid, strNormalized);
         }
         else {
             // If the line doesn't contain number, if it was from phase1, incorrect input, else ask:
-            if(cache[sender_psid] === 'TKB') {
+            if (cache[sender_psid] === 'TKB') {
                 cache[sender_psid] = null;
                 response = { "text": "TKB của lớp bạn vừa nhập là gì tớ có biết đâu ._." };
                 callSendAPI(sender_psid, response);
             }
             else {
                 // If it is not the special format used in Quick Replies, resend the helping guide.
-                if(received_message.text != "[Thời khóa biểu]")
+                if (received_message.text != "[Thời khóa biểu]")
                     response = { "text": "Tip: Lần sau, thay vì nhấn Thời khóa biểu, bạn có thể nhắn nhanh theo cú pháp: \"tkb + tên lớp\" nhaa! \nBạn hãy nhập tên lớp cần tra cứu (Ví dụ: 12SD):" };
                 callSendAPI(sender_psid, response);
                 TKBPhase1(sender_psid);
@@ -92,11 +103,11 @@ function handleMessage(sender_psid, received_message) {
     }
 
     // Check if the line is saying about CLB:
-    if(received_message.text == "[Câu lạc bộ]") {
+    if (received_message.text == "[Câu lạc bộ]") {
         CLBPhase1(sender_psid);
     }
 
-    if(cache[sender_psid] === 'CLB') {
+    if (cache[sender_psid] === 'CLB') {
         CLBPhase2(sender_psid, received_message.text);
     }
 }
@@ -104,15 +115,12 @@ function handleMessage(sender_psid, received_message) {
 function handlePostback(sender_psid, received_postback) {
     let response;
     let payload = received_postback.payload;
-    if(payload.includes('postback_card_626f695446be37888700002d')) {
+    if (payload.includes('postback_card_626f695446be37888700002d')) {
         payload = 'TKB';
     }
-    if(sender_psid != '306816786589318') console.log('Received postback: ', sender_psid, 'Type: ', payload);
+    if (sender_psid != '306816786589318') console.log('Received postback: ', sender_psid, 'Type: ', payload);
     if (payload === 'TKB') {
         TKBPhase1(sender_psid);
-    }
-    else if(payload.includes('CLBP2')) {
-        CLBPhase2(sender_psid, payload.substring(6));
     }
 }
 
@@ -139,13 +147,12 @@ function CLBPhase1(sender_psid, showMode = "Pg1") {
     }, (err, res, body) => {
         if (!err) {
             let res2 = JSON.parse(body);
-            console.log(res2);
             let arraySend = [];
-            for(var i = 0; i<res2.length; ++i) {
+            for (var i = 0; i < res2.length; ++i) {
                 let tmp = {
                     "content_type": "text",
                     "title": res2[i][2],
-                    "payload": "CLBP2_" + i
+                    "payload": "CLBP2_" + res2[i][1]
                 }
                 arraySend.push(tmp);
             }
@@ -162,11 +169,74 @@ function CLBPhase1(sender_psid, showMode = "Pg1") {
 
 function CLBPhase2(sender_psid, answer) {
     console.log('kms', answer);
+    let response;
+    let request_body = {
+        "mode": 4,
+        "id": answer
+    }
+    request({
+        uri: "https://script.google.com/macros/s/AKfycbz_r3_Fg9yrCojeAAzXxy762IEh-R8Z-OBLkrwOL74_isB1FPDnkF1epNq4vO1TFJYaeA/exec",
+        method: "POST",
+        followAllRedirects: true,
+        body: JSON.stringify(request_body)
+    }, (err, res, body) => {
+        if (!err) {
+            let res2 = JSON.parse(body);
+            let button = [];
+            if(res2[0][3] != '') {
+                button.push(
+                    {
+                        "type": "web_url",
+                        "url": res[0][3],
+                        "title": "Facebook"
+                    }
+                );
+            }
+            if(res2[0][4] != '') {
+                button.push(
+                    {
+                        "type": "web_url",
+                        "url": res[0][4],
+                        "title": "Instagram"
+                    }
+                );
+            }
+            if(res2[0][5] != '') {
+                button.push(
+                    {
+                        "type": "web_url",
+                        "url": res[0][5],
+                        "title": "Khác"
+                    }
+                );
+            }
+            response = {
+                "attachment": {
+                    "type": "template",
+                    "payload": {
+                        "template_type": "generic",
+                        "elements": [
+                            {
+                                "title": res2[0][0],
+                                "image_url": res2[0][2],
+                                "subtitle": res2[0][1],
+                                "buttons": button
+                            }
+                        ]
+                    }
+                }
+            }
+            callSendAPI(sender_psid, response);
+        } else {
+            console.error("Unable to send message:" + err);
+        }
+    });
+
 }
 
 function TKBOutput(sender_psid, answer) {
     let classAsking = answer;
-    if(sender_psid != '306816786589318') console.log('TKB phase 2: ', sender_psid, 'Content: ', answer);
+    if (sender_psid != '306816786589318') console.log('TKB phase 2: ', sender_psid, 'Content: ', answer);
     let response;
     cache[sender_psid] = null;
     let request_body = {
@@ -181,7 +251,7 @@ function TKBOutput(sender_psid, answer) {
     }, (err, res, body) => {
         if (!err) {
             var res2 = JSON.parse(body);
-            if(res2.Status === 'SUCCESS') {
+            if (res2.Status === 'SUCCESS') {
                 response = { "text": "TKB lớp " + res2.Class + ", có hiệu lực từ " + res2.Update + ": \n" + res2.Text };
                 callSendAPI(sender_psid, response);
                 response = {
