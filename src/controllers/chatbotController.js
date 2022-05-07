@@ -36,15 +36,16 @@ let postWebhook = (req, res) => {
                 handlePostback(sender_psid, webhook_event.postback);
             }
             else if (webhook_event.message) {
+                let fl = 0;
                 try {
                     if(webhook_event.message.quick_reply.payload) {
                         handleQuickReply(sender_psid, webhook_event.message.quick_reply.payload);
+                        fl = 1;
                     }
                 } catch (error) {
 
                 }
-
-                handleMessage(sender_psid, webhook_event.message);
+                if(!fl) handleMessage(sender_psid, webhook_event.message);
             }
         });
         res.status(200).send('EVENT_RECEIVED');
@@ -69,7 +70,7 @@ function handleMessage(sender_psid, received_message) {
     if (sender_psid == '306816786589318') return;
 
     // Debugging line
-    console.log('Received message: ', sender_psid, 'Content: ', received_message);
+    console.log('Received message: ', sender_psid, 'Content: ', received_message.text);
 
     // Normalize case by uppercase, trim whitespace, de-Vietnamese.
     var strNormalized = "";
@@ -168,7 +169,7 @@ function CLBPhase1(sender_psid, showMode = "Pg1") {
 }
 
 function CLBPhase2(sender_psid, answer) {
-    console.log('kms', answer);
+    if (sender_psid != '306816786589318') console.log('TKB phase 2: ', sender_psid, 'Content: ', answer);
     let response;
     let request_body = {
         "mode": 4,
