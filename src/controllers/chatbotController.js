@@ -74,8 +74,6 @@ function handleQuickReply(sender_psid, received_payload) {
         CLBPhase1(sender_psid, "Pg1");
     }
     else if(received_payload.includes('postback_card_626f695446be37888700002d')) {
-        response = { "text": "Tip: Lần sau, thay vì nhấn Thời khóa biểu, bạn có thể nhắn nhanh theo cú pháp: \"tkb + tên lớp\" nhaa! \nBạn hãy nhập tên lớp cần tra cứu (Ví dụ: 12SD):" };
-        callSendAPI(sender_psid, response);
         TKBPhase1(sender_psid);
     }
 }
@@ -112,8 +110,6 @@ function handleMessage(sender_psid, received_message) {
                 callSendAPI(sender_psid, response);
             }
             else {
-                response = { "text": "Tip: Lần sau, thay vì nhấn Thời khóa biểu, bạn có thể nhắn nhanh theo cú pháp: \"tkb + tên lớp\" nhaa! \nBạn hãy nhập tên lớp cần tra cứu (Ví dụ: 12SD):" };
-                callSendAPI(sender_psid, response);
                 TKBPhase1(sender_psid);
             }
         }
@@ -135,6 +131,8 @@ function handlePostback(sender_psid, received_postback) {
 // Set the cache if the user request TKB.
 function TKBPhase1(sender_psid) {
     console.log('TKB phase 1, procedding to ask: ', sender_psid);
+    response = { "text": "Bạn hãy nhập tên lớp cần tra cứu (Ví dụ: 12SD):" };
+    callSendAPI(sender_psid, response);
     cache[sender_psid] = "TKB";
 }
 
