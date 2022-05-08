@@ -129,7 +129,7 @@ function handlePostback(sender_psid, received_postback) {
     if (payload === 'TKB') {
         TKBPhase1(sender_psid);
     }
-    else if (payload === 'TKB') {
+    else if (payload === 'CLB') {
         CLBPhase1(sender_psid, "Pg1");
     }
 }
