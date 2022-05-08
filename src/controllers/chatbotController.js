@@ -122,9 +122,15 @@ function handlePostback(sender_psid, received_postback) {
     if (payload.includes('postback_card_626f695446be37888700002d')) {
         payload = 'TKB';
     }
+    else if (payload.includes('postback_card_626f69d246be3760af000038')) {
+        payload = 'CLB';
+    }
     if (sender_psid != '306816786589318') console.log('Received postback: ', sender_psid, 'Type: ', payload);
     if (payload === 'TKB') {
         TKBPhase1(sender_psid);
+    }
+    else if (payload === 'TKB') {
+        CLBPhase1(sender_psid, "Pg1");
     }
 }
 
