@@ -137,6 +137,7 @@ function handlePostback(sender_psid, received_postback) {
 // Set the cache if the user request TKB.
 function TKBPhase1(sender_psid) {
     console.log('TKB phase 1, procedding to ask: ', sender_psid);
+    let response;
     response = { "text": "Bạn hãy nhập tên lớp cần tra cứu (Ví dụ: 12SD):" };
     callSendAPI(sender_psid, response);
     cache[sender_psid] = "TKB";
