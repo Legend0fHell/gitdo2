@@ -98,7 +98,7 @@ function handleMessage(sender_psid, received_message) {
 
     // Check if the line is saying about TKB:
     if (cache[sender_psid] === 'TKB' || strNormalized.includes("TKB") || strNormalized.includes("THOIKHOABIEU") || strNormalized.includes("MONGI") || strNormalized.includes("HOCGI")) {
-        if (/\d/.test(strNormalized)) {
+        if (/\d/.test(strNormalized) || strNormalized.includes("DIU")) {
             // If the line contains number, auto pass it to the GSheet to try it:
             TKBOutput(sender_psid, strNormalized);
         }
