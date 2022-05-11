@@ -143,6 +143,7 @@ function handlePostback(sender_psid, received_postback) {
 }
 
 function HelloWorld(sender_psid) {
+    if (sender_psid != '306816786589318') console.log('Hello world: ', sender_psid);
     let response;
     response = {
         "template_type": "generic",
