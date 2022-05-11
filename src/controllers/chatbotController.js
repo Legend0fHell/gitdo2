@@ -150,7 +150,7 @@ function HelloWorld(sender_psid) {
             {
                 "title": "Xin chào, mình là GitDo đây :<",
                 "image_url": "https://thumbs2.imgbox.com/4a/b5/0ZdluDVZ_t.png",
-                "subtitle": "Muốn hỏi gì hãy nói, buồn chuyện gì hãy kể nhé <3",
+                "subtitle": "Hãy xem menu để biết mình có thể làm gì nè! Muốn hỏi gì hãy nói, buồn chuyện gì hãy kể nhé <3",
                 "default_action": {
                     "type": "web_url",
                     "url": "https://www.facebook.com/cybtechno/",
