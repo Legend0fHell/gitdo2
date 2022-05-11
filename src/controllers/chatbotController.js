@@ -137,7 +137,7 @@ function handlePostback(sender_psid, received_postback) {
     else if (payload.includes(CLBPostbackID)) {
         CLBPhase1(sender_psid, "Pg1");
     }
-    else if (payload.includes(GetStartedPostbackID)) {
+    else if (payload.includes(GetStartedPostbackID) || payload.includes("WELCOME_MESSAGE")) {
         HelloWorld(sender_psid);
     }
 }
