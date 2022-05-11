@@ -7,7 +7,6 @@ const VERIFY_TOKEN = process.env.VERIFY_TOKEN;
 
 let cache = {};
 let getHomePage = (req, res) => {
-    TKBPhase2("1234", "11TT");
     return res.send("Hello")
 };
 
@@ -56,19 +55,23 @@ let postWebhook = (req, res) => {
 };
 
 function postGoogle(request_body) {
-    request({
-        uri: "https://script.google.com/macros/s/AKfycbz_r3_Fg9yrCojeAAzXxy762IEh-R8Z-OBLkrwOL74_isB1FPDnkF1epNq4vO1TFJYaeA/exec",
-        method: "POST",
-        followAllRedirects: true,
-        body: JSON.stringify(request_body)
-    }, (err, res, body) => {
-        if (!err) {
-            return JSON.parse(body);
-        } else {
-            console.error("Unable to POST: " + request_body + "Error: " + err);
-            return;
-        }
+    console.log(request_body);
+    return new Promise(resolve => {
+        request({
+            uri: "https://script.google.com/macros/s/AKfycbz_r3_Fg9yrCojeAAzXxy762IEh-R8Z-OBLkrwOL74_isB1FPDnkF1epNq4vO1TFJYaeA/exec",
+            method: "POST",
+            followAllRedirects: true,
+            body: JSON.stringify(request_body)
+        }, (err, res, body) => {
+            if (!err) {
+                resolve(JSON.parse(body));
+            } else {
+                console.error("Unable to POST: " + request_body + "Error: " + err);
+                resolve("error");
+            }
+        });
     });
+
 }
 
 function handleQuickReply(sender_psid, received_payload) {
@@ -150,12 +153,10 @@ async function TKBPhase2(sender_psid, answer) {
     if (sender_psid != '306816786589318') console.log('TKB phase 2: ', sender_psid, 'Content: ', answer);
     let response;
     cache[sender_psid] = null;
-    let request_body = {
+    let res2 = await postGoogle({
         "mode": 2,
         "id": classAsking
-    }
-    res2 = await postGoogle(request_body);
-    console.log(res2);
+    });
     if (res2.Status === 'SUCCESS') {
         response = { "text": "TKB lớp " + res2.Class + ", có hiệu lực từ " + res2.Update + ": \n" + res2.Text };
         callSendAPI(sender_psid, response);
@@ -175,92 +176,61 @@ async function TKBPhase2(sender_psid, answer) {
     }
 }
 
-function CLBPhase1(sender_psid, showMode = "Pg1") {
+async function CLBPhase1(sender_psid, showMode = "Pg1") {
     console.log('CLB phase 1, procedding to ask: ', sender_psid);
     let response;
-    let request_body = {
+    let res2 = await postGoogle({
         "mode": 3,
         "showMode": showMode
-    }
-    request({
-        uri: "https://script.google.com/macros/s/AKfycbz_r3_Fg9yrCojeAAzXxy762IEh-R8Z-OBLkrwOL74_isB1FPDnkF1epNq4vO1TFJYaeA/exec",
-        method: "POST",
-        followAllRedirects: true,
-        body: JSON.stringify(request_body)
-    }, (err, res, body) => {
-        if (!err) {
-            let res2 = JSON.parse(body);
-            let arraySend = [];
-            for (var i = 0; i < res2.length; ++i) {
-                let tmp = {
-                    "content_type": "text",
-                    "title": res2[i][2],
-                    "payload": "CLBP2_" + res2[i][1]
-                }
-                arraySend.push(tmp);
-            }
-            response = {
-                "text": "Cậu muốn hỏi về CLB nào trong trường nhỉ? :v",
-                "quick_replies": arraySend
-            }
-            callSendAPI(sender_psid, response);
-        } else {
-            console.error("Unable to send message:" + err);
-        }
     });
+    let arraySend = [];
+    for (var i = 0; i < res2.length; ++i) {
+        let tmp = {
+            "content_type": "text",
+            "title": res2[i][2],
+            "payload": "CLBP2_" + res2[i][1]
+        }
+        arraySend.push(tmp);
+    }
+    response = {
+        "text": "Cậu muốn hỏi về CLB nào trong trường nhỉ? :v",
+        "quick_replies": arraySend
+    }
+    callSendAPI(sender_psid, response);
 }
 
-function CLBPhase2(sender_psid, answer) {
+async function CLBPhase2(sender_psid, answer) {
     if (sender_psid != '306816786589318') console.log('CLB phase 2: ', sender_psid, 'Content: ', answer);
     let response;
-    let request_body = {
+    let res2 = await postGoogle({
         "mode": 4,
         "id": answer
-    }
-    request({
-        uri: "https://script.google.com/macros/s/AKfycbz_r3_Fg9yrCojeAAzXxy762IEh-R8Z-OBLkrwOL74_isB1FPDnkF1epNq4vO1TFJYaeA/exec",
-        method: "POST",
-        followAllRedirects: true,
-        body: JSON.stringify(request_body)
-    }, (err, res, body) => {
-        if (!err) {
-            let res2 = JSON.parse(body);
-            let button = [];
-            for (var j = 3; j <= 5; ++j) {
-                let titl;
-                if (j == 3) titl = "Facebook";
-                if (j == 4) titl = "Instagram";
-                if (j == 5) titl = "Khác";
-                if (res2[0][j] != ' ') {
-                    button.push({
-                        "type": "web_url",
-                        "url": res2[0][j],
-                        "title": titl
-                    });
-                }
-            }
-            response = {
-                "attachment": {
-                    "type": "template",
-                    "payload": {
-                        "template_type": "generic",
-                        "elements": [
-                            {
-                                "title": res2[0][0],
-                                "image_url": res2[0][2],
-                                "subtitle": res2[0][1],
-                                "buttons": button
-                            }
-                        ]
-                    }
-                }
-            }
-            callSendAPI(sender_psid, response);
-        } else {
-            console.error("Unable to send message:" + err);
-        }
     });
-
+    let button = [];
+    for (var j = 3; j <= 5; ++j) {
+        let titl;
+        if (j == 3) titl = "Facebook";
+        if (j == 4) titl = "Instagram";
+        if (j == 5) titl = "Khác";
+        if (res2[0][j] != ' ')
+            button.push({
+                "type": "web_url",
+                "url": res2[0][j],
+                "title": titl
+            });
+    }
+    response = {
+        "attachment": {
+            "type": "template",
+            "payload": {
+                "template_type": "generic",
+                "elements": [{
+                    "title": res2[0][0], "image_url": res2[0][2], "subtitle": res2[0][1], "buttons": button
+                }]
+            }
+        }
+    }
+    callSendAPI(sender_psid, response);
 }
 
 // Sends response messages via the Send API
