@@ -7,6 +7,7 @@ const VERIFY_TOKEN = process.env.VERIFY_TOKEN;
 
 let cache = {};
 let getHomePage = (req, res) => {
+    TKBPhase2("1234", "11TT");
     return res.send("Hello")
 };
 
@@ -54,7 +55,7 @@ let postWebhook = (req, res) => {
     }
 };
 
-function postGoogle(request_body) {
+async function postGoogle(request_body) {
     request({
         uri: "https://script.google.com/macros/s/AKfycbz_r3_Fg9yrCojeAAzXxy762IEh-R8Z-OBLkrwOL74_isB1FPDnkF1epNq4vO1TFJYaeA/exec",
         method: "POST",
@@ -153,7 +154,8 @@ function TKBPhase2(sender_psid, answer) {
         "mode": 2,
         "id": classAsking
     }
-    res2 = postGoogle(request_body);
+    res2 = await postGoogle(request_body);
+    console.log(res2);
     if (res2.Status === 'SUCCESS') {
         response = { "text": "TKB lớp " + res2.Class + ", có hiệu lực từ " + res2.Update + ": \n" + res2.Text };
         callSendAPI(sender_psid, response);
