@@ -271,7 +271,12 @@ async function CLBPhase2(sender_psid, answer) {
             "payload": {
                 "template_type": "generic",
                 "elements": [{
-                    "title": res2[0][0], "image_url": res2[0][2], "subtitle": res2[0][1], "buttons": button
+                    "title": res2[0][0], "image_url": res2[0][2], "subtitle": res2[0][1], "buttons": button,
+                    "default_action": {
+                        "type": "web_url",
+                        "url": res2[0][3],
+                        "webview_height_ratio": "FULL"
+                    }
                 }]
             }
         }
