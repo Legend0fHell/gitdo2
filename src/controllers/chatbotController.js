@@ -55,7 +55,6 @@ let postWebhook = (req, res) => {
 };
 
 function postGoogle(request_body) {
-    console.log(request_body);
     return new Promise(resolve => {
         request({
             uri: "https://script.google.com/macros/s/AKfycbz_r3_Fg9yrCojeAAzXxy762IEh-R8Z-OBLkrwOL74_isB1FPDnkF1epNq4vO1TFJYaeA/exec",
@@ -230,6 +229,7 @@ async function CLBPhase2(sender_psid, answer) {
             }
         }
     }
+    console.log(response);
     callSendAPI(sender_psid, response);
 }
 
