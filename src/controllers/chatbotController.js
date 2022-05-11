@@ -211,32 +211,24 @@ async function CLBPhase2(sender_psid, answer) {
         if (j == 3) titl = "Facebook";
         if (j == 4) titl = "Instagram";
         if (j == 5) titl = "Khác";
-        if (res2[0][j] != '') {
+        if (res2[0][j] != '')
             button.push({
                 "type": "web_url",
                 "url": res2[0][j],
                 "title": titl
             });
-        }
     }
-    console.log(button);
     response = {
         "attachment": {
             "type": "template",
             "payload": {
                 "template_type": "generic",
-                "elements": [
-                    {
-                        "title": res2[0][0],
-                        "image_url": res2[0][2],
-                        "subtitle": res2[0][1],
-                        "buttons": button
-                    }
-                ]
+                "elements": [{
+                    "title": res2[0][0], "image_url": res2[0][2], "subtitle": res2[0][1], "buttons": button
+                }]
             }
         }
     }
-    console.log(response);
     callSendAPI(sender_psid, response);
 }
 
