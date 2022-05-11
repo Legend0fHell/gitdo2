@@ -10,6 +10,9 @@ let getHomePage = (req, res) => {
     return res.send("Hello")
 };
 
+const CLBPostbackID = 'postback_card_626f69d246be3760af000038';
+const TKBPostbackID = 'postback_card_626f695446be37888700002d';
+
 let getWebhook = (req, res) => {
     console.log(VERIFY_TOKEN);
     let mode = req.query['hub.mode'];
@@ -36,16 +39,12 @@ let postWebhook = (req, res) => {
                 handlePostback(sender_psid, webhook_event.postback);
             }
             else if (webhook_event.message) {
-                let fl = 0;
                 try {
-                    if(webhook_event.message.quick_reply.payload) {
+                    if (webhook_event.message.quick_reply.payload)
                         handleQuickReply(sender_psid, webhook_event.message.quick_reply.payload);
-                        fl = 1;
-                    }
                 } catch (error) {
-
+                    handleMessage(sender_psid, webhook_event.message);
                 }
-                if(!fl) handleMessage(sender_psid, webhook_event.message);
             }
         });
         res.status(200).send('EVENT_RECEIVED');
@@ -55,25 +54,34 @@ let postWebhook = (req, res) => {
     }
 };
 
+function postGoogle(request_body) {
+    request({
+        uri: "https://script.google.com/macros/s/AKfycbz_r3_Fg9yrCojeAAzXxy762IEh-R8Z-OBLkrwOL74_isB1FPDnkF1epNq4vO1TFJYaeA/exec",
+        method: "POST",
+        followAllRedirects: true,
+        body: JSON.stringify(request_body)
+    }, (err, res, body) => {
+        if (!err) {
+            return JSON.parse(body);
+        } else {
+            console.error("Unable to POST: " + request_body + "Error: " + err);
+            return;
+        }
+    });
+}
+
 function handleQuickReply(sender_psid, received_payload) {
     console.log('Received QuickReply payload: ', sender_psid, 'Content: ', received_payload);
     if (received_payload.includes('CLBP2')) {
-        console.log('CLB', received_payload.substring(6));
-        if(received_payload.substring(6) == '5') {
-            CLBPhase1(sender_psid, "MH");
-        }
-        else if(received_payload.substring(6) == '10') {
-            CLBPhase1(sender_psid, "Pg2");
-        }
-        else if(received_payload.substring(6) == '19') {
-            CLBPhase1(sender_psid, "Pg1");
-        }
+        if (received_payload.substring(6) == '5') CLBPhase1(sender_psid, "MH");
+        else if (received_payload.substring(6) == '10') CLBPhase1(sender_psid, "Pg2");
+        else if (received_payload.substring(6) == '19') CLBPhase1(sender_psid, "Pg1");
         else CLBPhase2(sender_psid, received_payload.substring(6));
-    } 
-    else if(received_payload.includes('postback_card_626f69d246be3760af000038')) {
+    }
+    else if (received_payload.includes(CLBPostbackID)) {
         CLBPhase1(sender_psid, "Pg1");
     }
-    else if(received_payload.includes('postback_card_626f695446be37888700002d')) {
+    else if (received_payload.includes(TKBPostbackID)) {
         TKBPhase1(sender_psid);
     }
 }
@@ -100,7 +108,7 @@ function handleMessage(sender_psid, received_message) {
     if (cache[sender_psid] === 'TKB' || strNormalized.includes("TKB") || strNormalized.includes("THOIKHOABIEU") || strNormalized.includes("MONGI") || strNormalized.includes("HOCGI")) {
         if (/\d/.test(strNormalized) || strNormalized.includes("DIU")) {
             // If the line contains number, auto pass it to the GSheet to try it:
-            TKBOutput(sender_psid, strNormalized);
+            TKBPhase2(sender_psid, strNormalized);
         }
         else {
             // If the line doesn't contain number, if it was from phase1, incorrect input, else ask:
@@ -117,19 +125,12 @@ function handleMessage(sender_psid, received_message) {
 }
 
 function handlePostback(sender_psid, received_postback) {
-    let response;
     let payload = received_postback.payload;
-    if (payload.includes('postback_card_626f695446be37888700002d')) {
-        payload = 'TKB';
-    }
-    else if (payload.includes('postback_card_626f69d246be3760af000038')) {
-        payload = 'CLB';
-    }
     if (sender_psid != '306816786589318') console.log('Received postback: ', sender_psid, 'Type: ', payload);
-    if (payload === 'TKB') {
+    if (payload.includes(TKBPostbackID)) {
         TKBPhase1(sender_psid);
     }
-    else if (payload === 'CLB') {
+    else if (payload.includes(CLBPostbackID)) {
         CLBPhase1(sender_psid, "Pg1");
     }
 }
@@ -143,10 +144,37 @@ function TKBPhase1(sender_psid) {
     cache[sender_psid] = "TKB";
 }
 
-// Set the cache if the user request CLB.
+function TKBPhase2(sender_psid, answer) {
+    let classAsking = answer;
+    if (sender_psid != '306816786589318') console.log('TKB phase 2: ', sender_psid, 'Content: ', answer);
+    let response;
+    cache[sender_psid] = null;
+    let request_body = {
+        "mode": 2,
+        "id": classAsking
+    }
+    res2 = postGoogle(request_body);
+    if (res2.Status === 'SUCCESS') {
+        response = { "text": "TKB lớp " + res2.Class + ", có hiệu lực từ " + res2.Update + ": \n" + res2.Text };
+        callSendAPI(sender_psid, response);
+        response = {
+            "attachment": {
+                "type": "image",
+                "payload": {
+                    "attachment_id": res2.AttID,
+                }
+            }
+        }
+        callSendAPI(sender_psid, response);
+    }
+    else {
+        response = { "text": "TKB của lớp bạn vừa nhập là gì tớ có biết đâu ._." };
+        callSendAPI(sender_psid, response);
+    }
+}
+
 function CLBPhase1(sender_psid, showMode = "Pg1") {
     console.log('CLB phase 1, procedding to ask: ', sender_psid);
-    // cache[sender_psid] = "CLB";
     let response;
     let request_body = {
         "mode": 3,
@@ -196,32 +224,18 @@ function CLBPhase2(sender_psid, answer) {
         if (!err) {
             let res2 = JSON.parse(body);
             let button = [];
-            if(res2[0][3] != '') {
-                button.push(
-                    {
+            for (var j = 3; j <= 5; ++j) {
+                let titl;
+                if (j == 3) titl = "Facebook";
+                if (j == 4) titl = "Instagram";
+                if (j == 5) titl = "Khác";
+                if (res2[0][j] != ' ') {
+                    button.push({
                         "type": "web_url",
-                        "url": res2[0][3],
-                        "title": "Facebook"
-                    }
-                );
-            }
-            if(res2[0][4] != '') {
-                button.push(
-                    {
-                        "type": "web_url",
-                        "url": res2[0][4],
-                        "title": "Instagram"
-                    }
-                );
-            }
-            if(res2[0][5] != '') {
-                button.push(
-                    {
-                        "type": "web_url",
-                        "url": res2[0][5],
-                        "title": "Khác"
-                    }
-                );
+                        "url": res2[0][j],
+                        "title": titl
+                    });
+                }
             }
             response = {
                 "attachment": {
@@ -245,46 +259,6 @@ function CLBPhase2(sender_psid, answer) {
         }
     });
 
-}
-
-function TKBOutput(sender_psid, answer) {
-    let classAsking = answer;
-    if (sender_psid != '306816786589318') console.log('TKB phase 2: ', sender_psid, 'Content: ', answer);
-    let response;
-    cache[sender_psid] = null;
-    let request_body = {
-        "mode": 2,
-        "id": classAsking
-    }
-    request({
-        uri: "https://script.google.com/macros/s/AKfycbz_r3_Fg9yrCojeAAzXxy762IEh-R8Z-OBLkrwOL74_isB1FPDnkF1epNq4vO1TFJYaeA/exec",
-        method: "POST",
-        followAllRedirects: true,
-        body: JSON.stringify(request_body)
-    }, (err, res, body) => {
-        if (!err) {
-            var res2 = JSON.parse(body);
-            if (res2.Status === 'SUCCESS') {
-                response = { "text": "TKB lớp " + res2.Class + ", có hiệu lực từ " + res2.Update + ": \n" + res2.Text };
-                callSendAPI(sender_psid, response);
-                response = {
-                    "attachment": {
-                        "type": "image",
-                        "payload": {
-                            "attachment_id": res2.AttID,
-                        }
-                    }
-                }
-                callSendAPI(sender_psid, response);
-            }
-            else {
-                response = { "text": "TKB của lớp bạn vừa nhập là gì tớ có biết đâu ._." };
-                callSendAPI(sender_psid, response);
-            }
-        } else {
-            console.error("Unable to send message:" + err);
-        }
-    });
 }
 
 // Sends response messages via the Send API
