@@ -55,7 +55,7 @@ let postWebhook = (req, res) => {
     }
 };
 
-async function postGoogle(request_body) {
+function postGoogle(request_body) {
     request({
         uri: "https://script.google.com/macros/s/AKfycbz_r3_Fg9yrCojeAAzXxy762IEh-R8Z-OBLkrwOL74_isB1FPDnkF1epNq4vO1TFJYaeA/exec",
         method: "POST",
@@ -145,7 +145,7 @@ function TKBPhase1(sender_psid) {
     cache[sender_psid] = "TKB";
 }
 
-function TKBPhase2(sender_psid, answer) {
+async function TKBPhase2(sender_psid, answer) {
     let classAsking = answer;
     if (sender_psid != '306816786589318') console.log('TKB phase 2: ', sender_psid, 'Content: ', answer);
     let response;
