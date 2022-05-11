@@ -161,7 +161,7 @@ function HelloWorld(sender_psid) {
                     {
                         "type": "postback",
                         "title": "Thời khóa biểu",
-                        "payload": TKBPostbackID
+                        "payload": "postback_card_626f695446be37888700002d"
                     },
                     {
                         "type": "postback",
