@@ -218,6 +218,7 @@ async function CLBPhase2(sender_psid, answer) {
                 "title": titl
             });
     }
+    console.log(res2);
     response = {
         "attachment": {
             "type": "template",
