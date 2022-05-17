@@ -1,6 +1,6 @@
 import { send } from 'express/lib/response';
 import { postMessenger, postGoogle } from '../controllers/chatbotController';
-import { cache } from "./chatbotController";
+import { cache } from '../controllers/chatbotController';
 
 // Set the cache if the user request TKB.
 function TKBPhase1(sender_psid) {
