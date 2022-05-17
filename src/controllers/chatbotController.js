@@ -64,7 +64,7 @@ export let postGoogle = (request_body) => {
             if (!err) {
                 resolve(JSON.parse(body));
             } else {
-                console.error("Unable to POST: " + request_body + "Error: " + err);
+                console.error("Unable to POST: " + request_body + "\nError: " + err);
                 resolve("error");
             }
         });
@@ -87,14 +87,8 @@ export let postMessenger = (sender_psid, response) => {
         "method": "POST",
         "json": request_body
     }, (err, res, body) => {
-        try {
-            console.log(body.error);
-        }
-        catch {
-
-        }
-        if (err) {
-            console.log("Unable to send message:" + err);
+        if (err || body.error === undefined) {
+            console.log("Unable to send message:\n" + err);
         }
     });
 }
