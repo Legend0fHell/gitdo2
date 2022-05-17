@@ -57,7 +57,7 @@ let postWebhook = (req, res) => {
     }
 };
 
-function postGoogle(request_body) {
+const postGoogle = (request_body) => {
     return new Promise(resolve => {
         request({
             uri: "https://script.google.com/macros/s/AKfycbz_r3_Fg9yrCojeAAzXxy762IEh-R8Z-OBLkrwOL74_isB1FPDnkF1epNq4vO1TFJYaeA/exec",
@@ -145,7 +145,7 @@ function handlePostback(sender_psid, received_postback) {
 }
 
 // Sends response messages via the Send API
-function postMessenger(sender_psid, response) {
+const postMessenger = (sender_psid, response) => {
     // Construct the message body
     let request_body = {
         "recipient": {
