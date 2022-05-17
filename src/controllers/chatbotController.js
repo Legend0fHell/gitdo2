@@ -88,7 +88,7 @@ export let postMessenger = (sender_psid, response) => {
         "json": request_body
     }, (err, res, body) => {
         if (err || (body.error != undefined && body.error != null)) {
-            console.log("Unable to send message:\n" + err);
+            console.log("Unable to send message:\n" + err + body.error);
         }
     });
 }
