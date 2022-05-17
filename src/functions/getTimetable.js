@@ -1,4 +1,6 @@
+import { send } from 'express/lib/response';
 import { postMessenger, postGoogle } from '../controllers/chatbotController';
+import { cache } from "./chatbotController";
 
 // Set the cache if the user request TKB.
 function TKBPhase1(sender_psid) {
@@ -32,11 +34,16 @@ async function TKBPhase2(sender_psid, answer) {
         postMessenger(sender_psid, response);
     }
     else {
-        response = { "text": "TKB của lớp bạn vừa nhập là gì tớ có biết đâu ._." };
-        postMessenger(sender_psid, response);
+        TKBNotFound(sender_psid);
     }
 }
 
+function TKBNotFound(sender_psid) {
+    cache[sender_psid] = null;
+    response = { "text": "TKB của lớp bạn vừa nhập là gì tớ có biết đâu ._." };
+    postMessenger(sender_psid, response);
+}
+
 export default {
-    TKBPhase1, TKBPhase2
+    TKBPhase1, TKBPhase2, TKBNotFound
 }
