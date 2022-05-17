@@ -1,9 +1,8 @@
-import getTimetable from "../functions/getTimetable";
-import getInfoClub from "../functions/getInfoClub";
-import postGetStarted from "../functions/postGetStarted";
+import * as indexFunction from "../functions/indexFunction";
+import * as PostbackID from "./indexPostbackId";
 import { cache } from "./chatbotController";
 
-const TKBPhrases = ['TKB', 'THOIKHOABIEU', 'MONGI', 'HOCGI'];
+const TKBPhrases = ['TKB', 'THOIKHOABIEU', 'MONGI', 'HOCGI', 'HOCJ'];
 
 export let handleMessage = (sender_psid, received_message) => {
     // Don't analyze message from the bot itself.
@@ -24,15 +23,15 @@ export let handleMessage = (sender_psid, received_message) => {
     if (cache[sender_psid] === 'TKB' || TKBPhrases.some(v => strNormalized.includes(v))) {
         if (/\d/.test(strNormalized) || strNormalized.includes("DIU")) {
             // If the line contains number, auto pass it to the GSheet to try it:
-            getTimetable.TKBPhase2(sender_psid, strNormalized);
+            indexFunction.getTimetable.TKBPhase2(sender_psid, strNormalized);
         }
         else {
             // If the line doesn't contain number, if it was from phase1, incorrect input, else ask:
             if (cache[sender_psid] === 'TKB') {
-                getTimetable.TKBNotFound(sender_psid);
+                indexFunction.getTimetable.TKBNotFound(sender_psid);
             }
             else {
-                getTimetable.TKBPhase1(sender_psid);
+                indexFunction.getTimetable.TKBPhase1(sender_psid);
             }
         }
     }
