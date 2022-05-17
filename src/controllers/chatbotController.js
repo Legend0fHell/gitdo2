@@ -172,9 +172,9 @@ function postMessenger(sender_psid, response) {
 }
 
 module.exports = {
-    getHomePage: getHomePage,
-    getWebhook: getWebhook,
-    postWebhook: postWebhook,
+    getHomePage,
+    getWebhook,
+    postWebhook,
     postGoogle,
     postMessenger
 }

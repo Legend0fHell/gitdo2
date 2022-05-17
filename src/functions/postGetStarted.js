@@ -1,4 +1,3 @@
-import {postMessenger} from "../controllers/chatbotController";
 
 // Set the cache if the user asked to get started.
 function HelloWorld(sender_psid) {
