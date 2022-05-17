@@ -14,4 +14,7 @@ export let handlePostback = (sender_psid, received_postback) => {
     else if (payload.includes(PostbackID.GetStarted) || payload.includes("WELCOME_MESSAGE")) {
         indexFunction.postGetStarted.HelloWorld(sender_psid);
     }
+    else if(payload.includes(PostbackID.LDT)) {
+        indexFunction.getLDT(sender_psid);
+    }
 }
