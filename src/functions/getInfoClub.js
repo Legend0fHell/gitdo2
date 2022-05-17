@@ -63,6 +63,6 @@ async function CLBPhase2(sender_psid, answer) {
     postMessenger(sender_psid, response);
 }
 
-module.exports = {
+export default {
     CLBPhase1, CLBPhase2
 }

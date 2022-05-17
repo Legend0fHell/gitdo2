@@ -93,7 +93,7 @@ export let postMessenger = (sender_psid, response) => {
     });
 }
 
-module.exports = {
+export default {
     getHomePage,
     getWebhook,
     postWebhook,

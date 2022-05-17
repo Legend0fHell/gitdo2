@@ -44,6 +44,6 @@ function HelloWorld(sender_psid) {
     postMessenger(sender_psid, response);
 }
 
-module.exports = {
+export default {
     HelloWorld
 }
