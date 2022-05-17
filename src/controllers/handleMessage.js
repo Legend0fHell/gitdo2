@@ -3,6 +3,8 @@ import getInfoClub from "../functions/getInfoClub";
 import postGetStarted from "../functions/postGetStarted";
 import { cache } from "./chatbotController";
 
+const TKBPhrases = ['TKB', 'THOIKHOABIEU', 'MONGI', 'HOCGI'];
+
 export let handleMessage = (sender_psid, received_message) => {
     // Don't analyze message from the bot itself.
     if (sender_psid == '306816786589318') return;
@@ -19,7 +21,7 @@ export let handleMessage = (sender_psid, received_message) => {
     }
 
     // Check if the line is saying about TKB:
-    if (cache[sender_psid] === 'TKB' || strNormalized.includes("TKB") || strNormalized.includes("THOIKHOABIEU") || strNormalized.includes("MONGI") || strNormalized.includes("HOCGI")) {
+    if (cache[sender_psid] === 'TKB' || TKBPhrases.some(v => strNormalized.includes(v))) {
         if (/\d/.test(strNormalized) || strNormalized.includes("DIU")) {
             // If the line contains number, auto pass it to the GSheet to try it:
             getTimetable.TKBPhase2(sender_psid, strNormalized);
