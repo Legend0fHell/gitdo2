@@ -1,7 +1,7 @@
 import * as getInfoClub from "./getInfoClub";
-export * from "./getTimetable";
-export * from "./postGetStarted";
+import * as getTimetable from "./getTimetable";
+import * as postGetStarted from "./postGetStarted";
 
-module.exports = {
-    getInfoClub,
+export default {
+    getInfoClub, getTimetable, postGetStarted
 }
