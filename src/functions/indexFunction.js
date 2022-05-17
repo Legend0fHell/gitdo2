@@ -1,6 +1,6 @@
-import * as getInfoClub from "./getInfoClub";
-import * as getTimetable from "./getTimetable";
-import * as postGetStarted from "./postGetStarted";
+const getInfoClub = require("./getInfoClub").default;
+const getTimetable = require("./getTimetable").default;
+const postGetStarted = require("./postGetStarted").default;
 
 export {
     getInfoClub, getTimetable, postGetStarted
