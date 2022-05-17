@@ -39,7 +39,7 @@ async function TKBPhase2(sender_psid, answer) {
 
 function TKBNotFound(sender_psid) {
     cache[sender_psid] = null;
-    response = { "text": "TKB của lớp bạn vừa nhập là gì tớ có biết đâu ._." };
+    let response = { "text": "TKB của lớp bạn vừa nhập là gì tớ có biết đâu ._." };
     postMessenger(sender_psid, response);
 }
 
