@@ -5,7 +5,7 @@ import { postMessenger, postGoogle, cache } from '../controllers/chatbotControll
 function TKBPhase1(sender_psid) {
     console.log('TKB phase 1, procedding to ask: ', sender_psid);
     let response;
-    response = { "text": "Bạn hãy nhập tên lớp cần tra cứu (Ví dụ: 10SD):" };
+    response = { "text": "Bạn hãy nhập tên lớp cần tra cứu (Ví dụ: 11SD):" };
     postMessenger(sender_psid, response);
     cache[sender_psid] = "TKB";
 }
