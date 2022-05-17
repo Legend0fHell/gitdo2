@@ -1,8 +1,8 @@
 require("dotenv").config();
 import request from "request";
-import {TKBPhase1, TKBPhase2} from "../functions/getTimetable";
-import {CLBPhase1, CLBPhase2} from "../functions/getInfoClub";
-import {HelloWorld} from "../functions/postGetStarted";
+import getTimetable from "../functions/getTimetable";
+import getInfoClub from "../functions/getInfoClub";
+import postGetStarted from "../functions/postGetStarted";
 
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 const VERIFY_TOKEN = process.env.VERIFY_TOKEN;
@@ -79,16 +79,16 @@ function postGoogle(request_body) {
 function handleQuickReply(sender_psid, received_payload) {
     console.log('Received QuickReply payload: ', sender_psid, 'Content: ', received_payload);
     if (received_payload.includes('CLBP2')) {
-        if (received_payload.substring(6) == '5') CLBPhase1(sender_psid, "MH");
-        else if (received_payload.substring(6) == '10') CLBPhase1(sender_psid, "Pg2");
-        else if (received_payload.substring(6) == '19') CLBPhase1(sender_psid, "Pg1");
-        else CLBPhase2(sender_psid, received_payload.substring(6));
+        if (received_payload.substring(6) == '5') getInfoClub.CLBPhase1(sender_psid, "MH");
+        else if (received_payload.substring(6) == '10') getInfoClub.CLBPhase1(sender_psid, "Pg2");
+        else if (received_payload.substring(6) == '19') getInfoClub.CLBPhase1(sender_psid, "Pg1");
+        else getInfoClub.CLBPhase2(sender_psid, received_payload.substring(6));
     }
     else if (received_payload.includes(CLBPostbackID)) {
-        CLBPhase1(sender_psid, "Pg1");
+        getInfoClub.CLBPhase1(sender_psid, "Pg1");
     }
     else if (received_payload.includes(TKBPostbackID)) {
-        TKBPhase1(sender_psid);
+        getTimetable.TKBPhase1(sender_psid);
     }
 }
 
@@ -114,7 +114,7 @@ function handleMessage(sender_psid, received_message) {
     if (cache[sender_psid] === 'TKB' || strNormalized.includes("TKB") || strNormalized.includes("THOIKHOABIEU") || strNormalized.includes("MONGI") || strNormalized.includes("HOCGI")) {
         if (/\d/.test(strNormalized) || strNormalized.includes("DIU")) {
             // If the line contains number, auto pass it to the GSheet to try it:
-            TKBPhase2(sender_psid, strNormalized);
+            getTimetable.TKBPhase2(sender_psid, strNormalized);
         }
         else {
             // If the line doesn't contain number, if it was from phase1, incorrect input, else ask:
@@ -124,7 +124,7 @@ function handleMessage(sender_psid, received_message) {
                 postMessenger(sender_psid, response);
             }
             else {
-                TKBPhase1(sender_psid);
+                getTimetable.TKBPhase1(sender_psid);
             }
         }
     }
@@ -134,13 +134,13 @@ function handlePostback(sender_psid, received_postback) {
     let payload = received_postback.payload;
     if (sender_psid != '306816786589318') console.log('Received postback: ', sender_psid, 'Type: ', payload);
     if (payload.includes(TKBPostbackID)) {
-        TKBPhase1(sender_psid);
+        getTimetable.TKBPhase1(sender_psid);
     }
     else if (payload.includes(CLBPostbackID)) {
-        CLBPhase1(sender_psid, "Pg1");
+        getInfoClub.CLBPhase1(sender_psid, "Pg1");
     }
     else if (payload.includes(GetStartedPostbackID) || payload.includes("WELCOME_MESSAGE")) {
-        HelloWorld(sender_psid);
+        postGetStarted.HelloWorld(sender_psid);
     }
 }
 
@@ -176,5 +176,5 @@ module.exports = {
     getWebhook,
     postWebhook,
     postGoogle,
-    postMessenger
+    postMessenger,
 }
