@@ -17,6 +17,6 @@ export let handleQuickReply = (sender_psid, received_payload) => {
         indexFunction.getTimetable.TKBPhase1(sender_psid);
     }
     else if(received_payload.includes(PostbackID.LDT)) {
-        indexFunction.getLDT(sender_psid);
+        indexFunction.getLDT.LDT(sender_psid);
     }
 }
