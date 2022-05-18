@@ -75,21 +75,27 @@ export let postGoogle = (request_body) => {
 // Sends response messages via the Send API
 export let postMessenger = (sender_psid, response) => {
     // Construct the message body
-    let request_body = {
-        "recipient": {
-            "id": sender_psid
-        },
-        "message": response
-    }
-    request({
-        "uri": "https://graph.facebook.com/v2.6/me/messages",
-        "qs": { "access_token": PAGE_ACCESS_TOKEN },
-        "method": "POST",
-        "json": request_body
-    }, (err, res, body) => {
-        if (err || (body.error != undefined && body.error != null)) {
-            console.log("Unable to send message:\n" + err + res);
+    return new Promise(resolve => {
+        let request_body = {
+            "recipient": {
+                "id": sender_psid
+            },
+            "message": response
         }
+        request({
+            "uri": "https://graph.facebook.com/v2.6/me/messages",
+            "qs": { "access_token": PAGE_ACCESS_TOKEN },
+            "method": "POST",
+            "json": request_body
+        }, (err, res, body) => {
+            if (err || (body.error != undefined && body.error != null)) {
+                console.log("Unable to send message:\n" + err + res);
+                resolve("error");
+            }
+            else {
+                resolve("ok");
+            }
+        });
     });
 }
 

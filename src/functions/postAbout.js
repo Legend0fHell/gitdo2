@@ -2,7 +2,7 @@ import { postMessenger } from "../controllers/chatbotController";
 import * as PostbackID from "../controllers/indexPostbackId";
 
 // Set the cache if the user asked to get started.
-function about(sender_psid) {
+async function about(sender_psid) {
     if (sender_psid != '306816786589318') console.log('About: ', sender_psid);
     let response;
     response = {
@@ -30,7 +30,7 @@ function about(sender_psid) {
             }
         }
     }
-    postMessenger(sender_psid, response);
+    await postMessenger(sender_psid, response);
     let arraySend = [];
     let titleList = ["Thời khóa biểu", "Câu lạc bộ", "Lịch dạy thay"];
     let payloadList = [PostbackID.TKB, PostbackID.CLB, PostbackID.LDT];
