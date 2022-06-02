@@ -5,7 +5,7 @@ async function Simsimi(sender_psid, text) {
     if (sender_psid != '306816786589318') console.log('Simsimi: ', sender_psid);
     let ans = await getSimsimi(text);
     console.log(ans);
-    let response = { "text": text.success };
+    let response = { "text": ans.success };
     postMessenger(sender_psid, response);
 }
 
