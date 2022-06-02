@@ -34,8 +34,7 @@ export let handleMessage = (sender_psid, received_message) => {
                 indexFunction.getTimetable.TKBPhase1(sender_psid);
             }
         }
+        return;
     }
-    else {
-        indexFunction.getSimsimi.Simsimi(sender_psid, received_message.text);
-    }
+    indexFunction.getSimsimi.Simsimi(sender_psid, received_message.text);
 }
