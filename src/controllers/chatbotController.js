@@ -104,7 +104,7 @@ export let getSimsimi = (ask) => {
         let text = encodeURIComponent(ask);
         request({
             // uri: `https://api-sv2.simsimi.net/v2/?text=${text}&lc=vn&cf=false`,
-            uri: `https://simsimi.info/api/?text=${text}&lc=vn&cf=false`,
+            uri: `https://simsimi.info/api/?text=${text}&lc=vn`,
             method: "GET",
             followAllRedirects: true,
         }, (err, res, body) => {
