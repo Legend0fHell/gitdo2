@@ -35,4 +35,7 @@ export let handleMessage = (sender_psid, received_message) => {
             }
         }
     }
+    else {
+        indexFunction.getSimsimi(received_message.text);
+    }
 }

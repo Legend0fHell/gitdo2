@@ -99,8 +99,27 @@ export let postMessenger = (sender_psid, response) => {
     });
 }
 
+export let getSimsimi = (ask) => {
+    return new Promise(resolve => {
+        let text = encodeURIComponent(ask);
+        request({
+            uri: `https://api.simsimi.net/v2/?text=${text}&lc=vn&cf=true`,
+            method: "GET",
+            followAllRedirects: true,
+        }, (err, res, body) => {
+            if (!err) {
+                resolve(JSON.parse(body));
+            } else {
+                console.error("Unable to GET: " + request_body + "\nError: " + err);
+                resolve("error");
+            }
+        });
+    });
+
+}
+
 module.exports = {
     getHomePage,
     getWebhook,
-    postWebhook,
+    postWebhook
 }
