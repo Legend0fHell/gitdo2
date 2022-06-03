@@ -1,4 +1,4 @@
-export const bad_words = [
+const bad_words = [
     "ditmethangoccho",
     "tiên sư nhà mày",
     "dellhieukieugi",
@@ -447,3 +447,6 @@ export const bad_words = [
     "đụ",
   ];
   
+  export {
+    bad_words
+  };
