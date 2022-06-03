@@ -13,7 +13,7 @@ function valid (content) {
 
     for (text of bad_words) {
         var regEx = new RegExp(text, "ig");
-        text = text.replaceAll(regEx, star.substring(0, text.length));
+        content = content.replaceAll(regEx, star.substring(0, text.length));
     }
 
     return content;
