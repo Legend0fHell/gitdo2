@@ -12,7 +12,7 @@ async function Simsimi(sender_psid, text) {
     // Detect spam or emoji by counting the number of letter.
     let letter = /^[A-Z]+$/;
     let textDetect = text.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D').toUpperCase();
-    if(!textDetect.value.match(letter)) { // If not found any letter:
+    if(!textDetect.match(letter)) { // If not found any letter:
         // Random the response in the emoji array.
         let response = {"text": emojiResponse[Math.floor(Math.random()*emojiResponse.length)]};
         postMessenger(sender_psid, response);
