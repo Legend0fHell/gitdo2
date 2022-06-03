@@ -47,6 +47,10 @@ async function Simsimi(sender_psid, text) {
         console.log('Simsimi not understand: ', sender_psid);
         retry--;
 
+        Firestore.collection('Telemetry').doc('Simsimi').update({
+            NotUnderstandReq: FieldValue.increment(1)
+        });
+
         if(retry > 0) {
             // If possible, switch to SV2:
             console.log('Switching to Simsimi SV2: ', sender_psid);
