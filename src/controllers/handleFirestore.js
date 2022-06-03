@@ -13,6 +13,5 @@ export const Firestore = getFirestore();
 export const Database = getDatabase();
 
 // Set a permanent listener:
-Database.ref().on('value',function() {
-  console.log("Loaded permanent listener.");
-});
+Database.ref().on('value',function() {});
+console.log("Loaded permanent listener.");
