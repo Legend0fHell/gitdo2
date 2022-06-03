@@ -3,7 +3,7 @@ export const { getFirestore, Timestamp, FieldValue } = require('firebase-admin/f
 export const { getDatabase, ServerValue } = require('firebase-admin/database');
 
 const serviceAccount = require('../config/firebaseAdminPK.json');
-
+// Initialize Firebase apps.
 initializeApp({
   credential: cert(serviceAccount),
   databaseURL: "https://gitdo2-default-rtdb.firebaseio.com"
@@ -11,3 +11,8 @@ initializeApp({
 
 export const Firestore = getFirestore();
 export const Database = getDatabase();
+
+// Set a permanent listener:
+Database.ref().on('value',function() {
+  console.log("Loaded permanent listener.");
+});

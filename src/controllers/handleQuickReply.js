@@ -10,6 +10,9 @@ export let handleQuickReply = (sender_psid, received_payload) => {
         else if (received_payload.substring(6) == '19') indexFunction.getInfoClub.CLBPhase1(sender_psid, "Pg1");
         else indexFunction.getInfoClub.CLBPhase2(sender_psid, received_payload.substring(6));
     }
+    else if (received_payload.includes('HTHT')) {
+        indexFunction.getSupport.HTHT(sender_psid, received_payload);
+    }
     else if (received_payload.includes(PostbackID.CLB)) {
         indexFunction.getInfoClub.CLBPhase1(sender_psid, "Pg1");
     }

@@ -1,11 +1,56 @@
 import { postMessenger, postGoogle, cache } from '../controllers/chatbotController';
+import { Firestore, FieldValue, Database, ServerValue } from "../controllers/handleFirestore";
 
 // Set the cache if the user asked to get started.
-async function HTHT(sender_psid) {
+async function HTHT(sender_psid, parentsDir = 'HTHT') {
     if (sender_psid != '306816786589318') console.log('HTHT: ', sender_psid);
     let response = { "text": "Hãy để GitDo hỗ trợ các cậu học tập thật tốt nhaaa!" };
     await postMessenger(sender_psid, response);
-    response = { "text": "Cậu cần tớ giúp gì thế nhỉ? :v" };   
+    let arraySend = [];
+    const refer = Database.ref(parentsDir);
+    let links = "";
+    await refer.once('value', (snap) => {
+        if(snap.numChildren == 0) {
+            links = snap.val();
+        }
+        snap.forEach((childSnapshot) => { 
+            arraySend.push({
+                "content_type": "text",
+                "title": childSnapshot.key,
+                "payload": parentsDir + "/" + childSnapshot.key
+            });
+        });
+    }, (errorObject) => {
+        console.log("HTHT failed: ",sender_psid, "Error: ", errorObject.name);
+    });
+    if(links != "") {
+        response = {
+            "text": links
+        };
+        postMessenger(sender_psid, response);
+        return;
+    }
+    let numOccurence = (parentsDir.match(/\/\\/g)||[]).length;
+    let responseText;
+    switch (numOccurence) {
+        case 0:
+            responseText = "Cậu cần tớ giúp gì thế nhỉ? :>";
+            break;
+        case 1:
+            responseText = "Cậu muốn GitDo giúp môn gì đây nhỉ?";
+            break;
+        case 2:
+            responseText = "Cậu muốn hỏi kiến thức khối nào thế?";
+            break;
+        default:
+            responseText = "Cậu muốn hỏi tớ gì nào?";
+            break;
+    };
+    response = {
+        "text": responseText,
+        "quick_replies": arraySend
+    };
+    postMessenger(sender_psid, response);
 }
 
 export default {

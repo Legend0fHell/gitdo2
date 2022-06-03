@@ -20,4 +20,7 @@ export let handlePostback = (sender_psid, received_postback) => {
     else if(payload.includes(PostbackID.About)) {
         indexFunction.postAbout.about(sender_psid);
     }
+    else if(payload.includes(PostbackID.HTHT)) {
+        indexFunction.getSupport.HTHT(sender_psid);
+    }
 }
