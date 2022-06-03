@@ -63,6 +63,9 @@ export let postGoogle = (request_body) => {
             body: JSON.stringify(request_body)
         }, (err, res, body) => {
             if (!err) {
+                Firestore.collection('Telemetry').doc('ExternalAPICall').update({
+                    GoogleAPI: FieldValue.increment(1),
+                });
                 resolve(JSON.parse(body));
             } else {
                 console.error("Unable to POST: " + request_body + "\nError: " + err);
@@ -94,6 +97,9 @@ export let postMessenger = (sender_psid, response) => {
                 resolve("error");
             }
             else {
+                Firestore.collection('Telemetry').doc('ExternalAPICall').update({
+                    MessAPI: FieldValue.increment(1),
+                });
                 resolve("ok");
             }
         });
@@ -114,7 +120,9 @@ export let getSimsimi = (ask, sv = 2) => {
             if (!err) {
                 Firestore.collection('Telemetry').doc('Simsimi').update({
                     [sv]: FieldValue.increment(1),
-                    APIReq: FieldValue.increment(1)
+                });
+                Firestore.collection('Telemetry').doc('ExternalAPICall').update({
+                    SimsimiAPI: FieldValue.increment(1),
                 });
                 resolve(JSON.parse(body));
             } else {
