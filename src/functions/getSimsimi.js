@@ -11,6 +11,9 @@ const notUnderstand = [
 async function Simsimi(sender_psid, text) {
     if (sender_psid != '306816786589318') console.log('Simsimi: ', sender_psid);
 
+    // Remove all of the special symbols.
+    text = text.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '');
+
     // Detect spam or emoji by counting the number of letter.
     let textDetect = text.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D').toUpperCase();
     let resultDetect = /[A-Z]/.test(textDetect)
