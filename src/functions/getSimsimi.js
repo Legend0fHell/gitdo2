@@ -1,4 +1,5 @@
 import { postMessenger, postGoogle, cache, getSimsimi } from '../controllers/chatbotController';
+import { Firestore, FieldValue } from '../controllers/handleFirestore';
 
 const emojiResponse = ["😀","😁","😂","🤣","😄","😅","😆","😉","😊","😋","😍","😘","🥰","😚","☺","🤗","🤩","😛","😜","😝","=)))", ":))", "=]]]]", ":>", ":]]]"];
 const notUnderstand = [
@@ -13,8 +14,11 @@ async function Simsimi(sender_psid, text) {
     // Detect spam or emoji by counting the number of letter.
     let textDetect = text.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D').toUpperCase();
     let resultDetect = /[A-Z]/.test(textDetect)
-    if(resultDetect == false) { // If not found any letter:
+    if(resultDetect == false || text.length < 3) { // If not found any letter:
         console.log('Spam detected: ', sender_psid, " Detect: ", textDetect);
+        Firestore.collection('Telemetry').doc('Simsimi').update({
+            InternalReq: FieldValue.increment(1)
+        });
         // Random the response in the emoji array.
         let response = {"text": emojiResponse[Math.floor(Math.random()*emojiResponse.length)]};
         postMessenger(sender_psid, response);
@@ -24,9 +28,9 @@ async function Simsimi(sender_psid, text) {
     // Server randomizing for balancing output.
     let ans;
     let retry = 1;
-    if(text.length <= 8) {
+    if(text.length <= 10) {
         console.log('Simsimi SV1 / INFO: ', sender_psid);
-        ans = await getSimsimi(text, Math.floor(Math.random()*2)+1);
+        ans = await getSimsimi(text, Math.floor(Math.random()*2));
         retry = 2;
     }
     else {
@@ -50,6 +54,9 @@ async function Simsimi(sender_psid, text) {
         }
         else {
             // If not possible, random the response in the emoji array.
+            Firestore.collection('Telemetry').doc('Simsimi').update({
+                InternalReq: FieldValue.increment(1)
+            });
             let response = {"text": emojiResponse[Math.floor(Math.random()*emojiResponse.length)]};
             postMessenger(sender_psid, response);
             return;

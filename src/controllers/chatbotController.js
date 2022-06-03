@@ -100,21 +100,21 @@ export let postMessenger = (sender_psid, response) => {
     });
 }
 
-export let getSimsimi = (ask, sv = 0) => {
+export let getSimsimi = (ask, sv = 2) => {
     return new Promise(resolve => {
         let text = encodeURIComponent(ask);
         let uri = `https://api-sv2.simsimi.net/v2/?text=${text}&lc=vn&cf=false`;
-        if(sv == 1) uri = `https://api.simsimi.net/v2/?text=${text}&lc=vn&cf=false`;
-        else if(sv == 2) uri = `https://simsimi.info/api/?text=${text}&lc=vn`;
+        if(sv == 0) uri = `https://simsimi.info/api/?text=${text}&lc=vn`;
+        else if(sv == 1) uri = `https://api.simsimi.net/v2/?text=${text}&lc=vn&cf=false`;
         request({
             uri: uri,
             method: "GET",
             followAllRedirects: true,
         }, (err, res, body) => {
             if (!err) {
-                Firestore.collection('simsimiTelemetry').doc('HostUsage').update({
+                Firestore.collection('Telemetry').doc('Simsimi').update({
                     [sv]: FieldValue.increment(1),
-                    AllReq: FieldValue.increment(1)
+                    APIReq: FieldValue.increment(1)
                 });
                 resolve(JSON.parse(body));
             } else {
