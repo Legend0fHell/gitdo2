@@ -13,7 +13,7 @@ async function Simsimi(sender_psid, text) {
     let letter = /^[A-Z]+$/;
     let textDetect = text.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D').toUpperCase();
     if(!textDetect.match(letter)) { // If not found any letter:
-        console.log('Spam detected: ', sender_psid);
+        console.log('Spam detected: ', sender_psid, " Detect: ", textDetect);
         // Random the response in the emoji array.
         let response = {"text": emojiResponse[Math.floor(Math.random()*emojiResponse.length)]};
         postMessenger(sender_psid, response);
@@ -41,6 +41,7 @@ async function Simsimi(sender_psid, text) {
     }
 
     // Send response
+    console.log('Simsimi response: ', sender_psid, " Text: ", ans.success);
     let response = { "text": ans.success };
     postMessenger(sender_psid, response);
 }
