@@ -13,6 +13,7 @@ async function Simsimi(sender_psid, text) {
     let letter = /^[A-Z]+$/;
     let textDetect = text.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D').toUpperCase();
     if(!textDetect.match(letter)) { // If not found any letter:
+        console.log('Spam detected: ', sender_psid);
         // Random the response in the emoji array.
         let response = {"text": emojiResponse[Math.floor(Math.random()*emojiResponse.length)]};
         postMessenger(sender_psid, response);
@@ -22,14 +23,17 @@ async function Simsimi(sender_psid, text) {
     // Server randomizing for balancing output.
     let ans;
     if(text.length <= 8) {
+        console.log('Simsimi SV1 / INFO: ', sender_psid);
         ans = await getSimsimi(text, Math.floor(Math.random()*2)+1);
     }
     else {
+        console.log('Simsimi SV2: ', sender_psid);
         ans = await getSimsimi(text);
     }
 
     // Checking the response if it is valid.
     if(notUnderstand.some(v => ans.success.includes(v))) { // If Simsimi does not understand:
+        console.log('Simsimi not understand: ', sender_psid);
         // Random the response in the emoji array.
         let response = {"text": emojiResponse[Math.floor(Math.random()*emojiResponse.length)]};
         postMessenger(sender_psid, response);
