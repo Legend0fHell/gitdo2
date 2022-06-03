@@ -4,12 +4,15 @@ import { handleMessage } from "./handleMessage";
 import { handleQuickReply } from "./handleQuickReply";
 import { handlePostback } from "./handlePostback";
 import { Firestore, FieldValue } from "./handleFirestore";
+import { Database, ServerValue } from "./handleDatabase";
+
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 const VERIFY_TOKEN = process.env.VERIFY_TOKEN;
 
 export let cache = {};
 
 let getHomePage = (req, res) => {
+    getSimsimi("hi");
     return res.send("Hello")
 };
 
@@ -63,9 +66,10 @@ export let postGoogle = (request_body) => {
             body: JSON.stringify(request_body)
         }, (err, res, body) => {
             if (!err) {
-                Firestore.collection('Telemetry').doc('ExternalAPICall').update({
-                    GoogleAPI: FieldValue.increment(1),
-                });
+                // Firestore.collection('Telemetry').doc('ExternalAPICall').update({
+                //     GoogleAPI: FieldValue.increment(1),
+                // });
+                Database.ref("Telemetry/ExternalAPICall").child("GoogleAPI").set(ServerValue.increment(1));
                 resolve(JSON.parse(body));
             } else {
                 console.error("Unable to POST: " + request_body + "\nError: " + err);
@@ -97,9 +101,10 @@ export let postMessenger = (sender_psid, response) => {
                 resolve("error");
             }
             else {
-                Firestore.collection('Telemetry').doc('ExternalAPICall').update({
-                    MessAPI: FieldValue.increment(1),
-                });
+                // Firestore.collection('Telemetry').doc('ExternalAPICall').update({
+                //     MessAPI: FieldValue.increment(1),
+                // });
+                Database.ref("Telemetry/ExternalAPICall").child("MessAPI").set(ServerValue.increment(1));
                 resolve("ok");
             }
         });
@@ -118,12 +123,14 @@ export let getSimsimi = (ask, sv = 2) => {
             followAllRedirects: true,
         }, (err, res, body) => {
             if (!err) {
-                Firestore.collection('Telemetry').doc('Simsimi').update({
-                    [sv]: FieldValue.increment(1),
-                });
-                Firestore.collection('Telemetry').doc('ExternalAPICall').update({
-                    SimsimiAPI: FieldValue.increment(1),
-                });
+                // Firestore.collection('Telemetry').doc('Simsimi').update({
+                //     [sv]: FieldValue.increment(1),
+                // });
+                Database.ref("Telemetry/Simsimi").child([sv]).set(ServerValue.increment(1));
+                // Firestore.collection('Telemetry').doc('ExternalAPICall').update({
+                //     SimsimiAPI: FieldValue.increment(1),
+                // });
+                Database.ref("Telemetry/ExternalAPICall").child("SimsimiAPI").set(ServerValue.increment(1));
                 resolve(JSON.parse(body));
             } else {
                 console.error("Unable to GET: " + request_body + "\nError: " + err);

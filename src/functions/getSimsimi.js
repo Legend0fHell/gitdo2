@@ -1,5 +1,6 @@
 import { postMessenger, postGoogle, cache, getSimsimi } from '../controllers/chatbotController';
 import { Firestore, FieldValue } from '../controllers/handleFirestore';
+import { Database, ServerValue } from "./handleDatabase";
 
 const emojiResponse = ["😀","😁","😂","🤣","😄","😅","😆","😉","😊","😋","😍","😘","🥰","😚","☺","🤗","🤩","😛","😜","😝","=)))", ":))", "=]]]]", ":>", ":]]]"];
 const notUnderstand = [
@@ -19,9 +20,10 @@ async function Simsimi(sender_psid, text) {
     let resultDetect = /[A-Z]/.test(textDetect)
     if(resultDetect == false || text.length < 3) { // If not found any letter:
         console.log('Spam detected: ', sender_psid, " Detect: ", textDetect);
-        Firestore.collection('Telemetry').doc('Simsimi').update({
-            InternalReq: FieldValue.increment(1)
-        });
+        // Firestore.collection('Telemetry').doc('Simsimi').update({
+        //     InternalReq: FieldValue.increment(1)
+        // });
+        Database.ref("Telemetry/Simsimi").child("InternalReq").set(ServerValue.increment(1));
         // Random the response in the emoji array.
         let response = {"text": emojiResponse[Math.floor(Math.random()*emojiResponse.length)]};
         postMessenger(sender_psid, response);
@@ -50,9 +52,10 @@ async function Simsimi(sender_psid, text) {
         console.log('Simsimi not understand: ', sender_psid);
         retry--;
 
-        Firestore.collection('Telemetry').doc('Simsimi').update({
-            NotUnderstandReq: FieldValue.increment(1)
-        });
+        // Firestore.collection('Telemetry').doc('Simsimi').update({
+        //     NotUnderstandReq: FieldValue.increment(1)
+        // });
+        Database.ref("Telemetry/Simsimi").child("NotUnderstandReq").set(ServerValue.increment(1));
 
         if(retry > 0) {
             // If possible, switch to SV2:
@@ -61,9 +64,10 @@ async function Simsimi(sender_psid, text) {
         }
         else {
             // If not possible, random the response in the emoji array.
-            Firestore.collection('Telemetry').doc('Simsimi').update({
-                InternalReq: FieldValue.increment(1)
-            });
+            // Firestore.collection('Telemetry').doc('Simsimi').update({
+            //     InternalReq: FieldValue.increment(1)
+            // });
+            Database.ref("Telemetry/Simsimi").child("InternalReq").set(ServerValue.increment(1));
             let response = {"text": emojiResponse[Math.floor(Math.random()*emojiResponse.length)]};
             postMessenger(sender_psid, response);
             return;
