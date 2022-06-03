@@ -99,12 +99,21 @@ export let postMessenger = (sender_psid, response) => {
     });
 }
 
-export let getSimsimi = (ask) => {
+export let getSimsimi = (ask, sv = 0) => {
     return new Promise(resolve => {
         let text = encodeURIComponent(ask);
+        let uri = `https://api-sv2.simsimi.net/v2/?text=${text}&lc=vn&cf=false`;
+        switch (sv) {
+            case 1:
+                uri = `https://api.simsimi.net/v2/?text=${text}&lc=vn&cf=false`;
+                break;
+            case 2:
+                uri = `https://simsimi.info/api/?text=${text}&lc=vn`;
+            default:
+                break;
+        }
         request({
-            uri: `https://api-sv2.simsimi.net/v2/?text=${text}&lc=vn&cf=false`,
-            // uri: `https://simsimi.info/api/?text=${text}&lc=vn`,
+            uri: uri,
             method: "GET",
             followAllRedirects: true,
         }, (err, res, body) => {
