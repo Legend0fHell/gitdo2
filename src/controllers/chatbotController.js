@@ -3,7 +3,7 @@ import request from "request";
 import { handleMessage } from "./handleMessage";
 import { handleQuickReply } from "./handleQuickReply";
 import { handlePostback } from "./handlePostback";
-import { Firestore } from "./handleFirestore";
+import { Firestore, FieldValue } from "./handleFirestore";
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 const VERIFY_TOKEN = process.env.VERIFY_TOKEN;
 
@@ -103,31 +103,19 @@ export let postMessenger = (sender_psid, response) => {
 export let getSimsimi = (ask, sv = 0) => {
     return new Promise(resolve => {
         let text = encodeURIComponent(ask);
-        
         let uri = `https://api-sv2.simsimi.net/v2/?text=${text}&lc=vn&cf=false`;
-        if(sv == 0) {
-            Firestore.collection('simsimiTelemetry').doc('HostUsage').update({
-                0: FieldValue.increment(1)
-            });
-        }
-        else if(sv == 1) {
-            uri = `https://api.simsimi.net/v2/?text=${text}&lc=vn&cf=false`;
-            Firestore.collection('simsimiTelemetry').doc('HostUsage').update({
-                1: FieldValue.increment(1)
-            });
-        }
-        else if(sv == 2) {
-            uri = `https://simsimi.info/api/?text=${text}&lc=vn`;
-            Firestore.collection('simsimiTelemetry').doc('HostUsage').update({
-                2: FieldValue.increment(1)
-            });
-        }
+        if(sv == 1) uri = `https://api.simsimi.net/v2/?text=${text}&lc=vn&cf=false`;
+        else if(sv == 2) uri = `https://simsimi.info/api/?text=${text}&lc=vn`;
         request({
             uri: uri,
             method: "GET",
             followAllRedirects: true,
         }, (err, res, body) => {
             if (!err) {
+                Firestore.collection('simsimiTelemetry').doc('HostUsage').update({
+                    [sv]: FieldValue.increment(1),
+                    AllReq: FieldValue.increment(1)
+                });
                 resolve(JSON.parse(body));
             } else {
                 console.error("Unable to GET: " + request_body + "\nError: " + err);
