@@ -7,6 +7,26 @@ const notUnderstand = [
     "T\u00f4i kh\u00f4ng bi\u1ebft b\u1ea1n \u0111ang n\u00f3i g\u00ec. H\u00e3y d\u1ea1y t\u00f4i",
 ]
 
+
+function valid (text) {
+    const fs = require('fs');
+    const star = "*************************************"
+
+    fs.readFile('../data/vn_offensive_words.txt', 'utf8', (err, data) => {
+    if (err) {
+        console.error(err);
+        return;
+    }
+        let array = data.toString().split('\r\n');
+        for (item of array) {
+            var regEx = new RegExp(item, "ig");
+            text = text.replaceAll(regEx, star.substring(0, item.length));
+        }
+
+        return text;
+    });
+}
+
 // Answer using Simsimi when users chatting.
 async function Simsimi(sender_psid, text) {
     if (sender_psid != '306816786589318') console.log('Simsimi: ', sender_psid);
@@ -65,7 +85,7 @@ async function Simsimi(sender_psid, text) {
 
     // Send response
     console.log('Simsimi response: ', sender_psid, " Text: ", ans.success);
-    let response = { "text": ans.success };
+    let response = { "text": valid(ans.success) };
     postMessenger(sender_psid, response);
 }
 
