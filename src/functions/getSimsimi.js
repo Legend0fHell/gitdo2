@@ -1,6 +1,7 @@
 import { postMessenger, postGoogle, cache, getSimsimi } from '../controllers/chatbotController';
 import { Firestore, FieldValue, Database, ServerValue} from '../controllers/handleFirestore';
 import { bad_words } from './vn_offensive_words';
+
 const emojiResponse = ["😀","😁","😂","🤣","😄","😅","😆","😉","😊","😋","😍","😘","🥰","😚","☺","🤗","🤩","😛","😜","😝","=)))", ":))", "=]]]]", ":>", ":]]]"];
 const notUnderstand = [
     "Sim kh\u00f4ng bi\u1ebft b\u1ea1n \u0111ang n\u00f3i g\u00ec. Xin h\u00e3y ch\u1ec9 d\u1ea1y cho t\u1edb",
