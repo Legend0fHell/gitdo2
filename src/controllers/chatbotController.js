@@ -103,14 +103,11 @@ export let getSimsimi = (ask, sv = 0) => {
     return new Promise(resolve => {
         let text = encodeURIComponent(ask);
         let uri = `https://api-sv2.simsimi.net/v2/?text=${text}&lc=vn&cf=false`;
-        switch (sv) {
-            case 1:
-                uri = `https://api.simsimi.net/v2/?text=${text}&lc=vn&cf=false`;
-                break;
-            case 2:
-                uri = `https://simsimi.info/api/?text=${text}&lc=vn`;
-            default:
-                break;
+        if(sv == 1) {
+            uri = `https://api.simsimi.net/v2/?text=${text}&lc=vn&cf=false`;
+        }
+        else if(sv == 2) {
+            uri = `https://simsimi.info/api/?text=${text}&lc=vn`;
         }
         request({
             uri: uri,
