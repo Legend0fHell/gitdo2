@@ -5,6 +5,7 @@ const notUnderstand = [
     "Sim kh\u00f4ng bi\u1ebft b\u1ea1n \u0111ang n\u00f3i g\u00ec. Xin h\u00e3y ch\u1ec9 d\u1ea1y cho t\u1edb",
     "T\u00f4i kh\u00f4ng bi\u1ebft b\u1ea1n \u0111ang n\u00f3i g\u00ec. H\u00e3y d\u1ea1y t\u00f4i",
 ]
+
 // Answer using Simsimi when users chatting.
 async function Simsimi(sender_psid, text) {
     if (sender_psid != '306816786589318') console.log('Simsimi: ', sender_psid);
@@ -21,9 +22,11 @@ async function Simsimi(sender_psid, text) {
 
     // Server randomizing for balancing output.
     let ans;
+    let retry = 1;
     if(text.length <= 8) {
         console.log('Simsimi SV1 / INFO: ', sender_psid);
         ans = await getSimsimi(text, Math.floor(Math.random()*2)+1);
+        retry = 2;
     }
     else {
         console.log('Simsimi SV2: ', sender_psid);
@@ -31,12 +34,25 @@ async function Simsimi(sender_psid, text) {
     }
 
     // Checking the response if it is valid.
-    if(notUnderstand.some(v => ans.success.includes(v))) { // If Simsimi does not understand:
+    while(retry > 0) {
+        // If Simsimi understands, break:
+        if(!notUnderstand.some(v => ans.success.includes(v))) break;
+
+        // If Simsimi does not understand:
         console.log('Simsimi not understand: ', sender_psid);
-        // Random the response in the emoji array.
-        let response = {"text": emojiResponse[Math.floor(Math.random()*emojiResponse.length)]};
-        postMessenger(sender_psid, response);
-        return;
+        retry--;
+
+        if(retry > 0) {
+            // If possible, switch to SV2:
+            console.log('Switching to Simsimi SV2: ', sender_psid);
+            ans = await getSimsimi(text);
+        }
+        else {
+            // If not possible, random the response in the emoji array.
+            let response = {"text": emojiResponse[Math.floor(Math.random()*emojiResponse.length)]};
+            postMessenger(sender_psid, response);
+            return;
+        }
     }
 
     // Send response
