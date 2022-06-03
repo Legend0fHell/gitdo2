@@ -1,30 +1,22 @@
 import { postMessenger, postGoogle, cache, getSimsimi } from '../controllers/chatbotController';
 import { Firestore, FieldValue, Database, ServerValue} from '../controllers/handleFirestore';
-
+import { bad_words } from './vn_offensive_words';
 const emojiResponse = ["😀","😁","😂","🤣","😄","😅","😆","😉","😊","😋","😍","😘","🥰","😚","☺","🤗","🤩","😛","😜","😝","=)))", ":))", "=]]]]", ":>", ":]]]"];
 const notUnderstand = [
     "Sim kh\u00f4ng bi\u1ebft b\u1ea1n \u0111ang n\u00f3i g\u00ec. Xin h\u00e3y ch\u1ec9 d\u1ea1y cho t\u1edb",
     "T\u00f4i kh\u00f4ng bi\u1ebft b\u1ea1n \u0111ang n\u00f3i g\u00ec. H\u00e3y d\u1ea1y t\u00f4i",
 ]
 
-
-function valid (text) {
-    const fs = require('fs');
+// Filter bad words
+function valid (content) {
     const star = "*************************************"
 
-    fs.readFile(require('path').join(__dirname, '..', 'data', 'vn_offensive_words.txt'), 'utf8', (err, data) => {
-    if (err) {
-        console.error(err);
-        return;
+    for (text of bad_words) {
+        var regEx = new RegExp(text, "ig");
+        text = text.replaceAll(regEx, star.substring(0, text.length));
     }
-        let array = data.toString().split('\r\n');
-        for (item of array) {
-            var regEx = new RegExp(item, "ig");
-            text = text.replaceAll(regEx, star.substring(0, item.length));
-        }
 
-        return text;
-    });
+    return content;
 }
 
 // Answer using Simsimi when users chatting.
