@@ -10,9 +10,8 @@ async function Simsimi(sender_psid, text) {
     if (sender_psid != '306816786589318') console.log('Simsimi: ', sender_psid);
 
     // Detect spam or emoji by counting the number of letter.
-    let letter = /^[A-Z]+$/;
     let textDetect = text.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D').toUpperCase();
-    if(!textDetect.match(letter)) { // If not found any letter:
+    if(!/^[A-Z]+$/.test(textDetect)) { // If not found any letter:
         console.log('Spam detected: ', sender_psid, " Detect: ", textDetect);
         // Random the response in the emoji array.
         let response = {"text": emojiResponse[Math.floor(Math.random()*emojiResponse.length)]};
