@@ -12,7 +12,7 @@ function valid (text) {
     const fs = require('fs');
     const star = "*************************************"
 
-    fs.readFile('/../data/vn_offensive_words.txt', 'utf8', (err, data) => {
+    fs.readFile(path.join(__dirname, '..', 'data', 'vn_offensive_words.txt'), 'utf8', (err, data) => {
     if (err) {
         console.error(err);
         return;
