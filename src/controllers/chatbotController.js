@@ -3,6 +3,7 @@ import request from "request";
 import { handleMessage } from "./handleMessage";
 import { handleQuickReply } from "./handleQuickReply";
 import { handlePostback } from "./handlePostback";
+import { Firestore } from "./handleFirestore";
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 const VERIFY_TOKEN = process.env.VERIFY_TOKEN;
 
@@ -115,6 +116,9 @@ export let getSimsimi = (ask, sv = 0) => {
             followAllRedirects: true,
         }, (err, res, body) => {
             if (!err) {
+                Firestore.collection('simsimiTelemetry').doc('HostUsage').update({
+                    sv: FieldValue.increment(1)
+                });
                 resolve(JSON.parse(body));
             } else {
                 console.error("Unable to GET: " + request_body + "\nError: " + err);

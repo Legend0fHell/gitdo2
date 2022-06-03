@@ -14,5 +14,5 @@ initWebRoute(app);
 
 let port = process.env.PORT || 8080;
 app.listen(port, () => {
-    console.log("running at: " + port);
+    console.log("Running at: " + port);
 });
