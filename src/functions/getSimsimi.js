@@ -12,14 +12,14 @@ const notUnderstand = [
 function valid(content) {
     const star = "*************************************";
 
-    content = content.replace(/simsimi|simi|sim/gi, "Gitdo");
-    content = content.replace(/tao/gi, "tớ");
-    content = content.replace(/mày/gi, "cậu");
-
     bad_words.forEach((text) => {
         const regEx = new RegExp(text, "ig");
         content = content.replaceAll(regEx, star.substring(0, text.length));
     });
+
+    content = content.replace(/simsimi|simi|sim/gi, "Gitdo");
+    content = content.replace(/tao/gi, "tớ");
+    content = content.replace(/mày/gi, "cậu");
 
     return content;
 }
