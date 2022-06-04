@@ -9,10 +9,7 @@ async function HTHT(sender_psid, parentsDir = 'HTHT') {
     let links = "";
     await refer.once('value', (snap) => {
         if(snap.numChildren == 0) {
-            response = {
-                "text": links
-            };
-            postMessenger(sender_psid, response);
+            postMessenger(sender_psid, {"text": links});
             return;
         }
         snap.forEach((childSnapshot) => { 
