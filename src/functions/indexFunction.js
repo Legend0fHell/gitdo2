@@ -7,5 +7,5 @@ const getSimsimi = require("./getSimsimi").default;
 const getSupport = require("./getSupport").default;
 
 export {
-    getInfoClub, getTimetable, postGetStarted, getLDT, postAbout, getSimsimi, getSupport
+    getInfoClub, getTimetable, postGetStarted, getLDT, postAbout, getSimsimi, getSupport,
 };

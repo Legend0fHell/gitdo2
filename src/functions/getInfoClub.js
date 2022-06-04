@@ -1,50 +1,48 @@
-import { postMessenger, postGoogle } from '../controllers/chatbotController';
+import {postMessenger, postGoogle} from "../controllers/chatbotController";
 
 // Set the cache if the user request Club.
 async function CLBPhase1(sender_psid, showMode = "Pg1") {
-    console.log('CLB phase 1, procedding to ask: ', sender_psid);
-    let response;
-    let res2 = await postGoogle({
+    console.log("CLB phase 1, procedding to ask: ", sender_psid);
+    const res2 = await postGoogle({
         "mode": 3,
-        "showMode": showMode
+        "showMode": showMode,
     });
-    let arraySend = [];
+    const arraySend = [];
     for (let i = 0; i < res2.length; ++i) {
-        let tmp = {
+        const tmp = {
             "content_type": "text",
             "title": res2[i][2],
-            "payload": "CLBP2_" + res2[i][1]
-        }
+            "payload": "CLBP2_" + res2[i][1],
+        };
         arraySend.push(tmp);
     }
-    response = {
+    postMessenger(sender_psid, {
         "text": "Cậu muốn hỏi về CLB nào trong trường nhỉ? :v",
-        "quick_replies": arraySend
-    }
-    postMessenger(sender_psid, response);
+        "quick_replies": arraySend,
+    });
 }
 
 async function CLBPhase2(sender_psid, answer) {
-    if (sender_psid != '306816786589318') console.log('CLB phase 2: ', sender_psid, 'Content: ', answer);
-    let response;
-    let res2 = await postGoogle({
+    if (sender_psid != "306816786589318") console.log("CLB phase 2: ", sender_psid, "Content: ", answer);
+    const res2 = await postGoogle({
         "mode": 4,
-        "id": answer
+        "id": answer,
     });
-    let button = [];
+    const button = [];
     for (let j = 3; j <= 5; ++j) {
         let titl;
         if (j == 3) titl = "Facebook";
         if (j == 4) titl = "Instagram";
         if (j == 5) titl = "Khác";
-        if (res2[0][j] != '')
+        if (res2[0][j] != "") {
             button.push({
                 "type": "web_url",
                 "url": res2[0][j],
-                "title": titl
+                "title": titl,
             });
+        }
     }
-    response = {
+    postMessenger(sender_psid, {
         "attachment": {
             "type": "template",
             "payload": {
@@ -54,15 +52,14 @@ async function CLBPhase2(sender_psid, answer) {
                     "default_action": {
                         "type": "web_url",
                         "url": res2[0][3],
-                        "webview_height_ratio": "FULL"
-                    }
-                }]
-            }
-        }
-    }
-    postMessenger(sender_psid, response);
+                        "webview_height_ratio": "FULL",
+                    },
+                }],
+            },
+        },
+    });
 }
 
 export default {
-    CLBPhase1, CLBPhase2
-}
+    CLBPhase1, CLBPhase2,
+};

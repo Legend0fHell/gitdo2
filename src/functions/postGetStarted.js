@@ -2,9 +2,8 @@ import {postMessenger} from "../controllers/chatbotController";
 
 // Set the cache if the user asked to get started.
 function HelloWorld(sender_psid) {
-    if (sender_psid != '306816786589318') console.log('Hello world: ', sender_psid);
-    let response;
-    response = {
+    if (sender_psid != "306816786589318") console.log("Hello world: ", sender_psid);
+    const response = {
         "attachment": {
             "type": "template",
             "payload": {
@@ -17,33 +16,33 @@ function HelloWorld(sender_psid) {
                         "default_action": {
                             "type": "web_url",
                             "url": "https://www.facebook.com/cybtechno/",
-                            "webview_height_ratio": "FULL"
+                            "webview_height_ratio": "FULL",
                         },
                         "buttons": [
                             {
                                 "type": "postback",
                                 "title": "Thời khóa biểu",
-                                "payload": "postback_card_626f695446be37888700002d"
+                                "payload": "postback_card_626f695446be37888700002d",
                             },
                             {
                                 "type": "postback",
                                 "title": "Lịch dạy thay",
-                                "payload": "postback_card_626f69a746be37888700002f"
+                                "payload": "postback_card_626f69a746be37888700002f",
                             },
                             {
                                 "type": "postback",
                                 "title": "Xem thêm!",
-                                "payload": "postback_card_626f6a4b46be372c1d000031"
-                            }
-                        ]
-                    }
-                ]
-            }
-        }
-    }
+                                "payload": "postback_card_626f6a4b46be372c1d000031",
+                            },
+                        ],
+                    },
+                ],
+            },
+        },
+    };
     postMessenger(sender_psid, response);
 }
 
 export default {
-    HelloWorld
-}
+    HelloWorld,
+};
