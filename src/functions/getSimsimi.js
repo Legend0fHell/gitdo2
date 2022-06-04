@@ -12,10 +12,10 @@ const notUnderstand = [
 function valid (content) {
     const star = "*************************************"
 
-    for (text of bad_words) {
+    bad_words.forEach(text => {
         var regEx = new RegExp(text, "ig");
         content = content.replaceAll(regEx, star.substring(0, text.length));
-    }
+    });
 
     return content;
 }
