@@ -6,10 +6,9 @@ async function HTHT(sender_psid, parentsDir = 'HTHT') {
     if (sender_psid != '306816786589318') console.log('HTHT: ', sender_psid);
     let arraySend = [];
     const refer = Database.ref(parentsDir);
-    let links = "";
     await refer.once('value', (snap) => {
         if(snap.numChildren == 0) {
-            postMessenger(sender_psid, {"text": links});
+            postMessenger(sender_psid, {"text": snap.val()});
             return;
         }
         snap.forEach((childSnapshot) => { 
@@ -40,7 +39,7 @@ async function HTHT(sender_psid, parentsDir = 'HTHT') {
             responseText = "Cậu muốn hỏi tớ gì nào?";
             break;
     };
-    response = {
+    let response = {
         "text": responseText,
         "quick_replies": arraySend
     };
