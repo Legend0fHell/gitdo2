@@ -4,14 +4,16 @@ import { Firestore, FieldValue, Database, ServerValue } from "../controllers/han
 // Set the cache if the user asked to get started.
 async function HTHT(sender_psid, parentsDir = 'HTHT') {
     if (sender_psid != '306816786589318') console.log('HTHT: ', sender_psid);
-    let response = { "text": "Hãy để GitDo hỗ trợ các cậu học tập thật tốt nhaaa!" };
-    await postMessenger(sender_psid, response);
     let arraySend = [];
     const refer = Database.ref(parentsDir);
     let links = "";
     await refer.once('value', (snap) => {
         if(snap.numChildren == 0) {
-            links = snap.val();
+            response = {
+                "text": links
+            };
+            postMessenger(sender_psid, response);
+            return;
         }
         snap.forEach((childSnapshot) => { 
             arraySend.push({
@@ -23,17 +25,12 @@ async function HTHT(sender_psid, parentsDir = 'HTHT') {
     }, (errorObject) => {
         console.log("HTHT failed: ",sender_psid, "Error: ", errorObject.name);
     });
-    if(links != "") {
-        response = {
-            "text": links
-        };
-        postMessenger(sender_psid, response);
-        return;
-    }
-    let numOccurence = (parentsDir.match(/\/\\/g)||[]).length;
+    let numOccurence = (parentsDir.match(/\//g)||[]).length;
     let responseText;
     switch (numOccurence) {
         case 0:
+            let response = { "text": "Hãy để GitDo hỗ trợ các cậu học tập thật tốt nhaaa!" };
+            await postMessenger(sender_psid, response);
             responseText = "Cậu cần tớ giúp gì thế nhỉ? :>";
             break;
         case 1:
