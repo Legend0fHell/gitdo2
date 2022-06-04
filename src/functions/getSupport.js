@@ -8,7 +8,26 @@ async function HTHT(sender_psid, parentsDir = 'HTHT') {
     const refer = Database.ref(parentsDir);
     await refer.once('value', (snap) => {
         if(snap.numChildren() == 0) {
-            postMessenger(sender_psid, {"text": snap.val()});
+            let button = [];
+            let links = snap.val().split(",");
+            links.forEach((link, idx) => {
+                button.push({
+                    "type": "web_url",
+                    "url": link,
+                    "title": `Link ${idx+1}`
+                });
+            });
+            let response = {
+                "attachment": {
+                    "type": "template",
+                    "payload": {
+                        "template_type": "button",
+                        "text": "Các đường link tài liệu và chuyên đề ôn luyện:",
+                        "buttons": button
+                    }
+                }
+            }
+            postMessenger(sender_psid, response);
             return;
         }
         snap.forEach((childSnapshot) => { 

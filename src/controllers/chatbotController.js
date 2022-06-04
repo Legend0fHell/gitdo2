@@ -4,15 +4,13 @@ import { handleMessage } from "./handleMessage";
 import { handleQuickReply } from "./handleQuickReply";
 import { handlePostback } from "./handlePostback";
 import { Firestore, FieldValue, Database, ServerValue } from "./handleFirestore";
+import { Debug } from "../functions/debug";
 import * as PostbackID from "./indexPostbackId";
 
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 const VERIFY_TOKEN = process.env.VERIFY_TOKEN;
 
 export let cache = {};
-
-async function Debug() {
-}
 
 let getHomePage = (req, res) => {
     Debug();
