@@ -445,8 +445,8 @@ const bad_words = [
     "v~",
     "đụ",
     "đụ",
-  ];
-  
-  export {
-    bad_words
-  };
+];
+
+export {
+    bad_words,
+};
