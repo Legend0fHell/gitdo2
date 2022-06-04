@@ -12,7 +12,6 @@ const VERIFY_TOKEN = process.env.VERIFY_TOKEN;
 export let cache = {};
 
 async function Debug() {
-
 }
 
 let getHomePage = (req, res) => {

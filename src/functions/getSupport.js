@@ -7,7 +7,7 @@ async function HTHT(sender_psid, parentsDir = 'HTHT') {
     let arraySend = [];
     const refer = Database.ref(parentsDir);
     await refer.once('value', (snap) => {
-        if(snap.numChildren == 0) {
+        if(snap.numChildren() == 0) {
             postMessenger(sender_psid, {"text": snap.val()});
             return;
         }
@@ -25,8 +25,7 @@ async function HTHT(sender_psid, parentsDir = 'HTHT') {
     let responseText;
     switch (numOccurence) {
         case 0:
-            let response = { "text": "Hãy để GitDo hỗ trợ các cậu học tập thật tốt nhaaa!" };
-            await postMessenger(sender_psid, response);
+            await postMessenger(sender_psid, { "text": "Hãy để GitDo hỗ trợ các cậu học tập thật tốt nhaaa!" });
             responseText = "Cậu cần tớ giúp gì thế nhỉ? :>";
             break;
         case 1:
