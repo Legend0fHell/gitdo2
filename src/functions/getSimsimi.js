@@ -12,7 +12,6 @@ const notUnderstand = [
 function valid (content) {
     const star = "*************************************"
 
-    content = content.replace(/sim|simi|simsimi/gi, "Gitdo");
     bad_words.forEach(text => {
         var regEx = new RegExp(text, "ig");
         content = content.replaceAll(regEx, star.substring(0, text.length));
