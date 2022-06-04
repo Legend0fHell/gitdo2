@@ -11,7 +11,7 @@ export const handleCommand = (sender_psid, received_command) => {
     // Normalize case by uppercase, de-Vietnamese.
     let strNormalized = "";
     try {
-        strNormalized = received_command.text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/đ/g, "d").replace(/Đ/g, "D").toUpperCase();
+        strNormalized = received_command.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/đ/g, "d").replace(/Đ/g, "D").toUpperCase();
     } catch (error) {
         return;
     }

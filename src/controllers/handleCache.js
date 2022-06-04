@@ -5,12 +5,12 @@ export const handleCache = (sender_psid, received_message, cacheType) => {
     if (sender_psid == "306816786589318") return;
 
     // Debugging line
-    console.log("Received message with cache: ", sender_psid, "Content: ", received_message.text, "Cache type: ", cacheType);
+    console.log("Received message with cache: ", sender_psid, "Content: ", received_message, "Cache type: ", cacheType);
 
     // Normalize case by uppercase, de-Vietnamese.
     let strNormalized = "";
     try {
-        strNormalized = received_command.text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/đ/g, "d").replace(/Đ/g, "D").toUpperCase();
+        strNormalized = received_message.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/đ/g, "d").replace(/Đ/g, "D").toUpperCase();
     } catch (error) {
         return;
     }
