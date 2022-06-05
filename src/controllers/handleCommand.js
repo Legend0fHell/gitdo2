@@ -45,6 +45,8 @@ export const handleCommand = (sender_psid, received_command) => {
     case "!htht":
         indexFunction.getSupport.HTHT(sender_psid);
         break;
+    case "!info":
+        indexFunction.getInfo.Info(sender_psid, received_command);
     default:
         // TODO: Add help since this is the "Not found command" case.
         break;

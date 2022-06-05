@@ -4,7 +4,7 @@ const genderMale = ["thay", "chu", "ong", "bac", "anh", "a", "th"];
 const genderFemale = ["co", "ba", "chi", "c"];
 
 function Invalid(sender_psid) {
-    const response = {"text": "Không hợp lệ."};
+    const response = {"text": "Tìm bằng !info [danh xưng] [tên] [môn/chức vụ]. VD: !info Cô Nhung Tin"};
     postMessenger(sender_psid, response);
 }
 
@@ -44,5 +44,5 @@ async function Info(sender_psid, text) {
 }
 
 export default {
-    Info,
+    Info, Invalid,
 };
