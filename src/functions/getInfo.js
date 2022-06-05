@@ -11,8 +11,17 @@ function Invalid(sender_psid) {
 // Set the cache if the user asked to get started.
 async function Info(sender_psid, text) {
     if (sender_psid != "306816786589318") console.log("Info: ", sender_psid);
-    const textSplit = text.split(" ");
-    if (textSplit.length == 1) Invalid(sender_psid);
+    let textSplit;
+    try {
+        textSplit = text.split(" ");
+    } catch (error) {
+        Invalid(sender_psid);
+        return;
+    }
+    if (textSplit.length < 2) {
+        Invalid(sender_psid);
+        return;
+    }
     const firstArg = textSplit[1].normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/đ/g, "d").replace(/Đ/g, "D").toLowerCase();
 
     let gender = "Không";
