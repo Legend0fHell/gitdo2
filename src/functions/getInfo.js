@@ -37,11 +37,15 @@ async function Info(sender_psid, text) {
         "subj": subj,
         "gender": gender,
     });
+    if (res2.length == 0) {
+        postMessenger(sender_psid, {"text": "Không tìm thấy dữ liệu trùng khớp! Hãy kiểm tra lại cú pháp! (nhắn '!info')"});
+        return;
+    }
     const arraySend = [];
     res2.forEach((info) => {
         arraySend.push({
             "content_type": "text",
-            "title": `${info[5]} ${info[2]} (${info[4]})`,
+            "title": `${info[5]} ${info[6]} ${info[4]}`,
             "payload": `INFO_${info[0]}`,
         });
     });
