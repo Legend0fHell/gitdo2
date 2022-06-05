@@ -41,6 +41,10 @@ async function Info(sender_psid, text) {
         postMessenger(sender_psid, {"text": "Không tìm thấy dữ liệu trùng khớp! Hãy kiểm tra lại cú pháp! (nhắn '!info')"});
         return;
     }
+    if (res2.length > 11) {
+        postMessenger(sender_psid, {"text": "Đã tìm thấy ${res2.length} kết quả, vượt quá khả năng hiển thị! Hãy tra cứu chính xác hơn! (nhắn '!info')"});
+        return;
+    }
     const arraySend = [];
     res2.forEach((info) => {
         arraySend.push({
