@@ -32,7 +32,7 @@ async function Info(sender_psid, text) {
     res2.forEach((info) => {
         arraySend.push({
             "content_type": "text",
-            "title": `${info[5]} ${info[1]} (${info[4]})`,
+            "title": `${info[5]} ${info[2]} (${info[4]})`,
             "payload": `INFO_${info[0]}`,
         });
     });
