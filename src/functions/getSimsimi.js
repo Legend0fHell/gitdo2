@@ -17,7 +17,7 @@ function valid(content) {
         content = content.replaceAll(regEx, star.substring(0, text.length));
     });
 
-    content = content.replace(/simsimi|simi|sim/gi, "Gitdo");
+    content = content.replace(/simsimi|simi|sim/gi, "GitDo");
     content = content.replace(/tao/gi, "tớ");
     content = content.replace(/mày/gi, "cậu");
 

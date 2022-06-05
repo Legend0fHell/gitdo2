@@ -17,6 +17,6 @@ export const handlePostback = (sender_psid, received_postback) => {
     } else if (payload.includes(PostbackID.HTHT)) {
         indexFunction.getSupport.HTHT(sender_psid);
     } else if (payload.includes(PostbackID.Info)) {
-        indexFunction.getInfo.Invalid(sender_psid);
+        indexFunction.getInfo.Help(sender_psid);
     }
 };

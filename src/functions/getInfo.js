@@ -3,7 +3,7 @@ import {postMessenger, postGoogle} from "../controllers/chatbotController";
 const genderMale = ["thay", "chu", "ong", "bac", "anh", "a", "th"];
 const genderFemale = ["co", "ba", "chi", "c"];
 
-function Invalid(sender_psid) {
+function Help(sender_psid) {
     const response = {"text": "Tìm bằng !info [danh xưng] [tên] [môn/chức vụ]. VD: !info Cô Nhung Tin"};
     postMessenger(sender_psid, response);
 }
@@ -15,11 +15,11 @@ async function Info(sender_psid, text) {
     try {
         textSplit = text.split(" ");
     } catch (error) {
-        Invalid(sender_psid);
+        Help(sender_psid);
         return;
     }
     if (textSplit.length < 2) {
-        Invalid(sender_psid);
+        Help(sender_psid);
         return;
     }
     const firstArg = textSplit[1].normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/đ/g, "d").replace(/Đ/g, "D").toLowerCase();
@@ -28,7 +28,7 @@ async function Info(sender_psid, text) {
     if (genderFemale.includes(firstArg)) gender = "Nữ";
     else if (genderMale.includes(firstArg)) gender = "Nam";
 
-    const subj = (`${(textSplit.length > 2 ? textSplit.at(-2)+" " : "")}${textSplit.at(-1)}`).toLowerCase();
+    const subj = (`${(textSplit.length > 2 ? textSplit.at(-2)+" " : "")}${textSplit.at(-1)}`).replace(/lí/, "lý").toLowerCase();
     const name = text.replace(/^(!info )/, "").toLowerCase();
 
     const res2 = await postGoogle({
@@ -57,5 +57,5 @@ async function Info(sender_psid, text) {
 }
 
 export default {
-    Info, Invalid,
+    Info, Help,
 };
