@@ -1,10 +1,10 @@
 import {postMessenger, postGoogle} from "../controllers/chatbotController";
 
-const genderMale = ["thay", "chu", "ong", "bac", "anh", "a", "th"];
+const genderMale = ["thay", "chu", "ong", "bac", "anh", "a", "th", "t."];
 const genderFemale = ["co", "ba", "chi", "c"];
 
 function Help(sender_psid) {
-    const response = {"text": "Tìm bằng !info [danh xưng] [tên] [môn/chức vụ]. VD: !info Cô Nhung Tin"};
+    const response = {"text": "Tìm bằng !info [danh xưng] [tên] [môn/chức vụ]. \n Cú pháp bắt buộc phải có tên hoặc môn/chức vụ.\nVD: !info Thầy Nghĩa trẻ Toán"};
     postMessenger(sender_psid, response);
 }
 
@@ -42,7 +42,7 @@ async function Info(sender_psid, text) {
         return;
     }
     if (res2.length > 11) {
-        postMessenger(sender_psid, {"text": "Đã tìm thấy ${res2.length} kết quả, vượt quá khả năng hiển thị! Hãy tra cứu chính xác hơn! (nhắn '!info')"});
+        postMessenger(sender_psid, {"text": `Đã tìm thấy ${res2.length} kết quả, vượt quá khả năng hiển thị! Hãy tra cứu chính xác hơn! (nhắn '!info')`});
         return;
     }
     const arraySend = [];
