@@ -4,7 +4,7 @@ const genderMale = ["thay", "chu", "ong", "bac", "anh", "a", "th", "t."];
 const genderFemale = ["co", "ba", "chi", "c"];
 
 function Help(sender_psid) {
-    const response = {"text": "Tìm bằng !info [danh xưng] [tên] [môn/chức vụ]. \n Cú pháp bắt buộc phải có tên hoặc môn/chức vụ.\nVD: !info Thầy Nghĩa trẻ Toán"};
+    const response = {"text": "Tìm bằng !info [danh xưng] [tên] [môn/chức vụ]. \nCú pháp bắt buộc phải có tên hoặc môn/chức vụ.\nVD: !info Thầy Nghĩa trẻ Toán"};
     postMessenger(sender_psid, response);
 }
 
