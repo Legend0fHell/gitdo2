@@ -30,7 +30,7 @@ async function Profile(sender_psid, id, info = null) {
         button.push({
             "type": "phone_number",
             "title": "Gọi SĐT",
-            "payload": info[8],
+            "payload": info[8].replace(/^(0)/, "+84"),
         });
     }
     if (info[9] != "") {
