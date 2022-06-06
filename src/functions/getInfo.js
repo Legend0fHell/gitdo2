@@ -62,7 +62,7 @@ async function Profile(sender_psid, id, info = null) {
                 "template_type": "generic",
                 "elements": [{
                     "title": `${info[5]} ${info[1]} (${info[4]})`,
-                    "image_url": info[10],
+                    "image_url": "https://thumbs2.imgbox.com/84/db/GDg0hvoj_t.png",
                     "subtitle": `SĐT: ${info[8]}.\n${info[11]}`,
                     "buttons": button,
                 }],
