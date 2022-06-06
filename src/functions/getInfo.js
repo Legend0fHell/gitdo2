@@ -26,13 +26,13 @@ async function Profile(sender_psid, id, info = null) {
     }
     console.log(info);
     const button = [];
-    // if (info[8] != "") {
-    //     button.push({
-    //         "type": "phone_number",
-    //         "title": "Gọi SĐT",
-    //         "payload": info[8].replace(/^(0)/, "+84"),
-    //     });
-    // }
+    if (info[8] != "") {
+        button.push({
+            "type": "phone_number",
+            "title": "Gọi SĐT",
+            "payload": info[8].replace(/^(0)/, "+84"),
+        });
+    }
     if (info[9] != "") {
         button.push({
             "type": "web_url",
@@ -54,7 +54,7 @@ async function Profile(sender_psid, id, info = null) {
             "title": "Không info!",
         });
     }
-
+    console.log(button);
     const response = {
         "attachment": {
             "type": "template",
