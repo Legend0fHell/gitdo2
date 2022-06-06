@@ -6,12 +6,12 @@ const genderFemale = ["co", "ba", "chi", "c"];
 function Help(sender_psid) {
     const response = {
         "text": `
-    Tìm bằng !info [danh xưng] [tên] [môn/chức vụ].
-    Cú pháp bắt buộc phải có tên hoặc môn/chức vụ.
-    VD: !info Thầy Nghĩa trẻ Toán; !info Cô Tin; ...
-    ===
-    PS: Dữ liệu hiện tại chưa đầy đủ/lỗi thời. Nếu biết, bạn có thể nhắn
-    trực tiếp dữ liệu mới vào đây để chúng mình xem xét cập nhật nhé!`,
+Tìm bằng !info [danh xưng] [tên] [môn/chức vụ].
+Cú pháp bắt buộc phải có tên hoặc môn/chức vụ.
+VD: !info Thầy Nghĩa trẻ Toán; !info Cô Tin; ...
+===
+PS: Dữ liệu hiện tại chưa đầy đủ/lỗi thời. Nếu biết, bạn có thể nhắn
+trực tiếp dữ liệu mới vào đây để chúng mình xem xét cập nhật nhé!`,
     };
     postMessenger(sender_psid, response);
 }
@@ -24,7 +24,6 @@ async function Profile(sender_psid, id, info = null) {
             "id": id,
         });
     }
-    console.log(info);
     const button = [];
     if (info[8] != "") {
         button.push({
@@ -40,13 +39,6 @@ async function Profile(sender_psid, id, info = null) {
             "title": "Facebook",
         });
     }
-    // if (info[7] != "") {
-    //     button.push({
-    //         "type": "web_url",
-    //         "url": `mailto:${info[7]}`,
-    //         "title": "Email",
-    //     });
-    // }
     if (button.length == 0) {
         button.push({
             "type": "web_url",
@@ -54,7 +46,6 @@ async function Profile(sender_psid, id, info = null) {
             "title": "Không info!",
         });
     }
-    console.log(button);
     const response = {
         "attachment": {
             "type": "template",
@@ -63,13 +54,12 @@ async function Profile(sender_psid, id, info = null) {
                 "elements": [{
                     "title": `${info[5]} ${info[1]} (${info[4]})`,
                     "image_url": info[10],
-                    "subtitle": `SĐT: ${info[8]}.\n${info[11]}`,
+                    "subtitle": `SĐT: ${info[8]}.\nEmail: ${info[7]}\n${info[11]}`,
                     "buttons": button,
                 }],
             },
         },
     };
-    console.log(response);
     postMessenger(sender_psid, response);
 }
 
