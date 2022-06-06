@@ -5,14 +5,12 @@ const genderFemale = ["co", "ba", "chi", "c"];
 
 function Help(sender_psid) {
     const response = {
-        "text": `
-        Tìm bằng !info [danh xưng] [tên] [môn/chức vụ].\n
-        Cú pháp bắt buộc phải có tên hoặc môn/chức vụ.\n
-        VD: !info Thầy Nghĩa trẻ Toán; !info Cô Tin; ...\n
-        === \n
-        PS: Dữ liệu hiện tại chưa đầy đủ/lỗi thời. Nếu biết, bạn có thể nhắn\n
-        trực tiếp dữ liệu mới vào đây để chúng mình xem xét cập nhật nhé!
-        `,
+        "text": `Tìm bằng !info [danh xưng] [tên] [môn/chức vụ].
+    Cú pháp bắt buộc phải có tên hoặc môn/chức vụ.
+    VD: !info Thầy Nghĩa trẻ Toán; !info Cô Tin; ...
+    ===
+    PS: Dữ liệu hiện tại chưa đầy đủ/lỗi thời. Nếu biết, bạn có thể nhắn
+    trực tiếp dữ liệu mới vào đây để chúng mình xem xét cập nhật nhé!`,
     };
     postMessenger(sender_psid, response);
 }
