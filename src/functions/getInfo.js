@@ -4,8 +4,69 @@ const genderMale = ["thay", "chu", "ong", "bac", "anh", "a", "th", "t."];
 const genderFemale = ["co", "ba", "chi", "c"];
 
 function Help(sender_psid) {
-    const response = {"text": "Tìm bằng !info [danh xưng] [tên] [môn/chức vụ]. \nCú pháp bắt buộc phải có tên hoặc môn/chức vụ.\nVD: !info Thầy Nghĩa trẻ Toán"};
+    const response = {
+        "text": `
+        Tìm bằng !info [danh xưng] [tên] [môn/chức vụ].\n
+        Cú pháp bắt buộc phải có tên hoặc môn/chức vụ.\n
+        VD: !info Thầy Nghĩa trẻ Toán; !info Cô Tin; ...\n
+        === \n
+        PS: Dữ liệu hiện tại chưa đầy đủ/lỗi thời. Nếu biết, bạn có thể nhắn\n
+        trực tiếp dữ liệu mới vào đây để chúng mình xem xét cập nhật nhé!
+        `,
+    };
     postMessenger(sender_psid, response);
+}
+
+async function Profile(sender_psid, id, info = null) {
+    if (info == null) {
+        info = await postGoogle({
+            "mode": 6,
+            "id": id,
+        });
+    }
+    const button = [];
+    if (info[8] != "") {
+        button.push({
+            "type": "phone_number",
+            "title": "Gọi SĐT",
+            "payload": info[8],
+        });
+    }
+    if (info[9] != "") {
+        button.push({
+            "type": "web_url",
+            "url": info[9],
+            "title": "Facebook",
+        });
+    }
+    if (info[7] != "") {
+        button.push({
+            "type": "web_url",
+            "url": `mailto:${info[7]}`,
+            "title": "Email",
+        });
+    }
+    if (button.length == 0) {
+        button.push({
+            "type": "web_url",
+            "url": "https://fb.com/cybtechno",
+            "title": "Không info!",
+        });
+    }
+    postMessenger(sender_psid, {
+        "attachment": {
+            "type": "template",
+            "payload": {
+                "template_type": "generic",
+                "elements": [{
+                    "title": `${info[5]} ${info[1]} (${info[4]})`,
+                    "image_url": info[10],
+                    "subtitle": `SĐT: ${info[8]}.\n${info[11]}`,
+                    "buttons": button,
+                }],
+            },
+        },
+    });
 }
 
 // Set the cache if the user asked to get started.
@@ -41,6 +102,10 @@ async function Info(sender_psid, text) {
         postMessenger(sender_psid, {"text": "Không tìm thấy dữ liệu trùng khớp! Hãy kiểm tra lại cú pháp! (nhắn '!info')"});
         return;
     }
+    if (res2.length == 1) {
+        Profile(sender_psid, res2[0][0], res2[0]);
+        return;
+    }
     if (res2.length > 11) {
         postMessenger(sender_psid, {"text": `Đã tìm thấy ${res2.length} kết quả, vượt quá khả năng hiển thị! Hãy tra cứu chính xác hơn! (nhắn '!info')`});
         return;
@@ -61,5 +126,5 @@ async function Info(sender_psid, text) {
 }
 
 export default {
-    Info, Help,
+    Info, Help, Profile,
 };
