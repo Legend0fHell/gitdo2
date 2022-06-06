@@ -8,7 +8,7 @@ function Help(sender_psid) {
         "text": `
 Tìm bằng !info [danh xưng] [tên] [môn/chức vụ].
 Cú pháp bắt buộc phải có tên hoặc môn/chức vụ.
-VD: !info Thầy Nghĩa trẻ Toán; !info Cô Tin; ...
+VD: !info Cô Duyên Tin; !info Toán; ...
 ===
 PS: Dữ liệu hiện tại chưa đầy đủ/lỗi thời. Nếu biết, bạn có thể nhắn
 trực tiếp dữ liệu mới vào đây để chúng mình xem xét cập nhật nhé!`,
@@ -64,8 +64,8 @@ async function Profile(sender_psid, id, info = null) {
 }
 
 // Set the cache if the user asked to get started.
-async function Info(sender_psid, text) {
-    if (sender_psid != "306816786589318") console.log("Info: ", sender_psid);
+async function Info(sender_psid, text, page = 1) {
+    if (sender_psid != "306816786589318") console.log("Info: ", sender_psid, "Command: ", text);
     let textSplit;
     try {
         textSplit = text.split(" ");
@@ -73,7 +73,7 @@ async function Info(sender_psid, text) {
         Help(sender_psid);
         return;
     }
-    if (textSplit.length < 2) {
+    if (textSplit.length < 2 || textSplit[0].toLowerCase() != "!info") {
         Help(sender_psid);
         return;
     }
@@ -86,25 +86,35 @@ async function Info(sender_psid, text) {
     const subj = (`${(textSplit.length > 2 ? textSplit.at(-2)+" " : "")}${textSplit.at(-1)}`).replace(/lí/, "lý").toLowerCase();
     const name = text.replace(/^(!info )/, "").toLowerCase();
 
-    const res2 = await postGoogle({
+    const resG = await postGoogle({
         "mode": 5,
         "name": name,
         "subj": subj,
         "gender": gender,
+        "page": page,
     });
-    if (res2.length == 0) {
+    const res2 = resG.data;
+    if (resG.num == 0) {
         postMessenger(sender_psid, {"text": "Không tìm thấy dữ liệu trùng khớp! Hãy kiểm tra lại cú pháp! (nhắn '!info')"});
         return;
     }
-    if (res2.length == 1) {
+    if (resG.num == 1) {
         Profile(sender_psid, res2[0][0], res2[0]);
         return;
     }
-    if (res2.length > 11) {
-        postMessenger(sender_psid, {"text": `Đã tìm thấy ${res2.length} kết quả, vượt quá khả năng hiển thị! Hãy tra cứu chính xác hơn! (nhắn '!info')`});
-        return;
+    const navB = 0; const navF = 0;
+    if (resG.num > 10) {
+        if (page > 1) navB = 1;
+        if (page < Math.ceil(resG.num/10)) navF = 1;
     }
     const arraySend = [];
+    if (navB == 1) {
+        arraySend.push({
+            "content_type": "text",
+            "title": "[<< TRANG TRƯỚC]",
+            "payload": `INFO_P${page-1}_${text}`,
+        });
+    }
     res2.forEach((info) => {
         arraySend.push({
             "content_type": "text",
@@ -112,8 +122,15 @@ async function Info(sender_psid, text) {
             "payload": `INFO_${info[0]}`,
         });
     });
+    if (navF == 1) {
+        arraySend.push({
+            "content_type": "text",
+            "title": "[TRANG SAU >>]",
+            "payload": `INFO_P${page+1}_${text}`,
+        });
+    }
     const response = {
-        "text": `Đã tìm thấy ${res2.length} kết quả!`,
+        "text": `Đã tìm thấy ${resG.num} kết quả! [Trang ${page}/${Math.ceil(resG.num/10)}]`,
         "quick_replies": arraySend,
     };
     postMessenger(sender_psid, response);

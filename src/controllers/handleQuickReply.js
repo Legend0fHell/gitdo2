@@ -11,7 +11,12 @@ export const handleQuickReply = (sender_psid, received_payload) => {
     } else if (received_payload.includes("HTHT")) {
         indexFunction.getSupport.HTHT(sender_psid, received_payload);
     } else if (received_payload.includes("INFO")) {
-        indexFunction.getInfo.Profile(sender_psid, received_payload.replace(/^(INFO_)/, ""));
+        if (parseInt(received_payload.replace(/^(INFO_)/, "")) != NaN) {
+            indexFunction.getInfo.Profile(sender_psid, received_payload.replace(/^(INFO_)/, ""));
+        } else {
+            const tmp = received_payload.split("_");
+            indexFunction.getInfo.Info(sender_psid, tmp[2], parseInt(tmp[1].replace(/^(P)/, "")));
+        }
     } else if (received_payload.includes(PostbackID.CLB)) {
         indexFunction.getInfoClub.CLBPhase1(sender_psid, "Pg1");
     } else if (received_payload.includes(PostbackID.TKB)) {
