@@ -54,8 +54,8 @@ async function Profile(sender_psid, id, info = null) {
             "title": "Không info!",
         });
     }
-    console.log(button);
-    postMessenger(sender_psid, {
+
+    const response = {
         "attachment": {
             "type": "template",
             "payload": {
@@ -68,7 +68,9 @@ async function Profile(sender_psid, id, info = null) {
                 }],
             },
         },
-    });
+    };
+    console.log(response);
+    postMessenger(sender_psid, response);
 }
 
 // Set the cache if the user asked to get started.
