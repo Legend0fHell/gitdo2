@@ -5,7 +5,8 @@ const genderFemale = ["co", "ba", "chi", "c"];
 
 function Help(sender_psid) {
     const response = {
-        "text": `Tìm bằng !info [danh xưng] [tên] [môn/chức vụ].
+        "text": `
+    Tìm bằng !info [danh xưng] [tên] [môn/chức vụ].
     Cú pháp bắt buộc phải có tên hoặc môn/chức vụ.
     VD: !info Thầy Nghĩa trẻ Toán; !info Cô Tin; ...
     ===
@@ -16,12 +17,14 @@ function Help(sender_psid) {
 }
 
 async function Profile(sender_psid, id, info = null) {
+    console.log("Info: ", sender_psid, "PersonID: ", id);
     if (info == null) {
         info = await postGoogle({
             "mode": 6,
             "id": id,
         });
     }
+    console.log(info);
     const button = [];
     if (info[8] != "") {
         button.push({
@@ -51,6 +54,7 @@ async function Profile(sender_psid, id, info = null) {
             "title": "Không info!",
         });
     }
+    console.log(button);
     postMessenger(sender_psid, {
         "attachment": {
             "type": "template",
