@@ -26,13 +26,13 @@ async function Profile(sender_psid, id, info = null) {
     }
     console.log(info);
     const button = [];
-    if (info[8] != "") {
-        button.push({
-            "type": "phone_number",
-            "title": "Gọi SĐT",
-            "payload": info[8].replace(/^(0)/, "+84"),
-        });
-    }
+    // if (info[8] != "") {
+    //     button.push({
+    //         "type": "phone_number",
+    //         "title": "Gọi SĐT",
+    //         "payload": info[8].replace(/^(0)/, "+84"),
+    //     });
+    // }
     if (info[9] != "") {
         button.push({
             "type": "web_url",
@@ -40,13 +40,13 @@ async function Profile(sender_psid, id, info = null) {
             "title": "Facebook",
         });
     }
-    if (info[7] != "") {
-        button.push({
-            "type": "web_url",
-            "url": `mailto:${info[7]}`,
-            "title": "Email",
-        });
-    }
+    // if (info[7] != "") {
+    //     button.push({
+    //         "type": "web_url",
+    //         "url": `mailto:${info[7]}`,
+    //         "title": "Email",
+    //     });
+    // }
     if (button.length == 0) {
         button.push({
             "type": "web_url",
