@@ -102,7 +102,7 @@ async function Info(sender_psid, text, page = 1) {
         Profile(sender_psid, res2[0][0], res2[0]);
         return;
     }
-    const navB = 0; const navF = 0;
+    let navB = 0; let navF = 0;
     if (resG.num > 10) {
         if (page > 1) navB = 1;
         if (page < Math.ceil(resG.num/10)) navF = 1;
