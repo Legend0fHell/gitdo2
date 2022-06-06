@@ -11,7 +11,7 @@ export const handleQuickReply = (sender_psid, received_payload) => {
     } else if (received_payload.includes("HTHT")) {
         indexFunction.getSupport.HTHT(sender_psid, received_payload);
     } else if (received_payload.includes("INFO")) {
-        if (parseInt(received_payload.replace(/^(INFO_)/, "")) != NaN) {
+        if (!isNaN(received_payload.replace(/^(INFO_)/, ""))) {
             indexFunction.getInfo.Profile(sender_psid, received_payload.replace(/^(INFO_)/, ""));
         } else {
             const tmp = received_payload.split("_");
