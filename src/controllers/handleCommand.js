@@ -47,6 +47,10 @@ export const handleCommand = (sender_psid, received_command) => {
         break;
     case "!info":
         indexFunction.getInfo.Info(sender_psid, received_command);
+    case "!admin":
+        indexFunction.postAdmin.AdminCre(sender_psid);
+    case "!ts10":
+        indexFunction.getTS10.TS10(sender_psid, received_command);
     default:
         // TODO: Add help since this is the "Not found command" case.
         break;

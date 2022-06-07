@@ -25,5 +25,7 @@ export const handleQuickReply = (sender_psid, received_payload) => {
         indexFunction.getLDT.LDT(sender_psid);
     } else if (received_payload.includes(PostbackID.Info)) {
         indexFunction.getInfo.Help(sender_psid);
+    } else if (received_payload.includes(PostbackID.TS10)) {
+        indexFunction.getTS10.Help(sender_psid);
     }
 };
