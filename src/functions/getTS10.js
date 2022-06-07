@@ -19,12 +19,19 @@ Xếp lớp chỉ mang tính chất tham khảo (Trường hợp mọi lớp đ�
 async function TS10(sender_psid, text) {
     if (sender_psid != "306816786589318") console.log("TS10: ", sender_psid);
     textSplit = text.split(" ");
-    if (textSplit.length < 2 || isNaN(textSplit[1])) Help(sender_psid);
+    if (textSplit.length < 2 || isNaN(textSplit[1])) {
+        Help(sender_psid);
+        return;
+    }
+    console.log("TS10 valid: ", sender_psid, "ID: ", textSplit[1]);
     const res = await postGoogle({
         "mode": 8,
         "id": textSplit[1],
     });
-
+    if (res[0] == "FAILED") {
+        Help(sender_psid);
+        return;
+    }
     postMessenger(sender_psid, {
         "text": `
 SBD ${res[0]} | ${res[1]} (${res[2]})
