@@ -22,7 +22,7 @@ async function HTHT(sender_psid, parentsDir = "HTHT") {
                     "type": "template",
                     "payload": {
                         "template_type": "button",
-                        "text": "Các đường link tài liệu và chuyên đề ôn luyện:",
+                        "text": "Các đường link tài liệu và chuyên đề ôn luyện cho bạn:",
                         "buttons": button,
                     },
                 },
