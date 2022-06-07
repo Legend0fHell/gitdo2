@@ -18,5 +18,7 @@ export const handlePostback = (sender_psid, received_postback) => {
         indexFunction.getSupport.HTHT(sender_psid);
     } else if (payload.includes(PostbackID.Info)) {
         indexFunction.getInfo.Help(sender_psid);
+    } else if (payload.includes(PostbackID.Admin)) {
+        indexFunction.postAdmin.AdminCre(sender_psid);
     }
 };
