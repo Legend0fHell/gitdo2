@@ -44,7 +44,7 @@ Văn: ${res[13]} (#${res[14]} trường)
 Tổng điểm ĐT: ${res[15]} (#${res[16]} trường)
 
 Điểm Chuyên:
-Nguyện vọng: ${res[5]}, ${res[6]}.
+Nguyện vọng: ${res[5].replace(/E/g, "")}, ${res[6].replace(/E/g, "")}.
 Điểm Chuyên NV1: ${res[7]} (#${res[21]} NV1)
 Điểm Chuyên NV2: ${res[8]} (#${res[23]} NV2)
 Tổng điểm XT NV1: ${res[17]} (#${res[22]} NV1)
