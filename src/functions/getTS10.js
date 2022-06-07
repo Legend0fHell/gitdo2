@@ -18,7 +18,7 @@ Xếp lớp chỉ mang tính chất tham khảo (Trường hợp mọi lớp đ�
 // Set the cache if the user asked to get started.
 async function TS10(sender_psid, text) {
     if (sender_psid != "306816786589318") console.log("TS10: ", sender_psid);
-    textSplit = text.split(" ");
+    const textSplit = text.split(" ");
     if (textSplit.length < 2 || isNaN(textSplit[1])) {
         Help(sender_psid);
         return;
