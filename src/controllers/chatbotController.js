@@ -33,12 +33,10 @@ const getWebhook = (req, res) => {
 
 const postWebhook = (req, res) => {
     const body = req.body;
-    console.log(body.entry[0].standby);
     if (body.object === "page") {
         body.entry.forEach(function(entry) {
             const webhook_event = entry.messaging[0];
             const sender_psid = webhook_event.sender.id;
-            console.log(webhook_event);
             if (webhook_event.postback) {
                 handlePostback(sender_psid, webhook_event.postback);
             } else if (webhook_event.message) {
