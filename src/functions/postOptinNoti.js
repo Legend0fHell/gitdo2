@@ -22,16 +22,13 @@ function RNOptIn(sender_psid, received_optin) {
     });
     const expDate = new Date(received_optin.token_expiry_timestamp);
     postMessenger(sender_psid, {
-        "text": `Đã đăng ký nhận thông báo thành công! GitDo sẽ gửi thông báo cho bạn cho đến ${expDate.toLocaleDateString("vi-VN")}\n===\n(Trường hợp bạn không muốn nhận thông báo nữa, bạn có thể chọn \"Dừng thông báo\" trong menu, hoặc không gia hạn khi được hỏi).`,
+        "text": `Đã đăng ký nhận thông báo thành công! GitDo sẽ gửi thông báo cho bạn cho đến ${expDate.toLocaleDateString("vi-VN")}\n===\n(Trường hợp bạn không muốn nhận thông báo nữa, bạn có thể chọn \"Dừng thông báo\" trong \"Quản lý\", hoặc không gia hạn khi được hỏi).`,
     });
 }
 
 async function NotiOptIn(sender_psid) {
     if (sender_psid != "306816786589318") console.log("Notification Opt-in: ", sender_psid);
-    postMessenger(sender_psid, {
-        "text": "(Trường hợp bạn muốn hủy thông báo: Nhấn \"Nhận thông báo\" bên dưới, sau đó nhấn \"Quản lý\" để hủy thông báo.",
-    });
-    postMessenger(sender_psid, {
+    const res = await postMessenger(sender_psid, {
         "attachment": {
             "type": "template",
             "payload": {
@@ -44,6 +41,11 @@ async function NotiOptIn(sender_psid) {
             },
         },
     });
+    if (res == "error") {
+        postMessenger(sender_psid, {
+            "text": "Bạn đã đăng ký nhận thông báo từ trước đó!!",
+        });
+    }
 }
 
 export default {

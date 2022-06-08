@@ -5,7 +5,7 @@ import {handleCache} from "./handleCache";
 
 export const handleMessage = (sender_psid, received_message) => {
     // Don't analyze message from the bot itself.
-    if (sender_psid == "306816786589318") return;
+    if (sender_psid == "306816786589318" || received_message.text === undefined) return;
 
     // Debugging line
     console.log("Received message: ", sender_psid, "Content: ", received_message.text);
