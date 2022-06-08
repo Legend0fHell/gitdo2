@@ -5,8 +5,9 @@ export const handleCommand = (sender_psid, received_command) => {
     if (sender_psid != "306816786589318") console.log("Received command: ", sender_psid, "Command: ", received_command);
 
     // Split arguments by whitespace. Normalize the command arg.
-    const args = received_command.split(" ");
+    const args = received_command.split(" ").toLowerCase();
     args[0] = args[0].toLowerCase();
+    console.log(args);
 
     // Normalize case by uppercase, de-Vietnamese.
     let strNormalized = "";
@@ -58,7 +59,7 @@ export const handleCommand = (sender_psid, received_command) => {
         indexFunction.postOptinNoti.NotiOptIn(sender_psid, received_command);
         break;
     case "!help":
-        indexFunction.postAbout.postAbout.Help(sender_psid, args[1]);
+        indexFunction.postAbout.Help(sender_psid, args[1]);
     default:
         // TODO: Add help since this is the "Not found command" case.
         break;
