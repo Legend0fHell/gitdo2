@@ -33,6 +33,7 @@ const getWebhook = (req, res) => {
 
 const postWebhook = (req, res) => {
     const body = req.body;
+    console.log(body);
     if (body.object === "page") {
         body.entry.forEach(function(entry) {
             const webhook_event = entry.messaging[0];
