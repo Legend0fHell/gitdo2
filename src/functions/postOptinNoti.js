@@ -11,7 +11,7 @@ function RNOptIn(sender_psid, received_optin) {
             "Enable": 0,
         });
         postMessenger(sender_psid, {
-            "text": "Hủy thông báo GitDo thành công.",
+            "text": "Hủy thông báo GitDo thành công. GitDo hiện không gửi tin nhắn thông báo cho bạn.\n===\n(Trường hợp bạn muốn nhận thông báo, bạn có thể chọn \"Tiếp tục thông báo\" trong \"Quản lý\").",
         });
         return;
     }
@@ -22,7 +22,7 @@ function RNOptIn(sender_psid, received_optin) {
     });
     const expDate = new Date(received_optin.token_expiry_timestamp);
     postMessenger(sender_psid, {
-        "text": `Đã đăng ký nhận thông báo thành công! GitDo sẽ gửi thông báo cho bạn cho đến ${expDate.toLocaleDateString("vi-VN")}.\n===\n(Trường hợp bạn không muốn nhận thông báo nữa, bạn có thể chọn \"Dừng thông báo\" trong \"Quản lý\", hoặc không gia hạn khi được hỏi).`,
+        "text": `Đã đăng ký nhận thông báo thành công! GitDo sẽ gửi thông báo cho bạn cho đến ngày ${expDate.toLocaleDateString("vi-VN")}.\n===\n(Trường hợp bạn không muốn nhận thông báo nữa, bạn có thể chọn \"Dừng thông báo\" trong \"Quản lý\", hoặc không gia hạn khi được hỏi).`,
     });
 }
 
@@ -47,16 +47,16 @@ async function NotiOptIn(sender_psid) {
             postMessenger(sender_psid, {
                 "text": "Bạn chưa đăng ký từ trước đó!!",
             });
+            return;
+        }
+        if (doc.data().Enable == 1) {
+            postMessenger(sender_psid, {
+                "text": `Bạn đã đăng ký nhận thông báo từ trước đó!! GitDo hiện gửi thông báo cho bạn cho đến ngày ${new Date(doc.data().RNExp).toLocaleDateString("vi-VN")}.\n===\n(Trường hợp bạn không muốn nhận thông báo nữa, bạn có thể chọn \"Dừng thông báo\" trong \"Quản lý\", hoặc không gia hạn khi được hỏi).`,
+            });
         } else {
-            if (doc.data().Enable == 1) {
-                postMessenger(sender_psid, {
-                    "text": `Bạn đã đăng ký nhận thông báo từ trước đó!! GitDo hiện gửi thông báo cho bạn cho đến ${new Date(doc.data().RNExp).toLocaleDateString("vi-VN")}.\n===\n(Trường hợp bạn không muốn nhận thông báo nữa, bạn có thể chọn \"Dừng thông báo\" trong \"Quản lý\", hoặc không gia hạn khi được hỏi).`,
-                });
-            } else {
-                postMessenger(sender_psid, {
-                    "text": "Bạn đã hủy nhận thông báo từ trước đó!! GitDo hiện không gửi tin nhắn thông báo cho bạn.\n===\n(Trường hợp bạn muốn nhận thông báo, bạn có thể chọn \"Tiếp tục thông báo\" trong \"Quản lý\").",
-                });
-            }
+            postMessenger(sender_psid, {
+                "text": "Bạn đã hủy nhận thông báo từ trước đó!! GitDo hiện không gửi tin nhắn thông báo cho bạn.\n===\n(Trường hợp bạn muốn nhận thông báo, bạn có thể chọn \"Tiếp tục thông báo\" trong \"Quản lý\").",
+            });
         }
     }
 }
