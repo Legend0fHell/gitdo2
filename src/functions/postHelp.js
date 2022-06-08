@@ -8,11 +8,9 @@ function Help(sender_psid, name) {
         case "tkb":
             response = {
                 "text": `
-                Tìm bằng !tkb [tên lớp]
-                Cú pháp bắt buộc phải có tên lớp hợp lệ.
-                VD: !tkb 11sd; !tkb 10s; ...
-                `,
-            };
+Tìm bằng !tkb [tên lớp]
+Cú pháp bắt buộc phải có tên lớp hợp lệ.
+VD: !tkb 11sd; !tkb 10s; ...`,};
             break;
         case "clb": 
 
@@ -30,7 +28,14 @@ function Help(sender_psid, name) {
             
             break;
         case "info":
-            
+            response = {
+                "text": `
+Tìm bằng !info [danh xưng] [tên] [môn/chức vụ].
+Cú pháp bắt buộc phải có tên hoặc môn/chức vụ.
+VD: !info Cô Duyên Tin; !info Toán; ...
+===
+PS: Dữ liệu hiện tại chưa đầy đủ/lỗi thời. Nếu biết, bạn có thể nhắn
+trực tiếp dữ liệu mới vào đây để chúng mình xem xét cập nhật nhé!`,};
             break;
         case "admin":
             

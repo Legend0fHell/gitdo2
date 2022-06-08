@@ -8,7 +8,6 @@ export const handleCommand = (sender_psid, received_command) => {
     const args = received_command.split(" ");
     args[0] = args[0].toLowerCase();
     args[1] = args[1].toLowerCase();
-    console.log(args);
 
     // Normalize case by uppercase, de-Vietnamese.
     let strNormalized = "";
