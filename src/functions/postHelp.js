@@ -14,24 +14,28 @@ VD: !tkb 11sd; !tkb 10s; ...`,};
             break;
         case "clb": 
             response = {
-                "text": `Nhập !clb để biết thêm thông tin về những CLB của CYB :>`,
+                "text": `Nhập: !clb để biết thêm thông tin về những CLB của CYB :>`,
             };
             break;
         case "restart":
             response = {
-                "text": `Nhập !restart để khởi động lại phiên.`,
+                "text": `Nhập: !restart để khởi động lại phiên.`,
             };
             break;
         case "ldt":
             response = {
-                "text": `Nhập !ldt để biết thêm lịch dạy thay của nhà trường`,
+                "text": `Nhập: !ldt để biết thêm lịch dạy thay của nhà trường`,
             };
             break;
         case "about":
-            
+            response = {
+                "text": `Nhập: !about để biết được những thông tin chi tiết về nhà trường :))`,
+            };
             break;
         case "htht":
-            
+            response = {
+                "text": `Cậu đang gặp khó khăn trong học tập?\nHãy để GitDo hỗ trợ cậu bằng cách nhập: !htht`,
+            };
             break;
         case "info":
             response = {
@@ -44,7 +48,9 @@ PS: Dữ liệu hiện tại chưa đầy đủ/lỗi thời. Nếu biết, bạ
 trực tiếp dữ liệu mới vào đây để chúng mình xem xét cập nhật nhé!`,};
             break;
         case "admin":
-            
+            response = {
+                "text": `Nhập: !admin để nhận thông tin về gia đình GitDo`,
+            };
             break;
         case "ts10":
             response = {
@@ -59,15 +65,17 @@ Hãy kiên nhẫn chờ đợi thông tin chính thức của nhà trường!
 Xếp lớp chỉ mang tính chất tham khảo (Trường hợp mọi lớp đều nhận 34 chỉ tiêu, không tính học sinh chuyển trường, không tính học sinh phúc khảo).`,};
             break;
         case "noti":
-            
+            response = {
+                "text": `Nhập: !noti và nhấn vào nút "Nhận tin nhắn hằng ngày" để nhận được những thông báo mới nhất từ CYB nhaa!`,
+            };
             break;
         default:
             // TODO: Add help since this is the "Not found command" case.
             response = {
                 "text": `
-Nhập: !help <lệnh> để được nhận hỗ trợ
+Nhập: !help <lệnh> để được nhận hỗ trợ.
 
-Lệnh:\n[tkb | restart | ldt | about | htht | info | admin | ts10]
+Lệnh:\n[tkb | restart | ldt | about | htht | info | admin | ts10].
 `,
             };
             break;
