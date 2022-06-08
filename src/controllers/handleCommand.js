@@ -57,6 +57,8 @@ export const handleCommand = (sender_psid, received_command) => {
     case "!noti":
         indexFunction.postOptinNoti.NotiOptIn(sender_psid, received_command);
         break;
+    case "!help":
+        indexFunction.postAbout.Helơ(sender_psid, received_command);
     default:
         // TODO: Add help since this is the "Not found command" case.
         break;
