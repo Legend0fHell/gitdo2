@@ -42,9 +42,22 @@ async function NotiOptIn(sender_psid) {
         },
     });
     if (res == "error") {
-        postMessenger(sender_psid, {
-            "text": "Bạn từng đăng ký hoặc hủy nhận thông báo từ trước đó!!\n===\n(Trường hợp bạn không muốn nhận thông báo nữa, bạn có thể chọn \"Dừng thông báo\" trong \"Quản lý\", hoặc không gia hạn khi được hỏi).",
-        });
+        const data = await Firestore.collection("RecurNoti").doc(sender_psid).get();
+        if (!data.exists) {
+            postMessenger(sender_psid, {
+                "text": "Bạn chưa đăng ký từ trước đó!!",
+            });
+        } else {
+            if (doc.data().Enable == 1) {
+                postMessenger(sender_psid, {
+                    "text": `Bạn đã đăng ký nhận thông báo từ trước đó!! GitDo hiện gửi thông báo cho bạn cho đến ${new Date(doc.data().RNExp).toLocaleDateString("vi-VN")}.\n===\n(Trường hợp bạn không muốn nhận thông báo nữa, bạn có thể chọn \"Dừng thông báo\" trong \"Quản lý\", hoặc không gia hạn khi được hỏi).`,
+                });
+            } else {
+                postMessenger(sender_psid, {
+                    "text": "Bạn đã hủy nhận thông báo từ trước đó!! GitDo hiện không gửi tin nhắn thông báo cho bạn.\n===\n(Trường hợp bạn muốn nhận thông báo, bạn có thể chọn \"Tiếp tục thông báo\" trong \"Quản lý\").",
+                });
+            }
+        }
     }
 }
 
