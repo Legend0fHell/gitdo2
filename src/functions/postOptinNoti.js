@@ -42,8 +42,8 @@ async function NotiOptIn(sender_psid) {
         },
     });
     if (res == "error") {
-        const data = await Firestore.collection("RecurNoti").doc(sender_psid).get();
-        if (!data.exists) {
+        const doc = await Firestore.collection("RecurNoti").doc(sender_psid).get();
+        if (!doc.exists) {
             postMessenger(sender_psid, {
                 "text": "Bạn chưa đăng ký từ trước đó!!",
             });
