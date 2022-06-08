@@ -5,8 +5,9 @@ export const handleCommand = (sender_psid, received_command) => {
     if (sender_psid != "306816786589318") console.log("Received command: ", sender_psid, "Command: ", received_command);
 
     // Split arguments by whitespace. Normalize the command arg.
-    const args = received_command.split(" ").toLowerCase();
+    const args = received_command.split(" ");
     args[0] = args[0].toLowerCase();
+    args[1] = args[1].toLowerCase();
     console.log(args);
 
     // Normalize case by uppercase, de-Vietnamese.
