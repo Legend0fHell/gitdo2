@@ -38,7 +38,7 @@ const typingIndicator = (sender_psid) => {
         "recipient": {
             "id": sender_psid,
         },
-        "sender_action": "typing_on",
+        "sender_action": "mark_seen",
     };
     request({
         "uri": "https://graph.facebook.com/v13.0/306816786589318/messages",
