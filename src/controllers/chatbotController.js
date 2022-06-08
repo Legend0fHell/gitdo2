@@ -37,6 +37,7 @@ const postWebhook = (req, res) => {
         body.entry.forEach(function(entry) {
             const webhook_event = entry.messaging[0];
             const sender_psid = webhook_event.sender.id;
+            console.log(webhook_event);
             if (webhook_event.postback) {
                 handlePostback(sender_psid, webhook_event.postback);
             } else if (webhook_event.message) {
@@ -47,8 +48,6 @@ const postWebhook = (req, res) => {
                 } catch (error) {
                     handleMessage(sender_psid, webhook_event.message);
                 }
-            } else if (webhook_event.optin) {
-                console.log(webhook_event.optin);
             }
         });
         res.status(200).send("EVENT_RECEIVED");
