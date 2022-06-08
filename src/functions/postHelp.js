@@ -1,8 +1,7 @@
 import {postMessenger} from "../controllers/chatbotController";
-import * as PostbackID from "../controllers/indexPostbackId";
 
 
-async function Help(sender_psid, name) {
+function Help(sender_psid, name) {
     if (sender_psid != "306816786589318") console.log("help: ", sender_psid, " name: ", name);
     let response;
     switch (name) {
