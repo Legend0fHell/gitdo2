@@ -13,7 +13,9 @@ Cú pháp bắt buộc phải có tên lớp hợp lệ.
 VD: !tkb 11sd; !tkb 10s; ...`,};
             break;
         case "clb": 
-
+            response = {
+                "text": `Nhập !clb để biết thêm thông tin về những CLB của CYB :>`,
+            };
             break;
         case "restart":
             response = {
@@ -21,7 +23,9 @@ VD: !tkb 11sd; !tkb 10s; ...`,};
             };
             break;
         case "ldt":
-            
+            response = {
+                "text": `Nhập !ldt để biết thêm lịch dạy thay của nhà trường`,
+            };
             break;
         case "about":
             
@@ -59,6 +63,13 @@ Xếp lớp chỉ mang tính chất tham khảo (Trường hợp mọi lớp đ�
             break;
         default:
             // TODO: Add help since this is the "Not found command" case.
+            response = {
+                "text": `
+Nhập: !help <cmd> để được nhận hỗ trợ
+
+<cmd>: [tkb | restart | ldt | about | htht | info | admin | ts10]
+`,
+            };
             break;
         }
     postMessenger(sender_psid, response);
