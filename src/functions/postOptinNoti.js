@@ -11,11 +11,21 @@ function RNOptIn(sender_psid, received_optin) {
                 "RNExp": received_optin.token_expiry_timestamp,
                 "Enable": 0,
             });
+            postMessenger(sender_psid, {
+                "text": "Hủy thông báo GitDo thành công.",
+            });
+            return;
+        } else if (received_optin.notification_message_status == "RESUME_NOTIFICATIONS") {
+            Firestore.collection("RecurNoti").doc(sender_psid).set({
+                "RNToken": received_optin.notification_messages_token,
+                "RNExp": received_optin.token_expiry_timestamp,
+                "Enable": 1,
+            });
+            postMessenger(sender_psid, {
+                "text": "Tiếp tục nhận thông báo GitDo thành công.",
+            });
+            return;
         }
-        postMessenger(sender_psid, {
-            "text": "Hủy thông báo GitDo thành công.",
-        });
-        return;
     } catch (error) {
 
     }
@@ -26,7 +36,7 @@ function RNOptIn(sender_psid, received_optin) {
     });
     const expDate = new Date(received_optin.token_expiry_timestamp);
     postMessenger(sender_psid, {
-        "text": `Đã đăng ký nhận thông báo thành công! GitDo sẽ gửi thông báo cho bạn cho đến ${expDate.toLocaleDateString("vi-VN")}\n===\n(Trường hợp bạn không muốn nhận thông báo nữa, bạn có thể chọn \"Dừng thông báo\" trong \"Quản lý\", hoặc không gia hạn khi được hỏi).`,
+        "text": `Đã đăng ký nhận thông báo thành công! GitDo sẽ gửi thông báo cho bạn cho đến ${expDate.toLocaleDateString("vi-VN")}.\n===\n(Trường hợp bạn không muốn nhận thông báo nữa, bạn có thể chọn \"Dừng thông báo\" trong \"Quản lý\", hoặc không gia hạn khi được hỏi).`,
     });
 }
 
