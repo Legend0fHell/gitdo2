@@ -32,31 +32,34 @@ const getWebhook = (req, res) => {
     }
 };
 
+const typingIndicator = (sender_psid) => {
+    if (sender_psid == "306816786589318") return;
+    const request_body = {
+        "recipient": {
+            "id": sender_psid,
+        },
+        "sender_action": "typing_on",
+    };
+    request({
+        "uri": "https://graph.facebook.com/v13.0/306816786589318/messages",
+        "qs": {"access_token": PAGE_ACCESS_TOKEN},
+        "method": "POST",
+        "json": request_body,
+    }, (err, res, body) => {
+        console.log("typing...");
+    });
+};
 const postWebhook = (req, res) => {
     const body = req.body;
     if (body.object === "page") {
         body.entry.forEach(function(entry) {
             const webhook_event = entry.messaging[0];
             const sender_psid = webhook_event.sender.id;
-            if (sender_psid != "306816786589318") {
-                const request_body = {
-                    "recipient": {
-                        "id": sender_psid,
-                    },
-                    "sender_action": "typing_on",
-                };
-                request({
-                    "uri": "https://graph.facebook.com/v13.0/306816786589318/messages",
-                    "qs": {"access_token": PAGE_ACCESS_TOKEN},
-                    "method": "POST",
-                    "json": request_body,
-                }, (err, res, body) => {
-                    console.log("Typing..");
-                });
-            }
             if (webhook_event.postback) {
+                typingIndicator(sender_psid);
                 handlePostback(sender_psid, webhook_event.postback);
             } else if (webhook_event.message) {
+                typingIndicator(sender_psid);
                 try {
                     if (webhook_event.message.quick_reply.payload) {
                         handleQuickReply(sender_psid, webhook_event.message.quick_reply.payload);
@@ -65,6 +68,7 @@ const postWebhook = (req, res) => {
                     handleMessage(sender_psid, webhook_event.message);
                 }
             } else if (webhook_event.optin) {
+                typingIndicator(sender_psid);
                 handleOptin(sender_psid, webhook_event.optin);
             }
         });
