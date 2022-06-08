@@ -22,5 +22,7 @@ export const handlePostback = (sender_psid, received_postback) => {
         indexFunction.postAdmin.AdminCre(sender_psid);
     } else if (payload.includes(PostbackID.TS10)) {
         indexFunction.getTS10.Help(sender_psid);
+    } else if (payload.includes(PostbackID.NotiOptIn)) {
+        indexFunction.postOptinNoti.NotiOptIn(sender_psid);
     }
 };
