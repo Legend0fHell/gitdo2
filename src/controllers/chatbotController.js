@@ -47,6 +47,8 @@ const postWebhook = (req, res) => {
                 } catch (error) {
                     handleMessage(sender_psid, webhook_event.message);
                 }
+            } else if (webhook_event.optin) {
+                console.log(webhook_event.optin);
             }
         });
         res.status(200).send("EVENT_RECEIVED");
