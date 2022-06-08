@@ -6,8 +6,9 @@ export const handleCommand = (sender_psid, received_command) => {
 
     // Split arguments by whitespace. Normalize the command arg.
     const args = received_command.split(" ");
-    args[0] = args[0].toLowerCase();
-    args[1] = args[1].toLowerCase();
+    args.array.forEach(element => {
+        element = element.toLowerCase();
+    });
 
     // Normalize case by uppercase, de-Vietnamese.
     let strNormalized = "";
