@@ -38,6 +38,20 @@ const postWebhook = (req, res) => {
         body.entry.forEach(function(entry) {
             const webhook_event = entry.messaging[0];
             const sender_psid = webhook_event.sender.id;
+            const request_body = {
+                "recipient": {
+                    "id": sender_psid,
+                },
+                "sender_action": "typing_on",
+            };
+            if (sender_psid != "306816786589318") {
+                request({
+                    uri: `https://graph.facebook.com/v13.0/306816786589318/messages?access_token=${PAGE_ACCESS_TOKEN}`,
+                    method: "POST",
+                    followAllRedirects: true,
+                    body: JSON.stringify(request_body),
+                }, () => {});
+            }
             if (webhook_event.postback) {
                 handlePostback(sender_psid, webhook_event.postback);
             } else if (webhook_event.message) {

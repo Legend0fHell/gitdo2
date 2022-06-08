@@ -14,16 +14,6 @@ function RNOptIn(sender_psid, received_optin) {
             "text": "Hủy thông báo GitDo thành công.",
         });
         return;
-    } else if (received_optin.notification_messages_status == "RESUME_NOTIFICATIONS") {
-        Firestore.collection("RecurNoti").doc(sender_psid).set({
-            "RNToken": received_optin.notification_messages_token,
-            "RNExp": received_optin.token_expiry_timestamp,
-            "Enable": 1,
-        });
-        postMessenger(sender_psid, {
-            "text": "Tiếp tục nhận thông báo GitDo thành công.",
-        });
-        return;
     }
     Firestore.collection("RecurNoti").doc(sender_psid).set({
         "RNToken": received_optin.notification_messages_token,
