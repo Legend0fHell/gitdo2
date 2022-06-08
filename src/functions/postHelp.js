@@ -73,7 +73,7 @@ Xếp lớp chỉ mang tính chất tham khảo (Trường hợp mọi lớp đ�
             // TODO: Add help since this is the "Not found command" case.
             response = {
                 "text": `
-Nhập: !help <lệnh> để được nhận hỗ trợ.
+Nhập: !help <lệnh> để nhận hỗ trợ.
 
 Lệnh:\n[tkb | restart | ldt | about | htht | info | admin | ts10].
 `,
