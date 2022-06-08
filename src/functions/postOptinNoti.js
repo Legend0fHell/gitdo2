@@ -34,7 +34,7 @@ async function NotiOptIn(sender_psid) {
             "payload": {
                 "template_type": "notification_messages",
                 "image_url": "https://thumbs2.imgbox.com/84/db/GDg0hvoj_t.png",
-                "title": "Nhận thông báo TKB, Sự kiện, Áo đoàn...",
+                "title": "Nhận thông báo TKB, Sự kiện, Áo đoàn...\n Nhấn nút hộ cái :))",
                 "payload": "RecurNotiOptIn",
                 "notification_messages_frequency": "DAILY",
                 "notification_messages_timezone": "Asia/Ho_Chi_Minh",
