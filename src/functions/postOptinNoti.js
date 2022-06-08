@@ -12,6 +12,10 @@ function RNOptIn(sender_psid, received_optin) {
                 "Enable": 0,
             });
         }
+        postMessenger(sender_psid, {
+            "text": "Hủy thông báo GitDo thành công.",
+        });
+        return;
     } catch (error) {
 
     }
