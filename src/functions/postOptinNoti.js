@@ -43,7 +43,7 @@ async function NotiOptIn(sender_psid) {
     });
     if (res == "error") {
         postMessenger(sender_psid, {
-            "text": "Bạn đã đăng ký nhận thông báo từ trước đó!!",
+            "text": "Bạn từng đăng ký hoặc hủy nhận thông báo từ trước đó!!\n===\n(Trường hợp bạn không muốn nhận thông báo nữa, bạn có thể chọn \"Dừng thông báo\" trong \"Quản lý\", hoặc không gia hạn khi được hỏi).",
         });
     }
 }
