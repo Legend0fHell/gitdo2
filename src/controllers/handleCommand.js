@@ -6,9 +6,6 @@ export const handleCommand = (sender_psid, received_command) => {
 
     // Split arguments by whitespace. Normalize the command arg.
     const args = received_command.split(" ");
-    args.forEach((element) => {
-        element = element.toLowerCase();
-    });
 
     // Normalize case by uppercase, de-Vietnamese.
     let strNormalized = "";
@@ -60,7 +57,7 @@ export const handleCommand = (sender_psid, received_command) => {
         indexFunction.postOptinNoti.NotiOptIn(sender_psid);
         break;
     case "!help":
-        indexFunction.postHelp.Help(sender_psid, args[1]);
+        indexFunction.postHelp.Help(sender_psid, args[1].toLowerCase());
         break;
     default:
         indexFunction.postHelp.Help(sender_psid, "");
