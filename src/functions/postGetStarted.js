@@ -1,5 +1,5 @@
 import {postMessenger} from "../controllers/chatbotController";
-
+import * as PostbackID from "../controllers/indexPostbackId";
 // Set the cache if the user asked to get started.
 function HelloWorld(sender_psid) {
     if (sender_psid != "306816786589318") console.log("Hello world: ", sender_psid);
@@ -22,17 +22,17 @@ function HelloWorld(sender_psid) {
                             {
                                 "type": "postback",
                                 "title": "Thời khóa biểu",
-                                "payload": "postback_card_626f695446be37888700002d",
+                                "payload": PostbackID.TKB,
                             },
                             {
                                 "type": "postback",
-                                "title": "Lịch dạy thay",
-                                "payload": "postback_card_626f69a746be37888700002f",
+                                "title": "Tất tần tật về CYB",
+                                "payload": PostbackID.About,
                             },
                             {
                                 "type": "postback",
-                                "title": "Xem thêm!",
-                                "payload": "postback_card_626f6a4b46be372c1d000031",
+                                "title": "Hướng dẫn dùng GitDo",
+                                "payload": PostbackID.Help,
                             },
                         ],
                     },

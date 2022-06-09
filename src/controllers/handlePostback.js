@@ -24,5 +24,7 @@ export const handlePostback = (sender_psid, received_postback) => {
         indexFunction.getTS10.Help(sender_psid);
     } else if (payload.includes(PostbackID.NotiOptIn)) {
         indexFunction.postOptinNoti.NotiOptIn(sender_psid);
+    } else if (payload.includes(PostbackID.Help)) {
+        indexFunction.postHelp.Help(sender_psid, "");
     }
 };
