@@ -1,5 +1,5 @@
 import {postMessenger} from "../controllers/chatbotController";
-import {Firestore} from "../controllers/handleFirestore";
+import {Firestore, Database, ServerValue} from "../controllers/handleFirestore";
 
 // Set the cache if the user asked to get started.
 function RNOptIn(sender_psid, received_optin) {
@@ -28,9 +28,6 @@ function RNOptIn(sender_psid, received_optin) {
 
 async function NotiOptIn(sender_psid) {
     if (sender_psid != "306816786589318") console.log("Notification Opt-in: ", sender_psid);
-    postMessenger(sender_psid, {
-        "text": "Nhập: !noti và nhấn vào nút \"Nhận tin nhắn hằng ngày\" để nhận được những thông báo mới nhất từ CYB nhaa!",
-    });
     const res = await postMessenger(sender_psid, {
         "attachment": {
             "type": "template",
@@ -44,9 +41,15 @@ async function NotiOptIn(sender_psid) {
             },
         },
     });
+    const doc = await Firestore.collection("RecurNoti").doc(sender_psid).get();
+    let fl = 1;
+    if (!doc.exists) {
+        await Firestore.collection("RecurNoti").doc(sender_psid).create();
+        Database.ref("Telemetry/Users").child("UserCnt").set(ServerValue.increment(1));
+        fl = 0;
+    }
     if (res == "error") {
-        const doc = await Firestore.collection("RecurNoti").doc(sender_psid).get();
-        if (!doc.exists) {
+        if (!fl) {
             postMessenger(sender_psid, {
                 "text": "Bạn chưa đăng ký từ trước đó!!",
             });
@@ -61,6 +64,10 @@ async function NotiOptIn(sender_psid) {
                 "text": "Bạn đã hủy nhận thông báo từ trước đó!! GitDo hiện không gửi tin nhắn thông báo cho bạn.\n===\n(Trường hợp bạn muốn nhận thông báo, bạn có thể chọn \"Tiếp tục thông báo\" trong \"Quản lý\").",
             });
         }
+    } else {
+        postMessenger(sender_psid, {
+            "text": "Nhập: !noti và nhấn vào nút \"Nhận tin nhắn hằng ngày\" để nhận được những thông báo mới nhất từ CYB nhaa!",
+        });
     }
 }
 

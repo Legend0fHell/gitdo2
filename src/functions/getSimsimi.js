@@ -46,7 +46,7 @@ async function Simsimi(sender_psid, text) {
     // Server randomizing for balancing output.
     let ans;
     let retry = 1;
-    if (text.length <= 10) {
+    if (text.length <= 15) {
         console.log("Simsimi SV1 / INFO: ", sender_psid);
         ans = await getSimsimi(text, ~~ (Math.random()*2));
         retry = 2;

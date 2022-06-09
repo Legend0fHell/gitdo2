@@ -32,8 +32,8 @@ async function about(sender_psid) {
     };
     await postMessenger(sender_psid, response);
     const arraySend = [];
-    const titleList = ["Thời khóa biểu", "Câu lạc bộ", "Thông tin thầy cô", "Lịch dạy thay", "Hỗ trợ học tập"];
-    const payloadList = [PostbackID.TKB, PostbackID.CLB, PostbackID.Info, PostbackID.LDT, PostbackID.HTHT];
+    const titleList = ["KQ XH Tuyển sinh", "Thời khóa biểu", "Câu lạc bộ", "Thông tin thầy cô", "Lịch dạy thay", "Hỗ trợ học tập"];
+    const payloadList = [PostbackID.TS10, PostbackID.TKB, PostbackID.CLB, PostbackID.Info, PostbackID.LDT, PostbackID.HTHT];
     for (let i = 0; i < titleList.length; ++i) {
         arraySend.push({
             "content_type": "text",
