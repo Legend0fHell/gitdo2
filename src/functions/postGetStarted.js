@@ -1,7 +1,7 @@
 import {postMessenger} from "../controllers/chatbotController";
 import * as PostbackID from "../controllers/indexPostbackId";
 // Set the cache if the user asked to get started.
-function HelloWorld(sender_psid) {
+async function HelloWorld(sender_psid) {
     if (sender_psid != "306816786589318") console.log("Hello world: ", sender_psid);
     const response = {
         "attachment": {
@@ -40,7 +40,21 @@ function HelloWorld(sender_psid) {
             },
         },
     };
-    postMessenger(sender_psid, response);
+    await postMessenger(sender_psid, response);
+    postMessenger(sender_psid, {
+        "attachment": {
+            "type": "template",
+            "payload": {
+                "template_type": "button",
+                "text": "Nếu bạn là học sinh CYB, hãy nhấn nút dưới để nhận được những thông báo về TKB, sự kiện, áo đoàn, vv từ GitDo nhaa!",
+                "buttons": [{
+                    "type": "postback",
+                    "title": "Nhấn vào đây nè <3",
+                    "payload": "NotiOptInPostback",
+                }],
+            },
+        },
+    });
 }
 
 export default {
