@@ -1,7 +1,7 @@
 import {postMessenger} from "../controllers/chatbotController";
 import * as PostbackID from "../controllers/indexPostbackId";
 // Set the cache if the user asked to get started.
-async function HelloWorld(sender_psid) {
+function HelloWorld(sender_psid) {
     if (sender_psid != "306816786589318") console.log("Hello world: ", sender_psid);
     const response = {
         "attachment": {
@@ -40,7 +40,7 @@ async function HelloWorld(sender_psid) {
             },
         },
     };
-    await postMessenger(sender_psid, response);
+    postMessenger(sender_psid, response);
     postMessenger(sender_psid, {
         "attachment": {
             "type": "template",
