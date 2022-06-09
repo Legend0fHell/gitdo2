@@ -12,5 +12,5 @@ const postOptinNoti = require("./postOptinNoti").default;
 const postHelp = require("./postHelp").default;
 
 export {
-    getInfoClub, getTimetable, postGetStarted, getLDT, postAbout, getSimsimi, getSupport, getInfo, postAdmin, getTS10, postOptinNoti, postHelp, 
+    getInfoClub, getTimetable, postGetStarted, getLDT, postAbout, getSimsimi, getSupport, getInfo, postAdmin, getTS10, postOptinNoti, postHelp,
 };

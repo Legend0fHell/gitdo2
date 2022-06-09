@@ -6,7 +6,7 @@ export const handleCommand = (sender_psid, received_command) => {
 
     // Split arguments by whitespace. Normalize the command arg.
     const args = received_command.split(" ");
-    args.forEach(element => {
+    args.forEach((element) => {
         element = element.toLowerCase();
     });
 
@@ -57,12 +57,12 @@ export const handleCommand = (sender_psid, received_command) => {
         indexFunction.getTS10.TS10(sender_psid, received_command);
         break;
     case "!noti":
-        indexFunction.postOptinNoti.NotiOptIn(sender_psid, received_command);
+        indexFunction.postOptinNoti.NotiOptIn(sender_psid);
         break;
     case "!help":
         indexFunction.postHelp.Help(sender_psid, args[1]);
     default:
-        // TODO: Add help since this is the "Not found command" case.
+        indexFunction.postHelp.Help(sender_psid, "");
         break;
     }
 };

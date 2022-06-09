@@ -28,13 +28,16 @@ function RNOptIn(sender_psid, received_optin) {
 
 async function NotiOptIn(sender_psid) {
     if (sender_psid != "306816786589318") console.log("Notification Opt-in: ", sender_psid);
+    postMessenger(sender_psid, {
+        "text": "Nhập: !noti và nhấn vào nút \"Nhận tin nhắn hằng ngày\" để nhận được những thông báo mới nhất từ CYB nhaa!",
+    });
     const res = await postMessenger(sender_psid, {
         "attachment": {
             "type": "template",
             "payload": {
                 "template_type": "notification_messages",
                 "image_url": "https://thumbs2.imgbox.com/84/db/GDg0hvoj_t.png",
-                "title": "Nhận thông báo TKB, Sự kiện, Áo đoàn...\n Nhấn nút hộ cái :))",
+                "title": "Nhận thông báo TKB, Sự kiện, Áo đoàn...",
                 "payload": "RecurNotiOptIn",
                 "notification_messages_frequency": "DAILY",
                 "notification_messages_timezone": "Asia/Ho_Chi_Minh",
