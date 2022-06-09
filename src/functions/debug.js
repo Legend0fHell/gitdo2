@@ -6,6 +6,6 @@ import {Firestore, FieldValue, Database, ServerValue} from "../controllers/handl
 // Need NodeJS initialized.
 // Run Debug by accessing localhost:8080.
 
-export const Debug = () => {
+export const Debug = async () => {
     console.log("debugging ok");
 };

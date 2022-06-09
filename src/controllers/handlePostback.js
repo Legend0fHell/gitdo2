@@ -8,8 +8,6 @@ export const handlePostback = (sender_psid, received_postback) => {
         indexFunction.getTimetable.TKBPhase1(sender_psid);
     } else if (payload.includes(PostbackID.CLB)) {
         indexFunction.getInfoClub.CLBPhase1(sender_psid, "Pg1");
-    } else if (payload.includes(PostbackID.GetStarted) || payload.includes("WELCOME_MESSAGE")) {
-        indexFunction.postGetStarted.HelloWorld(sender_psid);
     } else if (payload.includes(PostbackID.LDT)) {
         indexFunction.getLDT.LDT(sender_psid);
     } else if (payload.includes(PostbackID.About)) {
@@ -26,5 +24,7 @@ export const handlePostback = (sender_psid, received_postback) => {
         indexFunction.postOptinNoti.NotiOptIn(sender_psid);
     } else if (payload.includes(PostbackID.Help)) {
         indexFunction.postHelp.Help(sender_psid, "");
+    } else {
+        indexFunction.postGetStarted.HelloWorld(sender_psid);
     }
 };

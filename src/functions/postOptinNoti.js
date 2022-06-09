@@ -42,26 +42,22 @@ async function NotiOptIn(sender_psid) {
         },
     });
     const doc = await Firestore.collection("RecurNoti").doc(sender_psid).get();
-    let fl = 1;
     if (!doc.exists) {
-        await Firestore.collection("RecurNoti").doc(sender_psid).create();
+        doc = await Firestore.collection("RecurNoti").doc(sender_psid).create({});
         Database.ref("Telemetry/Users").child("UserCnt").set(ServerValue.increment(1));
-        fl = 0;
     }
     if (res == "error") {
-        if (!fl) {
-            postMessenger(sender_psid, {
-                "text": "Bạn chưa đăng ký từ trước đó!!",
-            });
-            return;
-        }
         if (doc.data().Enable == 1) {
             postMessenger(sender_psid, {
                 "text": `Bạn đã đăng ký nhận thông báo từ trước đó!! GitDo hiện gửi thông báo cho bạn cho đến ngày ${new Date(doc.data().RNExp).toLocaleDateString("vi-VN")}.\n===\n(Trường hợp bạn không muốn nhận thông báo nữa, bạn có thể chọn \"Dừng thông báo\" trong \"Quản lý\", hoặc không gia hạn khi được hỏi).`,
             });
-        } else {
+        } else if (doc.data().Enable == 0) {
             postMessenger(sender_psid, {
                 "text": "Bạn đã hủy nhận thông báo từ trước đó!! GitDo hiện không gửi tin nhắn thông báo cho bạn.\n===\n(Trường hợp bạn muốn nhận thông báo, bạn có thể chọn \"Tiếp tục thông báo\" trong \"Quản lý\").",
+            });
+        } else {
+            postMessenger(sender_psid, {
+                "text": "Bạn chưa đăng ký từ trước đó!!",
             });
         }
     } else {
