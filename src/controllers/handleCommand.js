@@ -61,6 +61,7 @@ export const handleCommand = (sender_psid, received_command) => {
         break;
     case "!help":
         indexFunction.postHelp.Help(sender_psid, args[1]);
+        break;
     default:
         indexFunction.postHelp.Help(sender_psid, "");
         break;
