@@ -57,7 +57,7 @@ export const handleCommand = (sender_psid, received_command) => {
         indexFunction.postOptinNoti.NotiOptIn(sender_psid);
         break;
     case "!help":
-        indexFunction.postHelp.Help(sender_psid, args[1].toLowerCase());
+        indexFunction.postHelp.Help(sender_psid, (args.length < 2 ? "" : args[1].toLowerCase()));
         break;
     default:
         indexFunction.postHelp.Help(sender_psid, "");
