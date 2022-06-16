@@ -57,9 +57,16 @@ async function Simsimi(sender_psid, text) {
 
     // Checking the response if it is valid.
     while (retry > 0) {
+        let fll = 0;
         // If Simsimi understands, break:
-        if (!notUnderstand.some((v) => ans.success.includes(v))) break;
+        try {
+            if (!notUnderstand.some((v) => ans.success.includes(v))) fll = 1;
+        } catch (error) {
+            console.log("Simsimi error: " + error);
+            return;
+        }
 
+        if (fll == 1) break;
         // If Simsimi does not understand:
         console.log("Simsimi not understand: ", sender_psid);
         retry--;
