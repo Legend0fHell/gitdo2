@@ -62,7 +62,7 @@ async function NotiOptIn(sender_psid) {
         }
     } else {
         postMessenger(sender_psid, {
-            "text": "Nhập: !noti và nhấn vào nút \"Nhận tin nhắn hằng ngày\" để nhận được những thông báo mới nhất từ CYB nhaa!",
+            "text": "Nhấn vào nút \"Nhận tin nhắn hằng ngày\" để nhận được những thông báo mới nhất từ CYB nhaa!",
         });
     }
 }
