@@ -41,7 +41,7 @@ async function NotiOptIn(sender_psid) {
             },
         },
     });
-    const doc = await Firestore.collection("RecurNoti").doc(sender_psid).get();
+    let doc = await Firestore.collection("RecurNoti").doc(sender_psid).get();
     if (!doc.exists) {
         doc = await Firestore.collection("RecurNoti").doc(sender_psid).create({});
         Database.ref("Telemetry/Users").child("UserCnt").set(ServerValue.increment(1));
