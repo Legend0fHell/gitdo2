@@ -87,7 +87,12 @@ export const postGoogle = (request_body) => {
         }, (err, res, body) => {
             if (!err) {
                 Database.ref("Telemetry/ExternalAPICall").child("GoogleAPI").set(ServerValue.increment(1));
-                resolve(JSON.parse(body));
+                try {
+                    resolve(JSON.parse(body));
+                } catch (error) {
+                    console.error("Unable to resolve JSON: " + request_body + "\nError: " + error + body);
+                    resolve("error");
+                }
             } else {
                 console.error("Unable to POST: " + request_body + "\nError: " + err);
                 resolve("error");
@@ -137,7 +142,12 @@ export const getSimsimi = (ask, sv = 2) => {
             if (!err) {
                 Database.ref("Telemetry/Simsimi").child(sv).set(ServerValue.increment(1));
                 Database.ref("Telemetry/ExternalAPICall").child("SimsimiAPI").set(ServerValue.increment(1));
-                resolve(JSON.parse(body));
+                try {
+                    resolve(JSON.parse(body));
+                } catch (error) {
+                    console.error("Unable to resolve JSON: " + request_body + "\nError: " + error + body);
+                    resolve("error");
+                }
             } else {
                 console.error("Unable to GET: " + body + "\nError: " + err);
                 resolve("error");
