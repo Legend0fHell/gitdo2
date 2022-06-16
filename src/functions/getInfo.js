@@ -80,8 +80,10 @@ async function Info(sender_psid, text, page = 1) {
     const firstArg = textSplit[1].normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/đ/g, "d").replace(/Đ/g, "D").toLowerCase();
 
     let gender = "Không";
-    if (genderFemale.includes(firstArg)) gender = "Nữ";
-    else if (genderMale.includes(firstArg)) gender = "Nam";
+    if (textSplit.length > 2) {
+        if (genderFemale.includes(firstArg)) gender = "Nữ";
+        else if (genderMale.includes(firstArg)) gender = "Nam";
+    }
 
     const subj = (`${(textSplit.length > 2 ? textSplit.at(-2)+" " : "")}${textSplit.at(-1)}`).replace(/lí/, "lý").toLowerCase();
     const name = text.replace(/^(!info )/, "").toLowerCase();
