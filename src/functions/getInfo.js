@@ -94,6 +94,7 @@ async function Info(sender_psid, text, page = 1) {
         "page": page,
     });
     const res2 = resG.data;
+    if (sender_psid != "306816786589318") console.log("Info Found: ", name, subj, gender, page, resG.num);
     if (resG.num == 0) {
         postMessenger(sender_psid, {"text": "Không tìm thấy dữ liệu trùng khớp! Hãy kiểm tra lại cú pháp! (nhắn '!info')"});
         return;
