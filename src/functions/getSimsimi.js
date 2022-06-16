@@ -46,14 +46,14 @@ async function Simsimi(sender_psid, text) {
     // Server randomizing for balancing output.
     let ans;
     let retry = 1;
-    if (text.length <= 15) {
-        console.log("Simsimi SV1 / INFO: ", sender_psid);
-        ans = await getSimsimi(text, ~~ (Math.random()*2));
-        retry = 2;
-    } else {
-        console.log("Simsimi SV2: ", sender_psid);
-        ans = await getSimsimi(text);
-    }
+    // if (text.length <= 15) {
+    //     console.log("Simsimi SV1 / INFO: ", sender_psid);
+    //     ans = await getSimsimi(text, ~~ (Math.random()*2));
+    //     retry = 2;
+    // } else {
+    console.log("Simsimi SV2: ", sender_psid);
+    ans = await getSimsimi(text);
+    // }
 
     // Checking the response if it is valid.
     while (retry > 0) {
