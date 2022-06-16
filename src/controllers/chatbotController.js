@@ -145,7 +145,7 @@ export const getSimsimi = (ask, sv = 2) => {
                 try {
                     resolve(JSON.parse(body));
                 } catch (error) {
-                    console.error("Unable to resolve JSON: " + request_body + "\nError: " + error + body);
+                    console.error("Unable to resolve JSON: " + body + "\nError: " + error);
                     resolve("error");
                 }
             } else {
