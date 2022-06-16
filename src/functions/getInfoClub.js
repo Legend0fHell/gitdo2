@@ -17,7 +17,7 @@ async function CLBPhase1(sender_psid, showMode = "Pg1") {
         arraySend.push(tmp);
     }
     postMessenger(sender_psid, {
-        "text": "Cậu muốn hỏi về CLB nào trong trường nhỉ? :v",
+        "text": "Cậu muốn hỏi về CLB nào nhỉ? :v",
         "quick_replies": arraySend,
     });
 }
