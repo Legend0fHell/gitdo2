@@ -5,12 +5,8 @@ function Help(sender_psid) {
         "text": `
 Tìm bằng !ts10 [số báo danh]
 Cú pháp bắt buộc phải có số báo danh hợp lệ.
-VD: !ts10 100001; !ts10 100420; ...
-===
-NOTE: DỮ LIỆU NĂM 2020, GitDo sẽ cập nhật sớm nhất có thể!
-PS: Xếp hạng và điểm chuyên được tính trước khi phúc khảo.
-Hãy kiên nhẫn chờ đợi thông tin chính thức của nhà trường!
-Xếp lớp chỉ mang tính chất tham khảo (Trường hợp mọi lớp đều nhận 34 chỉ tiêu, không tính học sinh chuyển trường, không tính học sinh phúc khảo).`,
+VD: !ts10 100696; !ts10 100420; ...
+`,
     };
     postMessenger(sender_psid, response);
 }
@@ -34,8 +30,7 @@ async function TS10(sender_psid, text) {
     }
     postMessenger(sender_psid, {
         "text": `
-SBD ${res[0]} | ${res[1]} (${res[2]})
-SN: ${res[3]} | ${res[4]}
+SBD ${res[0]} | ${res[1]}
 
 Điểm Đại trà:
 Toán: ${res[9]} (#${res[10]} trường)
@@ -44,18 +39,13 @@ Văn: ${res[13]} (#${res[14]} trường)
 Tổng điểm ĐT: ${res[15]} (#${res[16]} trường)
 
 Điểm Chuyên:
-Nguyện vọng: ${res[5].replace(/E/g, "")}, ${res[6].replace(/E/g, "")}.
-Điểm Chuyên NV1: ${res[7]} (#${res[21]} NV1)
-Điểm Chuyên NV2: ${res[8]} (#${res[23]} NV2)
-Tổng điểm XT NV1: ${res[17]} (#${res[22]} NV1)
-Tổng điểm XT NV2: ${res[18]} (#${res[24]} NV1)
+Điểm Chuyên NV1: ${res[7]}
+Điểm Chuyên NV2: ${res[8]}
+Tổng điểm XT NV1: ${res[17]}
+Tổng điểm XT NV2: ${res[18]}
 
-Xét lớp: ${(res[19] != "" ? `${res[19]} (#${res[20]} lớp).` : "Chưa thể xét lớp. Hãy kiên nhẫn chờ thông tin chính thức của trường!")}
+Xét lớp: ${(res[19] != "" ? `${res[19]} (#${res[20]} lớp).` : "Rất tiếc! Bạn không đỗ cả 2 nguyện vọng.")}
 
-Ghi chú: 
-Xếp hạng và điểm chuyên được tính trước khi phúc khảo.
-Hãy kiên nhẫn chờ đợi thông tin chính thức của nhà trường!
-Xếp lớp chỉ mang tính chất tham khảo (Trường hợp mọi lớp đều nhận 34 chỉ tiêu, không tính học sinh chuyển trường, không tính học sinh phúc khảo).
 From GitDo with love <3
 `,
     });

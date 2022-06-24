@@ -57,12 +57,8 @@ trực tiếp dữ liệu mới vào đây để chúng mình xem xét cập nh�
             "text": `
 Tìm bằng !ts10 [số báo danh]
 Cú pháp bắt buộc phải có số báo danh hợp lệ.
-VD: !ts10 100001; !ts10 100420; ...
-===
-NOTE: DỮ LIỆU NĂM 2020, GitDo sẽ cập nhật sớm nhất có thể!
-PS: Xếp hạng và điểm chuyên được tính trước khi phúc khảo.
-Hãy kiên nhẫn chờ đợi thông tin chính thức của nhà trường!
-Xếp lớp chỉ mang tính chất tham khảo (Trường hợp mọi lớp đều nhận 34 chỉ tiêu, không tính học sinh chuyển trường, không tính học sinh phúc khảo).`};
+VD: !ts10 100696; !ts10 100420; ...
+`};
         break;
     case "noti":
         response = {
