@@ -44,15 +44,14 @@ async function Simsimi(sender_psid, text) {
     }
 
     // Server randomizing for balancing output.
-    let ans;
     let retry = 1;
     // if (text.length <= 15) {
-    //     console.log("Simsimi SV1 / INFO: ", sender_psid);
-    //     ans = await getSimsimi(text, ~~ (Math.random()*2));
-    //     retry = 2;
+    console.log("Simsimi SV1 / INFO: ", sender_psid);
+    const ans = await getSimsimi(text, ~~ (Math.random()*2));
+    retry = 2;
     // } else {
-    console.log("Simsimi SV2: ", sender_psid);
-    ans = await getSimsimi(text);
+    //     console.log("Simsimi SV2: ", sender_psid);
+    //     ans = await getSimsimi(text);
     // }
 
     // Checking the response if it is valid.
@@ -72,17 +71,17 @@ async function Simsimi(sender_psid, text) {
         retry--;
         Database.ref("Telemetry/Simsimi").child("NotUnderstandReq").set(ServerValue.increment(1));
 
-        if (retry > 0) {
-            // If possible, switch to SV2:
-            console.log("Switching to Simsimi SV2: ", sender_psid);
-            ans = await getSimsimi(text);
-        } else {
-            // If not possible, random the response in the emoji array.
-            Database.ref("Telemetry/Simsimi").child("InternalReq").set(ServerValue.increment(1));
-            const response = {"text": emojiResponse[~~ (Math.random()*emojiResponse.length)]};
-            postMessenger(sender_psid, response);
-            return;
-        }
+        // if (retry > 0) {
+        //     // If possible, switch to SV2:
+        //     console.log("Switching to Simsimi SV2: ", sender_psid);
+        //     ans = await getSimsimi(text);
+        // } else {
+        // If not possible, random the response in the emoji array.
+        Database.ref("Telemetry/Simsimi").child("InternalReq").set(ServerValue.increment(1));
+        const response = {"text": emojiResponse[~~ (Math.random()*emojiResponse.length)]};
+        postMessenger(sender_psid, response);
+        return;
+        // }
     }
 
     // Send response
