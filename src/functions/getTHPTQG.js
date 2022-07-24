@@ -96,7 +96,7 @@ async function THPTQG(sender_psid, text) {
         return;
     }
     console.log("THPTQG valid: ", sender_psid, "ID: ", textSplit[2]);
-    if (textSplit[1] == "MB" || textSplit[1] == "MT" || textSplit[1] == "MN" || textSplit[1] == "CN") {
+    if (textSplit.length == 4 && textSplit[1] == "MB" || textSplit[1] == "MT" || textSplit[1] == "MN" || textSplit[1] == "CN") {
         let aftCorrect;
         if (textSplit[3].length == 2) aftCorrect = [textSplit[3].slice(0, 1), "0", textSplit[3].slice(1)].join("");
         else aftCorrect = textSplit[3];
