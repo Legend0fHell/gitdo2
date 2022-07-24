@@ -1,4 +1,4 @@
-import {postMessenger} from "../controllers/chatbotController";
+import {postMessenger, postGoogle} from "../controllers/chatbotController";
 import {Database, ServerValue} from "../controllers/handleFirestore";
 import request from "request";
 import UserAgent from "user-agents";
@@ -42,6 +42,12 @@ async function THPTQG(sender_psid, text) {
         }
         THPTRank(sender_psid, textSplit[1], aftCorrect, textSplit[2]);
         return;
+    } else if (textSplit[1] == "SBD") {
+        if (parseInt(textSplit[2]) <= 1000000 || parseInt(textSplit[2]) >= 65000000) {
+            Help(sender_psid);
+            return;
+        }
+        THPTGet(sender_psid, textSplit[2]);
     }
     const response = {
         "text": "Hiện tại tính năng đang được phát triển! Bạn quay lại sau nha!",
@@ -100,6 +106,28 @@ Số lượng thí sinh trong khối ${block_code} là: ${res[2]},
 Bạn đang nằm trong top ${res1 < 100 ? `${res1 +1} thí sinh` : `${(100.0*res1/res2).toFixed(2)}%`} tốt nhất ${vungViet}.
 
 Ghi chú: Xếp hạng chưa bao gồm điểm cộng, điểm ưu tiên. Số lượng HS trong khối là số HS thi đủ 3 môn nhưng có thể không xét tuyển bằng khối đó.
+From GitDo with love <3
+`,
+    });
+}
+
+async function THPTGet(sender_psid, sbd) {
+    const res = await postGoogle({
+        "mode": 9,
+        "id": sbd,
+    });
+    if (res[0] == "FAILED" || res[0] != sbd) {
+        Help(sender_psid);
+        return;
+    }
+    postMessenger(sender_psid, {
+        "text": `
+SBD ${res[0]}. Khu vực số ${~~(parseInt(res[0])/1000000)}.
+
+${res[1] != "-1" ? `Toán: ${res[1]}; ` : ""}${res[2] != "-1" ? `Văn: ${res[2]} ` : ""}${res[3] != "-1" ? `Anh: ${res[3]} ` : ""}
+${res[4] != "-1" ? `Lý: ${res[4]}; ` : ""}${res[5] != "-1" ? `Hóa: ${res[5]} ` : ""}${res[6] != "-1" ? `Sinh: ${res[6]} ` : ""}
+${res[7] != "-1" ? `Sử: ${res[7]}; ` : ""}${res[8] != "-1" ? `Địa: ${res[8]} ` : ""}${res[9] != "-1" ? `Công dân: ${res[9]} ` : ""}
+
 From GitDo with love <3
 `,
     });
