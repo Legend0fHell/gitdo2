@@ -62,6 +62,8 @@ async function Simsimi(sender_psid, text) {
             if (!notUnderstand.some((v) => ans.success.includes(v))) fll = 1;
         } catch (error) {
             console.log("Simsimi error: " + error);
+            const response = {"text": emojiResponse[~~ (Math.random()*emojiResponse.length)]};
+            postMessenger(sender_psid, response);
             return;
         }
 
