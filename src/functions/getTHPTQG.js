@@ -3,6 +3,71 @@ import {Database, ServerValue} from "../controllers/handleFirestore";
 import request from "request";
 import UserAgent from "user-agents";
 
+const HDT = [
+    "THÀNH PHỐ HÀ NỘI",
+    "THÀNH PHỐ HỒ CHÍ MINH",
+    "THÀNH PHỐ HẢI PHÒNG",
+    "THÀNH PHỐ ĐÀ NẴNG",
+    "TỈNH HÀ GIANG",
+    "TỈNH CAO BẰNG",
+    "TỈNH LAI CHÂU",
+    "TỈNH LÀO CAI",
+    "TỈNH TUYÊN QUANG",
+    "TỈNH LẠNG SƠN",
+    "TỈNH BẮC KẠN",
+    "TỈNH THÁI NGUYÊN",
+    "TỈNH YÊN BÁI",
+    "TỈNH SƠN LA",
+    "TỈNH PHÚ THỌ",
+    "TỈNH VĨNH PHÚC",
+    "TỈNH QUẢNG NINH",
+    "TỈNH BẮC GIANG",
+    "TỈNH BẮC NINH",
+    "",
+    "TỈNH HẢI DƯƠNG",
+    "TỈNH HƯNG YÊN",
+    "TỈNH HÒA BÌNH",
+    "TỈNH HÀ NAM",
+    "TỈNH NAM ĐỊNH",
+    "TỈNH THÁI BÌNH",
+    "TỈNH NINH BÌNH",
+    "TỈNH THANH HÓA",
+    "TỈNH NGHỆ AN",
+    "TỈNH HÀ TĨNH",
+    "TỈNH QUẢNG BÌNH",
+    "TỈNH QUẢNG TRỊ",
+    "TỈNH THỪA THIÊN - HUẾ",
+    "TỈNH QUẢNG NAM",
+    "TỈNH QUẢNG NGÃI",
+    "TỈNH KON TUM",
+    "TỈNH BÌNH ĐỊNH",
+    "TỈNH GIA LAI",
+    "TỈNH PHÚ YÊN",
+    "TỈNH ĐẮK LẮK",
+    "TỈNH KHÁNH HÒA",
+    "TỈNH LÂM ĐỒNG",
+    "TỈNH BÌNH PHƯỚC",
+    "TỈNH BÌNH DƯƠNG",
+    "TỈNH NINH THUẬN",
+    "TỈNH TÂY NINH",
+    "TỈNH BÌNH THUẬN",
+    "TỈNH ĐỒNG NAI",
+    "TỈNH LONG AN",
+    "TỈNH ĐỒNG THÁP",
+    "TỈNH AN GIANG",
+    "TỈNH BÀ RỊA – VŨNG TÀU",
+    "TỈNH TIỀN GIANG",
+    "TỈNH KIÊN GIANG",
+    "THÀNH PHỐ CẦN THƠ",
+    "TỈNH BẾN TRE",
+    "TỈNH VĨNH LONG",
+    "TỈNH TRÀ VINH",
+    "TỈNH SÓC TRĂNG",
+    "TỈNH BẠC LIÊU",
+    "TỈNH CÀ MAU",
+    "TỈNH ĐIỆN BIÊN",
+    "TỈNH ĐĂK NÔNG",
+    "TỈNH HẬU GIANG"];
 function Help(sender_psid) {
     const response = {
         "text": `
@@ -67,7 +132,7 @@ const postTS247 = (vung, block_code, total_mark) => {
                     const matches = body.match(/[\d\.]+/g);
                     resolve([matches[8], matches[10], matches[11], matches[7]]);
                 } catch (error) {
-                    console.error("Unable to resolve JSON: " + body + "\nError: " + error + body);
+                    console.error("Unable to resolve: " + body + "\nError: " + error);
                     resolve(["error"]);
                 }
             } else {
@@ -121,20 +186,15 @@ async function THPTGet(sender_psid, sbd) {
     }
     postMessenger(sender_psid, {
         "text": `
-SBD ${res[0]}. Khu vực số ${~~(parseInt(res[0])/1000000)}.
+SBD ${res[0]}. Bạn thuộc hội đồng thi ${HDT[~~(parseInt(res[0])/1000000)-1]}.
 
 ${res[1] != "-1" ? `Toán: ${res[1]}; ` : ""}${res[2] != "-1" ? `Văn: ${res[2]}; ` : ""}${res[3] != "-1" ? `Anh: ${res[3]} ` : ""}
 ${res[4] != "-1" ? `Lý: ${res[4]}; ` : ""}${res[5] != "-1" ? `Hóa: ${res[5]} ` : ""}${res[6] != "-1" ? `Sinh: ${res[6]}; ` : ""}${res[7] != "-1" ? `Sử: ${res[7]}; ` : ""}${res[8] != "-1" ? `Địa: ${res[8]}; ` : ""}${res[9] != "-1" ? `Công dân: ${res[9]} ` : ""}
 
-Tổng điểm xét 1 số tổ hợp:
-${(res[1] < 0 || res[4] < 0 || res[5] < 0) ? "" : `A00: ${res[1] + res[4] + res[5]}; `}
-${(res[1] < 0 || res[4] < 0 || res[3] < 0) ? "" : `A01: ${res[1] + res[4] + res[3]}; `}
-${(res[1] < 0 || res[5] < 0 || res[6] < 0) ? "" : `B00: ${res[1] + res[5] + res[6]}; `}
-${(res[2] < 0 || res[7] < 0 || res[8] < 0) ? "" : `C00: ${res[2] + res[7] + res[8]}; `}
-${(res[2] < 0 || res[1] < 0 || res[7] < 0) ? "" : `C03: ${res[2] + res[1] + res[7]}; `}
-${(res[1] < 0 || res[2] < 0 || res[3] < 0) ? "" : `D00: ${res[1] + res[2] + res[3]}; `}
-${(res[1] < 0 || res[5] < 0 || res[3] < 0) ? "" : `D07: ${res[1] + res[5] + res[3]}; `}
+Tổng điểm xét một số tổ hợp:
+${(res[1] < 0 || res[4] < 0 || res[5] < 0) ? "" : `A00: ${res[1] + res[4] + res[5]}; `}${(res[1] < 0 || res[4] < 0 || res[3] < 0) ? "" : `A01: ${res[1] + res[4] + res[3]}; `}${(res[1] < 0 || res[5] < 0 || res[6] < 0) ? "" : `B00: ${res[1] + res[5] + res[6]}; `}${(res[2] < 0 || res[7] < 0 || res[8] < 0) ? "" : `C00: ${res[2] + res[7] + res[8]}; `}${(res[2] < 0 || res[1] < 0 || res[7] < 0) ? "" : `C03: ${res[2] + res[1] + res[7]}; `}${(res[1] < 0 || res[2] < 0 || res[3] < 0) ? "" : `D00: ${res[1] + res[2] + res[3]}; `}${(res[1] < 0 || res[5] < 0 || res[3] < 0) ? "" : `D07: ${res[1] + res[5] + res[3]}; `}
 
+Sau khi biết điểm rồi, bạn có thể nhập cú pháp "!thptqg [MB/MT/MN/CN] [điểm thi] [tên khối]" để xem xếp hạng của mình nhé!
 From GitDo with love <3 
 `,
     });
