@@ -20,8 +20,9 @@ Ghi chú: Tên khối hỗ trợ tra cứu: A00 đến A02, A07 đến A09, B00,
 
 async function THPTQG(sender_psid, text) {
     if (sender_psid != "306816786589318") console.log("THPTQG master: ", sender_psid);
+    text = text.toUpperCase().replace(/,/gi, ".");
     const textSplit = text.split(" ");
-    if (textSplit.length < 3 || isNaN(textSplit[1])) {
+    if (textSplit.length < 3 || isNaN(textSplit[2])) {
         Help(sender_psid);
         return;
     }
