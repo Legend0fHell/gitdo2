@@ -31,6 +31,7 @@ async function THPTQG(sender_psid, text) {
     }
     console.log("THPTQG valid: ", sender_psid, "ID: ", textSplit[2]);
     if (textSplit[1] == "MB" || textSplit[1] == "MT" || textSplit[1] == "MN" || textSplit[1] == "CN") {
+        if()
         THPTRank(sender_psid, textSplit[1], textSplit[3], textSplit[2]);
         return;
     }
@@ -51,7 +52,7 @@ const postTS247 = (vung, block_code, total_mark) => {
                 Database.ref("Telemetry/ExternalAPICall").child("TS247API").set(ServerValue.increment(1));
                 try {
                     const matches = body.match(/[\d\.]+/g);
-                    resolve([matches[8], matches[10], matches[11]]);
+                    resolve([matches[8], matches[10], matches[11], matches[7]]);
                 } catch (error) {
                     console.error("Unable to resolve JSON: " + body + "\nError: " + error + body);
                     resolve(["error"]);
@@ -83,12 +84,12 @@ async function THPTRank(sender_psid, vung, block_code, total_mark) {
     const res2 = parseInt(res[2]);
     postMessenger(sender_psid, {
         "text": `
-Điểm bạn đang xét là: ${total_mark}. Khối ${block_code}. Khu vực: ${vungViet}.
+Điểm bạn đang xét là: ${res[3]}. Khối ${block_code}. Khu vực: ${vungViet}.
 
-Số lượng thí sinh có điểm bằng ${total_mark} là: ${res[0]},
-Số lượng thí sinh có điểm hơn ${total_mark} là: ${res[1]},
+Số lượng thí sinh có điểm bằng ${res[3]} là: ${res[0]},
+Số lượng thí sinh có điểm hơn ${res[3]} là: ${res[1]},
 Số lượng thí sinh trong khối ${block_code} là: ${res[2]},
-Bạn đang nằm trong top ${res1 < 100 ? `${res1 +1} thí sinh tốt nhất ${vungViet}` : `${(100.0*res1/res2).toFixed(2)}%`}.
+Bạn đang nằm trong top ${res1 < 100 ? `${res1 +1} thí sinh` : `${(100.0*res1/res2).toFixed(2)}%`} tốt nhất ${vungViet}.
 
 Ghi chú: Xếp hạng chưa bao gồm điểm cộng, điểm ưu tiên. Số lượng HS trong khối là số HS thi đủ 3 môn nhưng có thể không xét tuyển bằng khối đó.
 From GitDo with love <3
