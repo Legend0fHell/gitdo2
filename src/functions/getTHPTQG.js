@@ -15,12 +15,13 @@ Cú pháp bắt buộc phải có số báo danh hợp lệ.
 !thptqg [MB/MT/MN/CN] [điểm thi của bạn] [tên khối]
 VD: !thptqg MB 28.9 A01; !thptqg CN 26.65 D00; ...
 
-Ghi chú: Tên khối hỗ trợ tra cứu: A00 đến A02, A07 đến A09, B00, B08, C00 đến C05, D01 đến D10, D14, D15.
+Ghi chú: Tên khối hỗ trợ tra cứu: A00 đến A02, A07 đến A09, B00, B08, C00 đến C05, D00 đến D10, D14, D15.
 `,
     };
     postMessenger(sender_psid, response);
 }
 
+const blockList = ["A00", "A01", "A02", "A07", "A08", "A09", "B00", "B08", "C00", "C01", "C02", "C03", "C04", "C05", "D01", "D02", "D03", "D04", "D05", "D06", "D07", "D08", "D09", "D10", "D14", "D15"];
 async function THPTQG(sender_psid, text) {
     if (sender_psid != "306816786589318") console.log("THPTQG master: ", sender_psid);
     text = text.toUpperCase().replace(/,/gi, ".");
@@ -31,8 +32,15 @@ async function THPTQG(sender_psid, text) {
     }
     console.log("THPTQG valid: ", sender_psid, "ID: ", textSplit[2]);
     if (textSplit[1] == "MB" || textSplit[1] == "MT" || textSplit[1] == "MN" || textSplit[1] == "CN") {
-        if()
-        THPTRank(sender_psid, textSplit[1], textSplit[3], textSplit[2]);
+        let aftCorrect;
+        if (textSplit[3].length == 2) aftCorrect = textSplit[3].insert(1, "0");
+        else aftCorrect = textSplit[3];
+        if (aftCorrect == "D00") aftCorrect = "D01";
+        if (aftCorrect.length != 3 || !blockList.some((v) => aftCorrect.equals(v))) {
+            Help(sender_psid);
+            return;
+        }
+        THPTRank(sender_psid, textSplit[1], aftCorrect, textSplit[2]);
         return;
     }
     const response = {
