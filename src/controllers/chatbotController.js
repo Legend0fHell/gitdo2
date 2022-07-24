@@ -131,9 +131,9 @@ export const postMessenger = (sender_psid, response) => {
 export const getSimsimi = (ask, sv = 2) => {
     return new Promise((resolve) => {
         const text = encodeURIComponent(ask);
-        let uri = `https://api.simsimi.net/v2/?text=${text}&lc=vn&cf=false`;
+        let uri = `https://simsimi.info/api/?text=${text}&lc=vn`;
         if (sv == 0) uri = `https://simsimi.info/api/?text=${text}&lc=vn`;
-        else if (sv == 1) uri = `https://api.simsimi.net/v2/?text=${text}&lc=vn&cf=false`;
+        else if (sv == 1) uri = `https://simsimi.info/api/?text=${text}&lc=vn`;
         request({
             uri: uri,
             method: "GET",
