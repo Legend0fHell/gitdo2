@@ -7,5 +7,6 @@ export const HTHT = "HTHTPostback";
 export const Info = "InfoGVPostback";
 export const Admin = "AdminPostback";
 export const TS10 = "TS10Postback";
+export const THPTQG = "THPTQGPostback";
 export const NotiOptIn = "NotiOptInPostback";
 export const Help = "HelpPostback";

@@ -27,6 +27,8 @@ export const handleQuickReply = (sender_psid, received_payload) => {
         indexFunction.getInfo.Help(sender_psid);
     } else if (received_payload.includes(PostbackID.TS10)) {
         indexFunction.getTS10.Help(sender_psid);
+    } else if (received_payload.includes(PostbackID.THPTQG)) {
+        indexFunction.getTHPTQG.Help(sender_psid);
     } else if (payload.includes(PostbackID.NotiOptIn)) {
         indexFunction.postOptinNoti.NotiOptIn(sender_psid);
     } else if (received_payload.includes(PostbackID.Help)) {

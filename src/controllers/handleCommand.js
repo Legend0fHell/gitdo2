@@ -53,6 +53,9 @@ export const handleCommand = (sender_psid, received_command) => {
     case "!ts10":
         indexFunction.getTS10.TS10(sender_psid, received_command);
         break;
+    case "!thptqg":
+        indexFunction.getTHPTQG.THPTQG(sender_psid, received_command);
+        break;
     case "!noti":
         indexFunction.postOptinNoti.NotiOptIn(sender_psid);
         break;

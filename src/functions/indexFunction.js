@@ -8,9 +8,10 @@ const getSupport = require("./getSupport").default;
 const getInfo = require("./getInfo").default;
 const postAdmin = require("./postAdmin").default;
 const getTS10 = require("./getTS10").default;
+const getTHPTQG = require("./getTHPTQG").default;
 const postOptinNoti = require("./postOptinNoti").default;
 const postHelp = require("./postHelp").default;
 
 export {
-    getInfoClub, getTimetable, postGetStarted, getLDT, postAbout, getSimsimi, getSupport, getInfo, postAdmin, getTS10, postOptinNoti, postHelp,
+    getInfoClub, getTimetable, postGetStarted, getLDT, postAbout, getSimsimi, getSupport, getInfo, postAdmin, getTS10, postOptinNoti, postHelp, getTHPTQG,
 };
