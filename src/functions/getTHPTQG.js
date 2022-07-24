@@ -79,6 +79,8 @@ async function THPTRank(sender_psid, vung, block_code, total_mark) {
     if (vung == "MT") vungViet = "Miền Trung";
     if (vung == "MN") vungViet = "Miền Nam";
     if (vung == "CN") vungViet = "Toàn quốc";
+    const res1 = parseInt(res[1]);
+    const res2 = parseInt(res[2]);
     postMessenger(sender_psid, {
         "text": `
 Điểm bạn đang xét là: ${total_mark}. Khối ${block_code}. Khu vực: ${vungViet}.
@@ -86,7 +88,7 @@ async function THPTRank(sender_psid, vung, block_code, total_mark) {
 Số lượng thí sinh có điểm bằng ${total_mark} là: ${res[0]},
 Số lượng thí sinh có điểm hơn ${total_mark} là: ${res[1]},
 Số lượng thí sinh trong khối ${block_code} là: ${res[2]},
-Bạn đang nằm trong top ${res[1] < 100 ? `${res[1]+1} thí sinh tốt nhất ${vungViet}` : `${(100.0*res[1]/res[2]).toFixed(2)}%`}.
+Bạn đang nằm trong top ${res1 < 100 ? `${res1 +1} thí sinh tốt nhất ${vungViet}` : `${(100.0*res1/res2).toFixed(2)}%`}.
 
 Ghi chú: Xếp hạng chưa bao gồm điểm cộng, điểm ưu tiên. Số lượng HS trong khối là số HS thi đủ 3 môn nhưng có thể không xét tuyển bằng khối đó.
 From GitDo with love <3
