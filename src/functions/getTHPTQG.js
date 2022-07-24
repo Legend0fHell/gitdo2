@@ -189,10 +189,10 @@ async function THPTGet(sender_psid, sbd) {
 SBD ${res[0]}. Bạn thuộc hội đồng thi ${HDT[~~(parseInt(res[0])/1000000)-1]}.
 
 ${res[1] != "-1" ? `Toán: ${res[1]}; ` : ""}${res[2] != "-1" ? `Văn: ${res[2]}; ` : ""}${res[3] != "-1" ? `Anh: ${res[3]} ` : ""}
-${res[4] != "-1" ? `Lý: ${res[4]}; ` : ""}${res[5] != "-1" ? `Hóa: ${res[5]} ` : ""}${res[6] != "-1" ? `Sinh: ${res[6]}; ` : ""}${res[7] != "-1" ? `Sử: ${res[7]}; ` : ""}${res[8] != "-1" ? `Địa: ${res[8]}; ` : ""}${res[9] != "-1" ? `Công dân: ${res[9]} ` : ""}
+${res[4] != "-1" ? `Lý: ${res[4]}; ` : ""}${res[5] != "-1" ? `Hóa: ${res[5]} ` : ""}${res[6] != "-1" ? `Sinh: ${res[6]} ` : ""}${res[7] != "-1" ? `Sử: ${res[7]}; ` : ""}${res[8] != "-1" ? `Địa: ${res[8]}; ` : ""}${res[9] != "-1" ? `Công dân: ${res[9]} ` : ""}
 
 Tổng điểm xét một số tổ hợp:
-${(res[1] < 0 || res[4] < 0 || res[5] < 0) ? "" : `A00: ${res[1] + res[4] + res[5]}; `}${(res[1] < 0 || res[4] < 0 || res[3] < 0) ? "" : `A01: ${res[1] + res[4] + res[3]}; `}${(res[1] < 0 || res[5] < 0 || res[6] < 0) ? "" : `B00: ${res[1] + res[5] + res[6]}; `}${(res[2] < 0 || res[7] < 0 || res[8] < 0) ? "" : `C00: ${res[2] + res[7] + res[8]}; `}${(res[2] < 0 || res[1] < 0 || res[7] < 0) ? "" : `C03: ${res[2] + res[1] + res[7]}; `}${(res[1] < 0 || res[2] < 0 || res[3] < 0) ? "" : `D00: ${res[1] + res[2] + res[3]}; `}${(res[1] < 0 || res[5] < 0 || res[3] < 0) ? "" : `D07: ${res[1] + res[5] + res[3]}; `}
+${(res[1] < 0 || res[4] < 0 || res[5] < 0) ? "" : `A00: ${res[1] + res[4] + res[5]}; `}${(res[1] < 0 || res[4] < 0 || res[3] < 0) ? "" : `A01: ${res[1] + res[4] + res[3]}; `}${(res[1] < 0 || res[5] < 0 || res[6] < 0) ? "" : `B00: ${res[1] + res[5] + res[6]}; `}${(res[2] < 0 || res[7] < 0 || res[8] < 0) ? "" : `C00: ${res[2] + res[7] + res[8]}; `}${(res[2] < 0 || res[1] < 0 || res[7] < 0) ? "" : `C03: ${res[2] + res[1] + res[7]}; `}${(res[1] < 0 || res[2] < 0 || res[3] < 0) ? "" : `D00: ${res[1] + res[2] + res[3]}; `}${(res[1] < 0 || res[5] < 0 || res[3] < 0) ? "" : `D07: ${res[1] + res[5] + res[3]} `}
 
 Sau khi biết điểm rồi, bạn có thể nhập cú pháp "!thptqg [MB/MT/MN/CN] [điểm thi] [tên khối]" để xem xếp hạng của mình nhé!
 From GitDo with love <3 
