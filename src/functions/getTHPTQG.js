@@ -36,7 +36,7 @@ async function THPTQG(sender_psid, text) {
         if (textSplit[3].length == 2) aftCorrect = textSplit[3].insert(1, "0");
         else aftCorrect = textSplit[3];
         if (aftCorrect == "D00") aftCorrect = "D01";
-        if (aftCorrect.length != 3 || !blockList.some((v) => aftCorrect.equals(v))) {
+        if (aftCorrect.length != 3 || !blockList.some((v) => aftCorrect === v)) {
             Help(sender_psid);
             return;
         }
