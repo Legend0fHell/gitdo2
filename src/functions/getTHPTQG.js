@@ -149,12 +149,12 @@ const postTS247 = (vung, block_code, total_mark) => {
 
 async function THPTRank(sender_psid, vung, block_code, total_mark) {
     const res = await postTS247(vung, block_code, total_mark);
-    if (parseInt(res[3]) == 0 && parseInt(total_mark) != 0) {
-        THPTRank(sender_psid, vung, block_code, total_mark);
-        return;
-    }
     if (res[0] == "error") {
         Help(sender_psid);
+        return;
+    }
+    if (parseInt(res[3]) == 0 && parseInt(total_mark) != 0) {
+        THPTRank(sender_psid, vung, block_code, total_mark);
         return;
     }
     let vungViet;
