@@ -48,11 +48,10 @@ async function THPTQG(sender_psid, text) {
             return;
         }
         THPTGet(sender_psid, textSplit[2]);
+    } else {
+        Help(sender_psid);
+        return;
     }
-    const response = {
-        "text": "Hiện tại tính năng đang được phát triển! Bạn quay lại sau nha!",
-    };
-    postMessenger(sender_psid, response);
 }
 const postTS247 = (vung, block_code, total_mark) => {
     return new Promise((resolve) => {
@@ -124,11 +123,13 @@ async function THPTGet(sender_psid, sbd) {
         "text": `
 SBD ${res[0]}. Khu vực số ${~~(parseInt(res[0])/1000000)}.
 
-${res[1] != "-1" ? `Toán: ${res[1]}; ` : ""}${res[2] != "-1" ? `Văn: ${res[2]} ` : ""}${res[3] != "-1" ? `Anh: ${res[3]} ` : ""}
-${res[4] != "-1" ? `Lý: ${res[4]}; ` : ""}${res[5] != "-1" ? `Hóa: ${res[5]} ` : ""}${res[6] != "-1" ? `Sinh: ${res[6]} ` : ""}
-${res[7] != "-1" ? `Sử: ${res[7]}; ` : ""}${res[8] != "-1" ? `Địa: ${res[8]} ` : ""}${res[9] != "-1" ? `Công dân: ${res[9]} ` : ""}
+${res[1] != "-1" ? `Toán: ${res[1]}; ` : ""}${res[2] != "-1" ? `Văn: ${res[2]}; ` : ""}${res[3] != "-1" ? `Anh: ${res[3]} ` : ""}
+${res[4] != "-1" ? `Lý: ${res[4]}; ` : ""}${res[5] != "-1" ? `Hóa: ${res[5]} ` : ""}${res[6] != "-1" ? `Sinh: ${res[6]}; ` : ""}${res[7] != "-1" ? `Sử: ${res[7]}; ` : ""}${res[8] != "-1" ? `Địa: ${res[8]}; ` : ""}${res[9] != "-1" ? `Công dân: ${res[9]} ` : ""}
 
-From GitDo with love <3
+Tổng điểm xét 1 số tổ hợp:
+${(res[1] < 0 || res[4] < 0 || res[5] < 0) ? "" : `A00: ${res[1] + res[4] + res[5]}; `}
+
+From GitDo with love <3 
 `,
     });
 }
