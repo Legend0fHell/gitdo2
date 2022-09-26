@@ -6,7 +6,7 @@ function LDT(sender_psid) {
     const response = {"attachment": {
         "type": "image",
         "payload": {
-            "attachment_id": "473114611533153",
+            "attachment_id": "1726212534406451",
         },
     }};
     postMessenger(sender_psid, response);
