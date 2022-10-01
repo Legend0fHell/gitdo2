@@ -3,27 +3,30 @@ import {Database} from "../controllers/handleFirestore";
 
 async function TelemetryData(sender_psid) {
     if (sender_psid != "306816786589318") console.log("Get Telemetry Data: ", sender_psid);
-
-    const response = {"text": `
+    const refer = Database.ref("Telemetry");
+    await refer.once("value", (snap) => {
+        console.log(snap.val());
+        const response = {"text": `
 Sử dụng API:
 =================
-Messenger: ${Database.ref("Telemetry/ExternalAPICall").child("MessAPI").get()}
-Google Sheet: ${Database.ref("Telemetry/ExternalAPICall").child("GoogleAPI").get()}
-Simsimi: ${Database.ref("Telemetry/ExternalAPICall").child("SimsimiAPI").get()}
-TS247: ${Database.ref("Telemetry/ExternalAPICall").child("TS247API").get()}
+Messenger: ${snap.val().ExternalAPICall.MessAPI}
+Google Sheet: ${snap.val().ExternalAPICall.GoogleAPI}
+Simsimi: ${snap.val().ExternalAPICall.SimsimiAPI}
+TS247: ${snap.val().ExternalAPICall.TS247API}
 
 API Simsimi:
 =================
-Servers: ${Database.ref("Telemetry/Simsimi").child("0").get()} | ${Database.ref("Telemetry/Simsimi").child("1").get()} | ${Database.ref("Telemetry/Simsimi").child("2").get()}
-Emoji Reply: ${Database.ref("Telemetry/Simsimi").child("InternalReq").get()}
-NotUnderstand: ${Database.ref("Telemetry/Simsimi").child("NotUnderstandReq").get()}
+Servers: ${snap.val().Simsimi[0]} | ${snap.val().Simsimi[1]} | ${snap.val().Simsimi[2]}
+Emoji Reply: ${snap.val().Simsimi.InternalReq}
+NotUnderstand: ${snap.val().Simsimi.NotUnderstandReq}
 
 Users:
 =================
-Tổng Người dùng: ${Database.ref("Telemetry/Users").child("UserCnt").get()}
-Người dùng HĐ: ${Database.ref("Telemetry/Users").child("UserCnt").get()}
+Tổng Người dùng: ${snap.val().Users.UserCnt}
+Người dùng HĐ: ${snap.val().Users.UserCnt}
 `};
-    postMessenger(sender_psid, response);
+        postMessenger(sender_psid, response);
+    });
 }
 
 export default {
