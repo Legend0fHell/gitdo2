@@ -38,10 +38,18 @@ async function Simsimi(sender_psid, text) {
     // Detect spam or emoji by counting the number of letter.
     const textDetect = text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/đ/g, "d").replace(/Đ/g, "D").toUpperCase();
     const resultDetect = /[A-Z]/.test(textDetect);
-    if (resultDetect == false || text.length < 3) { // If not found any letter:
+    if (resultDetect == false || text.length < 4) { // If not found any letter:
         console.log("Spam detected: ", sender_psid, " Detect: ", textDetect);
         Database.ref("Telemetry/Simsimi").child("InternalReq").set(ServerValue.increment(1));
         // Random the response in the emoji array.
+        const response = {"text": emojiResponse[~~ (Math.random()*emojiResponse.length)]};
+        postMessenger(sender_psid, response);
+        return;
+    }
+
+    // Gave up, random the chance to spam emoji
+    if (~~ (Math.random() * 10) == 1) {
+        Database.ref("Telemetry/Simsimi").child("InternalReq").set(ServerValue.increment(1));
         const response = {"text": emojiResponse[~~ (Math.random()*emojiResponse.length)]};
         postMessenger(sender_psid, response);
         return;
