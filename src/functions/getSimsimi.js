@@ -32,6 +32,9 @@ async function Simsimi(sender_psid, text) {
     // Remove all of the special symbols.
     text = text.replace(/[&/\\#,+()$~%.'":*?<>{}]/g, "");
 
+    // Change subject.
+    text = text.replace(/gitdo|GitDo|Gitdo/gi, "simsimi");
+
     // Detect spam or emoji by counting the number of letter.
     const textDetect = text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/đ/g, "d").replace(/Đ/g, "D").toUpperCase();
     const resultDetect = /[A-Z]/.test(textDetect);
@@ -52,7 +55,7 @@ async function Simsimi(sender_psid, text) {
         [randArray[i], randArray[j]] = [randArray[j], randArray[i]];
     }
     console.log("Simsimi SV", randArray[0], ":", sender_psid);
-    const ans = await getSimsimi(text, randArray[0]);
+    let ans = await getSimsimi(text, randArray[0]);
     retry = 2;
 
     // Checking the response if it is valid.
