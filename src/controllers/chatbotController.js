@@ -143,7 +143,16 @@ export const getSimsimi = (ask, sv = 2) => {
                 Database.ref("Telemetry/Simsimi").child(sv).set(ServerValue.increment(1));
                 Database.ref("Telemetry/ExternalAPICall").child("SimsimiAPI").set(ServerValue.increment(1));
                 try {
-                    resolve(JSON.parse(body));
+                    if (sv == 1) resolve(JSON.parse(body));
+                    else if (sv == 0) {
+                        const tmp = JSON.parse(body);
+                        tmp.success = tmp.message;
+                        resolve(tmp);
+                    } else if (sv == 2) {
+                        const tmp = JSON.parse(body);
+                        tmp.success = tmp.response;
+                        resolve(tmp);
+                    }
                 } catch (error) {
                     console.error("Unable to resolve JSON: " + body + "\nError: " + error);
                     resolve("error");
