@@ -2,7 +2,7 @@ import * as indexFunction from "../functions/indexFunction";
 import {cache} from "./chatbotController";
 
 export const handleCommand = (sender_psid, received_command) => {
-    if (sender_psid != "306816786589318") console.log("Received command: ", sender_psid, "Command: ", received_command);
+    console.log("Received command: ", sender_psid, "Command: ", received_command);
 
     // Split arguments by whitespace. Normalize the command arg.
     const args = received_command.split(" ");

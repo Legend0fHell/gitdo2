@@ -6,6 +6,7 @@ const emojiResponse = ["😀", "😁", "😂", "🤣", "😄", "😅", "😆", "
 const notUnderstand = [
     "Sim kh\u00f4ng bi\u1ebft b\u1ea1n \u0111ang n\u00f3i g\u00ec. Xin h\u00e3y ch\u1ec9 d\u1ea1y cho t\u1edb",
     "T\u00f4i kh\u00f4ng bi\u1ebft b\u1ea1n \u0111ang n\u00f3i g\u00ec. H\u00e3y d\u1ea1y t\u00f4i",
+    "L\u1ed7i  r\u1ed3i",
 ];
 
 // Filter bad words
@@ -45,14 +46,14 @@ async function Simsimi(sender_psid, text) {
 
     // Server randomizing for balancing output.
     let retry = 1;
-    // if (text.length <= 15) {
-    console.log("Simsimi SV1 / INFO: ", sender_psid);
-    const ans = await getSimsimi(text, ~~ (Math.random()*2));
+    const randArray = [0, 1, 2];
+    for (let i = randArray.length - 1; i > 0; i--) {
+        const j = ~~ (Math.random() * (i + 1));
+        [randArray[i], randArray[j]] = [randArray[j], randArray[i]];
+    }
+    console.log("Simsimi SV", randArray[0], ":", sender_psid);
+    const ans = await getSimsimi(text, randArray[0]);
     retry = 2;
-    // } else {
-    //     console.log("Simsimi SV2: ", sender_psid);
-    //     ans = await getSimsimi(text);
-    // }
 
     // Checking the response if it is valid.
     while (retry > 0) {
@@ -73,17 +74,17 @@ async function Simsimi(sender_psid, text) {
         retry--;
         Database.ref("Telemetry/Simsimi").child("NotUnderstandReq").set(ServerValue.increment(1));
 
-        // if (retry > 0) {
-        //     // If possible, switch to SV2:
-        //     console.log("Switching to Simsimi SV2: ", sender_psid);
-        //     ans = await getSimsimi(text);
-        // } else {
+        if (retry > 0) {
+            // If possible, switch to other SV
+            console.log("Switching to Simsimi SV", randArray[1], ":", sender_psid);
+            ans = await getSimsimi(text, randArray[1]);
+        } else {
         // If not possible, random the response in the emoji array.
-        Database.ref("Telemetry/Simsimi").child("InternalReq").set(ServerValue.increment(1));
-        const response = {"text": emojiResponse[~~ (Math.random()*emojiResponse.length)]};
-        postMessenger(sender_psid, response);
-        return;
-        // }
+            Database.ref("Telemetry/Simsimi").child("InternalReq").set(ServerValue.increment(1));
+            const response = {"text": emojiResponse[~~ (Math.random()*emojiResponse.length)]};
+            postMessenger(sender_psid, response);
+            return;
+        }
     }
 
     // Send response
