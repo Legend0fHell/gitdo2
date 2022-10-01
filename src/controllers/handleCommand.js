@@ -62,6 +62,9 @@ export const handleCommand = (sender_psid, received_command) => {
     case "!help":
         indexFunction.postHelp.Help(sender_psid, (args.length < 2 ? "" : args[1].toLowerCase()));
         break;
+    case "!telemetry":
+        indexFunction.getTelemetryData.TelemetryData(sender_psid);
+        break;
     default:
         indexFunction.postHelp.Help(sender_psid, "");
         break;

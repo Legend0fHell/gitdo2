@@ -11,7 +11,8 @@ const getTS10 = require("./getTS10").default;
 const getTHPTQG = require("./getTHPTQG").default;
 const postOptinNoti = require("./postOptinNoti").default;
 const postHelp = require("./postHelp").default;
+const getTelemetryData = require("./getTelemetryData").default;
 
 export {
-    getInfoClub, getTimetable, postGetStarted, getLDT, postAbout, getSimsimi, getSupport, getInfo, postAdmin, getTS10, postOptinNoti, postHelp, getTHPTQG,
+    getInfoClub, getTimetable, postGetStarted, getLDT, postAbout, getSimsimi, getSupport, getInfo, postAdmin, getTS10, postOptinNoti, postHelp, getTHPTQG, getTelemetryData,
 };
