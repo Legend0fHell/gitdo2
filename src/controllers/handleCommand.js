@@ -38,6 +38,9 @@ export const handleCommand = (sender_psid, received_command) => {
     case "!ldt":
         indexFunction.getLDT.LDT(sender_psid);
         break;
+    case "!tkbchieu":
+        indexFunction.getSubTimetable.TKBChieu(sender_psid);
+        break;
     case "!about":
         indexFunction.postAbout.about(sender_psid);
         break;

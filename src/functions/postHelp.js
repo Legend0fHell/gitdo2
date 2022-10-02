@@ -27,6 +27,11 @@ VD: !tkb 11sd; !tkb 10s; ...`};
             "text": "Nhập: !ldt để biết thêm lịch dạy thay của nhà trường",
         };
         break;
+    case "tkbchieu":
+        response = {
+            "text": "Nhập: !tkbchieu để biết lịch học chiều của nhà trường",
+        };
+        break;
     case "about":
         response = {
             "text": "Nhập: !about để biết được những thông tin chi tiết về nhà trường :))",
@@ -85,7 +90,7 @@ Ghi chú: Tên khối hỗ trợ tra cứu: A00 đến A02, A07 đến A09, B00,
             "text": `
 Nhập: !help <lệnh> để nhận hỗ trợ. 
 VD: !help info; ...
-Lệnh trong GitDo:\n[!tkb | !clb | !ldt | !about | !htht | !info | !admin | !ts10 | !noti | !clb | !thptqg].
+Lệnh trong GitDo:\n[!tkb | !clb | !ldt | !tkbchieu | !about | !htht | !info | !admin | !ts10 | !noti | !clb | !thptqg].
 `,
         };
         break;

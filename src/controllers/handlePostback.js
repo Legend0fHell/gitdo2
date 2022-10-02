@@ -10,6 +10,8 @@ export const handlePostback = (sender_psid, received_postback) => {
         indexFunction.getInfoClub.CLBPhase1(sender_psid, "Pg1");
     } else if (payload.includes(PostbackID.LDT)) {
         indexFunction.getLDT.LDT(sender_psid);
+    } else if (payload.includes(PostbackID.TKBChieu)) {
+        indexFunction.getSubTimetable.TKBChieu(sender_psid);
     } else if (payload.includes(PostbackID.About)) {
         indexFunction.postAbout.about(sender_psid);
     } else if (payload.includes(PostbackID.HTHT)) {

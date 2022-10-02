@@ -12,7 +12,8 @@ const getTHPTQG = require("./getTHPTQG").default;
 const postOptinNoti = require("./postOptinNoti").default;
 const postHelp = require("./postHelp").default;
 const getTelemetryData = require("./getTelemetryData").default;
+const getSubTimetable = require("./getSubTimetable").default;
 
 export {
-    getInfoClub, getTimetable, postGetStarted, getLDT, postAbout, getSimsimi, getSupport, getInfo, postAdmin, getTS10, postOptinNoti, postHelp, getTHPTQG, getTelemetryData,
+    getInfoClub, getTimetable, postGetStarted, getLDT, postAbout, getSimsimi, getSupport, getInfo, postAdmin, getTS10, postOptinNoti, postHelp, getTHPTQG, getTelemetryData, getSubTimetable,
 };

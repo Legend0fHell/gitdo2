@@ -23,6 +23,8 @@ export const handleQuickReply = (sender_psid, received_payload) => {
         indexFunction.getTimetable.TKBPhase1(sender_psid);
     } else if (received_payload.includes(PostbackID.LDT)) {
         indexFunction.getLDT.LDT(sender_psid);
+    } else if (received_payload.includes(PostbackID.TKBChieu)) {
+        indexFunction.getSubTimetable.TKBChieu(sender_psid);
     } else if (received_payload.includes(PostbackID.Info)) {
         indexFunction.getInfo.Help(sender_psid);
     } else if (received_payload.includes(PostbackID.TS10)) {
