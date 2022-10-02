@@ -17,7 +17,7 @@ async function TKBPhase2(sender_psid, answer) {
         "id": classAsking,
     });
     if (res2.Status === "SUCCESS") {
-        response = {"text": "TKB lớp " + res2.Class + ", có hiệu lực từ " + res2.Update + ": \n" + res2.Text};
+        response = {"text": "TKB lớp " + res2.Class + ", có hiệu lực từ " + res2.Update + ": \n" + res2.Text + "\nĐể xem TKB buổi chiều, nhắn lệnh !tkbchieu nha :>"};
         postMessenger(sender_psid, response);
         response = {
             "attachment": {
