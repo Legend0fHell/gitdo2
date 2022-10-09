@@ -7,6 +7,7 @@ const notUnderstand = [
     "Sim kh\u00f4ng bi\u1ebft b\u1ea1n \u0111ang n\u00f3i g\u00ec. Xin h\u00e3y ch\u1ec9 d\u1ea1y cho t\u1edb",
     "T\u00f4i kh\u00f4ng bi\u1ebft b\u1ea1n \u0111ang n\u00f3i g\u00ec. H\u00e3y d\u1ea1y t\u00f4i",
     "L\u1ed7i  r\u1ed3i",
+    "Tôi không biết làm thế nào để trả lời. Dạy tôi câu trả lời.",
 ];
 
 // Filter bad words
@@ -30,7 +31,10 @@ async function Simsimi(sender_psid, text) {
     if (sender_psid != "306816786589318") console.log("Simsimi: ", sender_psid);
 
     // Remove all of the special symbols.
-    text = text.replace(/[&/\\#,+()$~%.'":*?<>{}]/g, "");
+    text = text.replace(/[&/\\#,+()$~%.'":*?<>{}=-]/g, "");
+
+    // Remove all emojis.
+    text = text.replace(/([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g, "");
 
     // Change subject.
     text = text.replace(/gitdo|GitDo|Gitdo/gi, "simsimi");

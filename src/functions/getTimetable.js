@@ -17,7 +17,20 @@ async function TKBPhase2(sender_psid, answer) {
         "id": classAsking,
     });
     if (res2.Status === "SUCCESS") {
-        response = {"text": "TKB lớp " + res2.Class + ", có hiệu lực từ " + res2.Update + ": \n" + res2.Text + "\nĐể xem TKB buổi chiều, nhắn lệnh !tkbchieu nha :>"};
+        response = {
+            "attachment": {
+                "type": "template",
+                "payload": {
+                    "template_type": "button",
+                    "text": "TKB lớp " + res2.Class + ", có hiệu lực từ " + res2.Update + ": \n" + res2.Text,
+                    "buttons": [{
+                        "type": "postback",
+                        "title": "Xem TKB Chiều!",
+                        "payload": "TKBChieuPostback",
+                    }],
+                },
+            },
+        };
         postMessenger(sender_psid, response);
         response = {
             "attachment": {
