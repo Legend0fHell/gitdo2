@@ -1,5 +1,5 @@
-import * as indexFunction from "../functions/indexFunction";
-import * as PostbackID from "./indexPostbackId";
+import * as indexFunction from "../functions/indexFunction.js";
+import * as PostbackID from "./indexPostbackId.js";
 
 export const handleQuickReply = (sender_psid, received_payload) => {
     console.log("Received QuickReply payload: ", sender_psid, "Content: ", received_payload);

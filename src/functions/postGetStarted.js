@@ -1,5 +1,5 @@
-import {postMessenger} from "../controllers/chatbotController";
-import * as PostbackID from "../controllers/indexPostbackId";
+import {postMessenger} from "../controllers/chatbotController.js";
+import * as PostbackID from "../controllers/indexPostbackId.js";
 // Set the cache if the user asked to get started.
 function HelloWorld(sender_psid) {
     if (sender_psid != "306816786589318") console.log("Hello world: ", sender_psid);

@@ -1,4 +1,4 @@
-import {postMessenger, postGoogle, cache} from "../controllers/chatbotController";
+import {postMessenger, postGoogle, cache} from "../controllers/chatbotController.js";
 
 // Set the cache if the user request TKB.
 function TKBPhase1(sender_psid) {

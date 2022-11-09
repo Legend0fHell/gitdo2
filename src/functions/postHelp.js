@@ -1,4 +1,4 @@
-import {postMessenger} from "../controllers/chatbotController";
+import {postMessenger} from "../controllers/chatbotController.js";
 
 
 function Help(sender_psid, name) {

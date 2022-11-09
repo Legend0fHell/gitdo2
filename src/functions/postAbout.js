@@ -1,5 +1,5 @@
-import {postMessenger} from "../controllers/chatbotController";
-import * as PostbackID from "../controllers/indexPostbackId";
+import {postMessenger} from "../controllers/chatbotController.js";
+import * as PostbackID from "../controllers/indexPostbackId.js";
 
 // Set the cache if the user asked to get started.
 async function about(sender_psid) {

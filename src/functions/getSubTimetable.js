@@ -1,5 +1,5 @@
-import {postMessenger} from "../controllers/chatbotController";
-import {Database} from "../controllers/handleFirestore";
+import {postMessenger} from "../controllers/chatbotController.js";
+import {Database} from "../controllers/handleFirestore.js";
 
 // Set the cache if the user asked to get started.
 async function TKBChieu(sender_psid) {

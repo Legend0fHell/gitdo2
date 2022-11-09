@@ -1,4 +1,4 @@
-import {postMessenger, postGoogle} from "../controllers/chatbotController";
+import {postMessenger, postGoogle} from "../controllers/chatbotController.js";
 
 function Help(sender_psid) {
     const response = {

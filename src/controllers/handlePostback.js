@@ -1,5 +1,5 @@
-import * as indexFunction from "../functions/indexFunction";
-import * as PostbackID from "./indexPostbackId";
+import * as indexFunction from "../functions/indexFunction.js";
+import * as PostbackID from "./indexPostbackId.js";
 
 export const handlePostback = (sender_psid, received_postback) => {
     const payload = received_postback.payload;

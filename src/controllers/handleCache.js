@@ -1,4 +1,4 @@
-import * as indexFunction from "../functions/indexFunction";
+import * as indexFunction from "../functions/indexFunction.js";
 
 export const handleCache = (sender_psid, received_message, cacheType) => {
     // Don't analyze message from the bot itself.

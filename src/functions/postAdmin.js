@@ -1,4 +1,4 @@
-import {postMessenger, postGoogle} from "../controllers/chatbotController";
+import {postMessenger, postGoogle} from "../controllers/chatbotController.js";
 
 // Set the cache if the user asked to get started.
 async function AdminCre(sender_psid) {

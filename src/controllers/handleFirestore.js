@@ -1,3 +1,5 @@
+import {createRequire} from "module";
+const require = createRequire(import.meta.url);
 const {initializeApp, cert} = require("firebase-admin/app");
 export const {getFirestore, Timestamp, FieldValue} = require("firebase-admin/firestore");
 export const {getDatabase, ServerValue} = require("firebase-admin/database");

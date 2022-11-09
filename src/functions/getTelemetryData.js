@@ -1,5 +1,5 @@
-import {postMessenger} from "../controllers/chatbotController";
-import {Database} from "../controllers/handleFirestore";
+import {postMessenger} from "../controllers/chatbotController.js";
+import {Database} from "../controllers/handleFirestore.js";
 
 async function TelemetryData(sender_psid) {
     if (sender_psid != "306816786589318") console.log("Get Telemetry Data: ", sender_psid);

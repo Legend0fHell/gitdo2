@@ -1,4 +1,4 @@
-import {postMessenger, postGoogle} from "../controllers/chatbotController";
+import {postMessenger, postGoogle} from "../controllers/chatbotController.js";
 
 const genderMale = ["thay", "chu", "ong", "bac", "anh", "a", "th", "t."];
 const genderFemale = ["co", "ba", "chi", "c"];

@@ -1,38 +1,14 @@
+import {createRequire} from "module";
+const require = createRequire(import.meta.url);
 require("dotenv").config();
 import request from "request";
-import {handleMessage} from "./handleMessage";
-import {handleQuickReply} from "./handleQuickReply";
-import {handlePostback} from "./handlePostback";
-import {handleOptin} from "./handleOptin";
-import {Database, ServerValue} from "./handleFirestore";
-import {Debug} from "../functions/debug";
+import {Database, ServerValue} from "./handleFirestore.js";
 
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
-const VERIFY_TOKEN = process.env.VERIFY_TOKEN;
 
 export const cache = {};
 
-const getHomePage = (req, res) => {
-    Debug();
-    return res.send("Hello");
-};
-
-const getWebhook = (req, res) => {
-    console.log(VERIFY_TOKEN);
-    const mode = req.query["hub.mode"];
-    const token = req.query["hub.verify_token"];
-    const challenge = req.query["hub.challenge"];
-    if (mode && token) {
-        if (mode === "subscribe" && token === VERIFY_TOKEN) {
-            console.log("WEBHOOK_VERIFIED");
-            res.status(200).send(challenge);
-        } else {
-            res.sendStatus(403);
-        }
-    }
-};
-
-const seenIndicator = (sender_psid) => {
+export const seenIndicator = (sender_psid) => {
     if (sender_psid == "306816786589318") return;
     const request_body = {
         "recipient": {
@@ -47,34 +23,6 @@ const seenIndicator = (sender_psid) => {
         "json": request_body,
     }, (err, res, body) => {
     });
-};
-const postWebhook = (req, res) => {
-    const body = req.body;
-    if (body.object === "page") {
-        body.entry.forEach(function(entry) {
-            const webhook_event = entry.messaging[0];
-            const sender_psid = webhook_event.sender.id;
-            if (webhook_event.postback) {
-                seenIndicator(sender_psid);
-                handlePostback(sender_psid, webhook_event.postback);
-            } else if (webhook_event.message) {
-                seenIndicator(sender_psid);
-                try {
-                    if (webhook_event.message.quick_reply.payload) {
-                        handleQuickReply(sender_psid, webhook_event.message.quick_reply.payload);
-                    }
-                } catch (error) {
-                    handleMessage(sender_psid, webhook_event.message);
-                }
-            } else if (webhook_event.optin) {
-                seenIndicator(sender_psid);
-                handleOptin(sender_psid, webhook_event.optin);
-            }
-        });
-        res.status(200).send("EVENT_RECEIVED");
-    } else {
-        res.sendStatus(404);
-    }
 };
 
 export const postGoogle = (request_body) => {
@@ -163,10 +111,4 @@ export const getSimsimi = (ask, sv = 2) => {
             }
         });
     });
-};
-
-module.exports = {
-    getHomePage,
-    getWebhook,
-    postWebhook,
 };

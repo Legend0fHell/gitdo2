@@ -1,5 +1,5 @@
-import {postMessenger} from "../controllers/chatbotController";
-import {Firestore, Database, ServerValue} from "../controllers/handleFirestore";
+import {postMessenger} from "../controllers/chatbotController.js";
+import {Firestore, Database, ServerValue} from "../controllers/handleFirestore.js";
 
 // Set the cache if the user asked to get started.
 function RNOptIn(sender_psid, received_optin) {

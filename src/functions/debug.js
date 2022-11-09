@@ -8,5 +8,5 @@
 // Run Debug by accessing localhost:8080.
 
 export const Debug = async () => {
-
+    console.log("hi");
 };

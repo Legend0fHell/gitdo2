@@ -1,7 +1,7 @@
-import * as indexFunction from "../functions/indexFunction";
-import {handleCommand} from "./handleCommand";
-import {cache} from "./chatbotController";
-import {handleCache} from "./handleCache";
+import * as indexFunction from "../functions/indexFunction.js";
+import {handleCommand} from "./handleCommand.js";
+import {cache} from "./chatbotController.js";
+import {handleCache} from "./handleCache.js";
 
 export const handleMessage = (sender_psid, received_message) => {
     // Don't analyze message from the bot itself.

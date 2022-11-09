@@ -1,5 +1,5 @@
-import {postMessenger, postGoogle} from "../controllers/chatbotController";
-import {Database, ServerValue} from "../controllers/handleFirestore";
+import {postMessenger, postGoogle} from "../controllers/chatbotController.js";
+import {Database, ServerValue} from "../controllers/handleFirestore.js";
 import request from "request";
 import UserAgent from "user-agents";
 

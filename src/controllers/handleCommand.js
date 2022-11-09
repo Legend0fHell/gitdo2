@@ -1,5 +1,5 @@
-import * as indexFunction from "../functions/indexFunction";
-import {cache} from "./chatbotController";
+import * as indexFunction from "../functions/indexFunction.js";
+import {cache} from "./chatbotController.js";
 
 export const handleCommand = (sender_psid, received_command) => {
     console.log("Received command: ", sender_psid, "Command: ", received_command);

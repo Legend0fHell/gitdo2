@@ -1,4 +1,4 @@
-import {postMessenger, postGoogle} from "../controllers/chatbotController";
+import {postMessenger, postGoogle} from "../controllers/chatbotController.js";
 
 // Set the cache if the user request Club.
 async function CLBPhase1(sender_psid, showMode = "Pg1") {

@@ -1,6 +1,6 @@
-import {postMessenger, getSimsimi} from "../controllers/chatbotController";
-import {Database, ServerValue} from "../controllers/handleFirestore";
-import {bad_words} from "./vn_offensive_words";
+import {postMessenger, getSimsimi} from "../controllers/chatbotController.js";
+import {Database, ServerValue} from "../controllers/handleFirestore.js";
+import {bad_words} from "./vn_offensive_words.js";
 
 const emojiResponse = ["😀", "😁", "😂", "🤣", "😄", "😅", "😆", "😉", "😊", "😋", "😍", "😘", "🥰", "😚", "☺", "🤗", "🤩", "😛", "😜", "😝", "=)))", ":))", "=]]]]", ":>", ":]]]"];
 const notUnderstand = [
