@@ -1,0 +1,13 @@
+export const CLB = "CLBPostback";
+export const TKB = "TKBPostback";
+export const GetStarted = "GetStartedPostback";
+export const LDT = "LDTPostback";
+export const TKBChieu = "TKBChieuPostback";
+export const About = "AboutPostback";
+export const HTHT = "HTHT";
+export const Info = "InfoGVPostback";
+export const Admin = "AdminPostback";
+export const TS10 = "TS10Postback";
+export const THPTQG = "THPTQGPostback";
+export const NotiOptIn = "NotiOptInPostback";
+export const Help = "HelpPostback";
