@@ -1,7 +1,6 @@
 import {postMessenger, postGoogle} from "../controllers/chatbotController.js";
 import {Database, ServerValue} from "../controllers/handleFirestore.js";
 import request from "request";
-import UserAgent from "user-agents";
 
 const HDT = [
     "THÀNH PHỐ HÀ NỘI",
@@ -124,7 +123,6 @@ const postTS247 = (vung, block_code, total_mark) => {
             uri: "https://diemthi.tuyensinh247.com/tsHighSchool/ajaxTracuuXephang",
             method: "POST",
             followAllRedirects: true,
-            headers: {"User-Agent": new UserAgent().toString()},
         }, (err, res, body) => {
             if (!err) {
                 Database.ref("Telemetry/ExternalAPICall").child("TS247API").set(ServerValue.increment(1));
