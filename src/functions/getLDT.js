@@ -18,6 +18,6 @@ async function LDT(sender_psid) {
     });
 }
 
-export default {
+export {
     LDT,
 };

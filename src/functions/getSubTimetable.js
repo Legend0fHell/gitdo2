@@ -18,6 +18,6 @@ async function TKBChieu(sender_psid) {
     });
 }
 
-export default {
+export {
     TKBChieu,
 };

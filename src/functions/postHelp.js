@@ -98,6 +98,6 @@ Lệnh trong GitDo:\n[!tkb | !clb | !ldt | !tkbchieu | !about | !htht | !info | 
     postMessenger(sender_psid, response);
 }
 
-export default {
+export {
     Help,
 };

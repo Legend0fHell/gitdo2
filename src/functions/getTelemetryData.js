@@ -29,6 +29,6 @@ Người dùng HĐ: ${snap.val().Users.UserCnt}
     });
 }
 
-export default {
+export {
     TelemetryData,
 };

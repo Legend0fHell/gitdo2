@@ -108,6 +108,6 @@ async function Simsimi(sender_psid, text) {
     postMessenger(sender_psid, response);
 }
 
-export default {
+export {
     Simsimi,
 };

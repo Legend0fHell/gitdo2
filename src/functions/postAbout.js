@@ -48,6 +48,6 @@ async function about(sender_psid) {
     postMessenger(sender_psid, response);
 }
 
-export default {
+export {
     about,
 };

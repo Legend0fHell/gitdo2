@@ -52,6 +52,6 @@ function TKBNotFound(sender_psid) {
     postMessenger(sender_psid, response);
 }
 
-export default {
+export {
     TKBPhase1, TKBPhase2, TKBNotFound,
 };

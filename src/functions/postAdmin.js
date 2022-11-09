@@ -37,6 +37,6 @@ async function AdminCre(sender_psid) {
     });
 }
 
-export default {
+export {
     AdminCre,
 };

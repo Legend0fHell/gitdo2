@@ -67,6 +67,6 @@ async function NotiOptIn(sender_psid) {
     }
 }
 
-export default {
+export {
     NotiOptIn, RNOptIn,
 };

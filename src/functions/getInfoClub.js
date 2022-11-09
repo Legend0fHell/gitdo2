@@ -60,6 +60,6 @@ async function CLBPhase2(sender_psid, answer) {
     });
 }
 
-export default {
+export {
     CLBPhase1, CLBPhase2,
 };

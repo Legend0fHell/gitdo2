@@ -57,6 +57,6 @@ function HelloWorld(sender_psid) {
     });
 }
 
-export default {
+export {
     HelloWorld,
 };

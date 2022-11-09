@@ -64,6 +64,6 @@ async function HTHT(sender_psid, parentsDir = "HTHT") {
     postMessenger(sender_psid, response);
 }
 
-export default {
+export {
     HTHT,
 };

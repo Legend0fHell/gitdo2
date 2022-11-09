@@ -139,6 +139,6 @@ async function Info(sender_psid, text, page = 1) {
     postMessenger(sender_psid, response);
 }
 
-export default {
+export {
     Info, Help, Profile,
 };

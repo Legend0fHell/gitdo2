@@ -204,6 +204,6 @@ From GitDo with love <3
     });
 }
 
-export default {
+export {
     Help, THPTQG,
 };
