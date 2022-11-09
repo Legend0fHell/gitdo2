@@ -14,13 +14,11 @@ import {Debug} from "./functions/debug.js";
 const VERIFY_TOKEN = process.env.VERIFY_TOKEN;
 
 const app = express().use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
 
 app.listen(process.env.PORT || 8080, () => {
     console.log("GitDo2 - Glitch Compliant, running at: " + (process.env.PORT || 8080));
 });
 
-// Accepts GET requests at the /webhook endpoint
 app.get("/webhook", (req, res) => {
     console.log(VERIFY_TOKEN);
     const mode = req.query["hub.mode"];
