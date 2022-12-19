@@ -66,7 +66,8 @@ export const postMessenger = (sender_psid, response) => {
             "json": request_body,
         }, (err, res, body) => {
             if (err || (body.error != undefined && body.error != null)) {
-                console.log("Unable to send message:\n" + err + res);
+                console.log("Unable to send message:");
+                console.log(res.body);
                 resolve("error");
             } else {
                 Database.ref("Telemetry/ExternalAPICall").child("MessAPI").set(ServerValue.increment(1));
