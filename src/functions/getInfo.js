@@ -46,6 +46,7 @@ async function Profile(sender_psid, id, info = null) {
             "title": "Không info!",
         });
     }
+   
     const response = {
         "attachment": {
             "type": "template",
@@ -60,6 +61,7 @@ async function Profile(sender_psid, id, info = null) {
             },
         },
     };
+   console.log(response);
     postMessenger(sender_psid, response);
 }
 
