@@ -60,13 +60,14 @@ export const postMessenger = (sender_psid, response) => {
             "message": response,
         };
         request({
-            "uri": "https://graph.facebook.com/v2.6/me/messages",
+            "uri": "https://graph.facebook.com/v13.0/me/messages",
             "qs": {"access_token": PAGE_ACCESS_TOKEN},
             "method": "POST",
             "json": request_body,
         }, (err, res, body) => {
             if (err || (body.error != undefined && body.error != null)) {
-                console.log("Unable to send message:\n" + err + res);
+                console.log("Unable to send message:");
+                console.log(res.body);
                 resolve("error");
             } else {
                 Database.ref("Telemetry/ExternalAPICall").child("MessAPI").set(ServerValue.increment(1));
@@ -79,7 +80,7 @@ export const postMessenger = (sender_psid, response) => {
 export const getSimsimi = (ask, sv = 2) => {
     return new Promise((resolve) => {
         const text = encodeURIComponent(ask);
-        let uri = `https://tuanxuong.com/api/simsimi/index.php?text=${text}`;
+        let uri = `https://simsimi.info/api/?text=${text}&lc=vn`;
         if (sv == 0) uri = `https://simsimi.info/api/?text=${text}&lc=vn`;
         else if (sv == 1) uri = `https://api.simsimi.net/v2/?text=${text}&lc=vn&cf=false`;
         request({
