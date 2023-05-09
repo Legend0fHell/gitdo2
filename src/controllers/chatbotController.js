@@ -77,12 +77,11 @@ export const postMessenger = (sender_psid, response) => {
     });
 };
 
-export const getSimsimi = (ask, sv = 2) => {
+export const getSimsimi = (ask, sv = 0) => {
     return new Promise((resolve) => {
         const text = encodeURIComponent(ask);
-        let uri = `https://simsimi.info/api/?text=${text}&lc=vn`;
-        if (sv == 0) uri = `https://simsimi.info/api/?text=${text}&lc=vn`;
-        else if (sv == 1) uri = `https://api.simsimi.net/v2/?text=${text}&lc=vn&cf=false`;
+        let uri = `https://api.simsimi.vn/v2/simtalk?text=${text}&lc=vn`;
+        if (sv == 1) uri = `https://api.simsimi.net/v2/?text=${text}&lc=vn&cf=false`;
         request({
             uri: uri,
             method: "GET",
@@ -96,10 +95,6 @@ export const getSimsimi = (ask, sv = 2) => {
                     else if (sv == 0) {
                         const tmp = JSON.parse(body);
                         tmp.success = tmp.message;
-                        resolve(tmp);
-                    } else if (sv == 2) {
-                        const tmp = JSON.parse(body);
-                        tmp.success = tmp.response;
                         resolve(tmp);
                     }
                 } catch (error) {

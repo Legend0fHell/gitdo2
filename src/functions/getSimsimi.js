@@ -61,7 +61,7 @@ async function Simsimi(sender_psid, text) {
 
     // Server randomizing for balancing output.
     let retry = 1;
-    const randArray = [0, 1, 2];
+    const randArray = [0, 1];
     for (let i = randArray.length - 1; i > 0; i--) {
         const j = ~~ (Math.random() * (i + 1));
         [randArray[i], randArray[j]] = [randArray[j], randArray[i]];
