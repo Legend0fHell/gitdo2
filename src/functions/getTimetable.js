@@ -32,15 +32,18 @@ async function TKBPhase2(sender_psid, answer) {
             },
         };
         postMessenger(sender_psid, response);
-        response = {
-            "attachment": {
-                "type": "image",
-                "payload": {
-                    "attachment_id": res2.AttID,
+        const AttIDList = res2.AttID.split(";");
+        AttIDList.forEach((img) => {
+            response = {
+                "attachment": {
+                    "type": "image",
+                    "payload": {
+                        "attachment_id": img,
+                    },
                 },
-            },
-        };
-        postMessenger(sender_psid, response);
+            };
+            postMessenger(sender_psid, response);
+        });
     } else {
         TKBNotFound(sender_psid);
     }
