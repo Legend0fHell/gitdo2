@@ -80,7 +80,7 @@ export const postMessenger = (sender_psid, response) => {
 export const getSimsimi = (ask, sv = 0) => {
     return new Promise((resolve) => {
         const text = encodeURIComponent(ask);
-        let uri = `https://api.simsimi.vn/v2/simtalk?text=${text}&lc=vn`;
+        let uri = `https://api.simsimi.vn/v2/simtalk?text=${text}&lc=vi`;
         if (sv == 1) uri = `https://api.simsimi.net/v2/?text=${text}&lc=vn&cf=false`;
         request({
             uri: uri,
