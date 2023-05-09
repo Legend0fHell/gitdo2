@@ -84,7 +84,7 @@ export const getSimsimi = (ask, sv = 0) => {
         if (sv == 1) uri = `https://api.simsimi.net/v2/?text=${text}&lc=vn&cf=false`;
         request({
             uri: uri,
-            method: "GET",
+            method: "POST",
             followAllRedirects: true,
         }, (err, res, body) => {
             if (!err) {
