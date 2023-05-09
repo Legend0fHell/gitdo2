@@ -19,6 +19,10 @@ app.listen(process.env.PORT || 8080, () => {
     console.log("GitDo2 - Glitch Compliant, running at: " + (process.env.PORT || 8080));
 });
 
+app.get("/", (req, res) => {
+    Debug();
+});
+
 app.get("/webhook", (req, res) => {
     console.log(VERIFY_TOKEN);
     const mode = req.query["hub.mode"];
@@ -32,7 +36,6 @@ app.get("/webhook", (req, res) => {
             res.sendStatus(403);
         }
     }
-    Debug();
 });
 
 app.post("/webhook", (req, res) => {

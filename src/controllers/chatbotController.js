@@ -80,31 +80,51 @@ export const postMessenger = (sender_psid, response) => {
 export const getSimsimi = (ask, sv = 0) => {
     return new Promise((resolve) => {
         const text = encodeURIComponent(ask);
-        let uri = `https://api.simsimi.vn/v2/simtalk?text=${text}&lc=vi`;
-        if (sv == 1) uri = `https://api.simsimi.net/v2/?text=${text}&lc=vn&cf=false`;
-        request({
-            uri: uri,
-            method: "POST",
-            followAllRedirects: true,
-        }, (err, res, body) => {
-            if (!err) {
-                Database.ref("Telemetry/Simsimi").child(sv).set(ServerValue.increment(1));
-                Database.ref("Telemetry/ExternalAPICall").child("SimsimiAPI").set(ServerValue.increment(1));
-                try {
-                    if (sv == 1) resolve(JSON.parse(body));
-                    else if (sv == 0) {
+        let uri = "https://api.simsimi.vn/v2/simtalk";
+        if (sv == 1) {
+            uri = `https://api.simsimi.net/v2/?text=${text}&lc=vn&cf=false`;
+            request({
+                uri: uri,
+                method: "POST",
+                followAllRedirects: true,
+            }, (err, res, body) => {
+                if (!err) {
+                    Database.ref("Telemetry/Simsimi").child(sv).set(ServerValue.increment(1));
+                    Database.ref("Telemetry/ExternalAPICall").child("SimsimiAPI").set(ServerValue.increment(1));
+                    try {
+                        resolve(JSON.parse(body));
+                    } catch (error) {
+                        console.error("Unable to resolve JSON: " + body + "\nError: " + error);
+                        resolve("error");
+                    }
+                } else {
+                    console.error("Unable to GET: " + body + "\nError: " + err);
+                    resolve("error");
+                }
+            });
+        } else {
+            request({
+                uri: uri,
+                method: "POST",
+                followAllRedirects: true,
+                form: {lc: "vn", text: `${text}`},
+            }, (err, res, body) => {
+                if (!err) {
+                    Database.ref("Telemetry/Simsimi").child(sv).set(ServerValue.increment(1));
+                    Database.ref("Telemetry/ExternalAPICall").child("SimsimiAPI").set(ServerValue.increment(1));
+                    try {
                         const tmp = JSON.parse(body);
                         tmp.success = tmp.message;
                         resolve(tmp);
+                    } catch (error) {
+                        console.error("Unable to resolve JSON: " + body + "\nError: " + error);
+                        resolve("error");
                     }
-                } catch (error) {
-                    console.error("Unable to resolve JSON: " + body + "\nError: " + error);
+                } else {
+                    console.error("Unable to GET: " + body + "\nError: " + err);
                     resolve("error");
                 }
-            } else {
-                console.error("Unable to GET: " + body + "\nError: " + err);
-                resolve("error");
-            }
-        });
+            });
+        }
     });
 };
