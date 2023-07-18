@@ -212,6 +212,7 @@ async function THPTGet(sender_psid, sbd) {
         Help(sender_psid);
         return;
     }
+    console.log(res);
     postMessenger(sender_psid, {
         "text": `
 SBD ${res[0]}. Bạn thuộc hội đồng thi ${HDT[~~(parseInt(sbd)/1000000)-1]}.
