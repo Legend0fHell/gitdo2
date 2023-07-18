@@ -1,4 +1,4 @@
-import {postMessenger, postGoogle} from "../controllers/chatbotController.js";
+import {postMessenger} from "../controllers/chatbotController.js";
 import {Database, ServerValue} from "../controllers/handleFirestore.js";
 import request from "request";
 
@@ -117,10 +117,10 @@ async function THPTQG(sender_psid, text) {
         return;
     }
 }
-const postTS247 = (vung, block_code, total_mark) => {
+const postTS247 = (data, given_uri) => {
     return new Promise((resolve) => {
         request({
-            uri: "https://diemthi.tuyensinh247.com/tsHighSchool/ajaxTracuuXephang",
+            uri: given_uri,
             method: "POST",
             followAllRedirects: true,
         }, (err, res, body) => {
@@ -137,16 +137,39 @@ const postTS247 = (vung, block_code, total_mark) => {
                 console.error("Unable to POST: " + body + "\nError: " + err);
                 resolve(["error"]);
             }
-        }).form({
-            vung: vung,
-            block_code: block_code,
-            total_mark: total_mark,
-        });
+        }).form(data);
+    });
+};
+
+const postTS247DiemThi = (data, given_uri) => {
+    return new Promise((resolve) => {
+        request({
+            uri: given_uri,
+            method: "POST",
+            followAllRedirects: true,
+        }, (err, res, body) => {
+            if (!err) {
+                Database.ref("Telemetry/ExternalAPICall").child("TS247API").set(ServerValue.increment(1));
+                try {
+                    resolve(body);
+                } catch (error) {
+                    console.error("Unable to resolve: " + body + "\nError: " + error);
+                    resolve(["error"]);
+                }
+            } else {
+                console.error("Unable to POST: " + body + "\nError: " + err);
+                resolve(["error"]);
+            }
+        }).form(data);
     });
 };
 
 async function THPTRank(sender_psid, vung, block_code, total_mark) {
-    const res = await postTS247(vung, block_code, total_mark);
+    const res = await postTS247({
+        vung: vung,
+        block_code: block_code,
+        total_mark: total_mark,
+    }, "https://diemthi.tuyensinh247.com/tsHighSchool/ajaxTracuuXephang");
     if (res[0] == "error") {
         Help(sender_psid);
         return;
@@ -178,23 +201,26 @@ From GitDo with love <3
 }
 
 async function THPTGet(sender_psid, sbd) {
-    const res = await postGoogle({
-        "mode": 9,
-        "id": sbd,
-    });
-    if (res[0] == "FAILED" || res[0] != sbd) {
+    // const res = await postGoogle({
+    //     "mode": 9,
+    //     "id": sbd,
+    // });
+    const res = await postTS247DiemThi({
+        sbd: sbd,
+    }, "https://diemthi.tuyensinh247.com/tsHighSchool/ajaxDiemthi2020");
+    if (res == null || res.success == false) {
         Help(sender_psid);
         return;
     }
     postMessenger(sender_psid, {
         "text": `
-SBD ${res[0]}. Bạn thuộc hội đồng thi ${HDT[~~(parseInt(res[0])/1000000)-1]}.
+SBD ${res[0]}. Bạn thuộc hội đồng thi ${HDT[~~(parseInt(sbd)/1000000)-1]}.
 
-${res[1] != "-1" ? `Toán: ${res[1]}; ` : ""}${res[2] != "-1" ? `Văn: ${res[2]}; ` : ""}${res[3] != "-1" ? `Anh: ${res[3]} ` : ""}
-${res[4] != "-1" ? `Lý: ${res[4]}; ` : ""}${res[5] != "-1" ? `Hóa: ${res[5]} ` : ""}${res[6] != "-1" ? `Sinh: ${res[6]} ` : ""}${res[7] != "-1" ? `Sử: ${res[7]}; ` : ""}${res[8] != "-1" ? `Địa: ${res[8]}; ` : ""}${res[9] != "-1" ? `Công dân: ${res[9]} ` : ""}
+${parseFloat(res.data.mon_toan) != -1 ? `Toán: ${parseFloat(res.data.mon_toan)}; ` : ""}${parseFloat(res.data.mon_van) != -1 ? `Văn: ${parseFloat(res.data.mon_van)}; ` : ""}${parseFloat(res.data.mon_ngoaingu) != -1 ? `Anh: ${parseFloat(res.data.mon_ngoaingu)} ` : ""}
+${parseFloat(res.data.mon_ly) != -1 ? `Lý: ${parseFloat(res.data.mon_ly)}; ` : ""}${parseFloat(res.data.mon_hoa) != -1 ? `Hóa: ${parseFloat(res.data.mon_hoa)} ` : ""}${parseFloat(res.data.mon_sinh) != -1 ? `Sinh: ${parseFloat(res.data.mon_sinh)} ` : ""}${parseFloat(res.data.mon_su) != -1 ? `Sử: ${parseFloat(res.data.mon_su)}; ` : ""}${parseFloat(res.data.mon_dia) != -1 ? `Địa: ${parseFloat(res.data.mon_dia)}; ` : ""}${parseFloat(res.data.mon_gdcd) != -1 ? `Công dân: ${parseFloat(res.data.mon_gdcd)} ` : ""}
 
 Tổng điểm xét một số tổ hợp:
-${(res[1] < 0 || res[4] < 0 || res[5] < 0) ? "" : `A00: ${res[1] + res[4] + res[5]}; `}${(res[1] < 0 || res[4] < 0 || res[3] < 0) ? "" : `A01: ${res[1] + res[4] + res[3]}; `}${(res[1] < 0 || res[5] < 0 || res[6] < 0) ? "" : `B00: ${res[1] + res[5] + res[6]}; `}${(res[2] < 0 || res[7] < 0 || res[8] < 0) ? "" : `C00: ${res[2] + res[7] + res[8]}; `}${(res[2] < 0 || res[1] < 0 || res[7] < 0) ? "" : `C03: ${res[2] + res[1] + res[7]}; `}${(res[1] < 0 || res[2] < 0 || res[3] < 0) ? "" : `D00: ${res[1] + res[2] + res[3]}; `}${(res[1] < 0 || res[5] < 0 || res[3] < 0) ? "" : `D07: ${res[1] + res[5] + res[3]} `}
+${(parseFloat(res.data.mon_toan) < 0 || parseFloat(res.data.mon_ly) < 0 || parseFloat(res.data.mon_hoa) < 0) ? "" : `A00: ${parseFloat(res.data.mon_toan) + parseFloat(res.data.mon_ly) + parseFloat(res.data.mon_hoa)}; `}${(parseFloat(res.data.mon_toan) < 0 || parseFloat(res.data.mon_ly) < 0 || parseFloat(res.data.mon_ngoaingu) < 0) ? "" : `A01: ${parseFloat(res.data.mon_toan) + parseFloat(res.data.mon_ly) + parseFloat(res.data.mon_ngoaingu)}; `}${(parseFloat(res.data.mon_toan) < 0 || parseFloat(res.data.mon_hoa) < 0 || parseFloat(res.data.mon_sinh) < 0) ? "" : `B00: ${parseFloat(res.data.mon_toan) + parseFloat(res.data.mon_hoa) + parseFloat(res.data.mon_sinh)}; `}${(parseFloat(res.data.mon_van) < 0 || parseFloat(res.data.mon_su) < 0 || parseFloat(res.data.mon_dia) < 0) ? "" : `C00: ${parseFloat(res.data.mon_van) + parseFloat(res.data.mon_su) + parseFloat(res.data.mon_dia)}; `}${(parseFloat(res.data.mon_van) < 0 || parseFloat(res.data.mon_toan) < 0 || parseFloat(res.data.mon_su) < 0) ? "" : `C03: ${parseFloat(res.data.mon_van) + parseFloat(res.data.mon_toan) + parseFloat(res.data.mon_su)}; `}${(parseFloat(res.data.mon_toan) < 0 || parseFloat(res.data.mon_van) < 0 || parseFloat(res.data.mon_ngoaingu) < 0) ? "" : `D00: ${parseFloat(res.data.mon_toan) + parseFloat(res.data.mon_van) + parseFloat(res.data.mon_ngoaingu)}; `}${(parseFloat(res.data.mon_toan) < 0 || parseFloat(res.data.mon_hoa) < 0 || parseFloat(res.data.mon_ngoaingu) < 0) ? "" : `D07: ${parseFloat(res.data.mon_toan) + parseFloat(res.data.mon_hoa) + parseFloat(res.data.mon_ngoaingu)} `}
 
 Sau khi biết điểm rồi, bạn có thể nhập cú pháp "!thptqg [MB/MT/MN/CN] [điểm thi] [tên khối]" để xem xếp hạng của mình nhé!
 From GitDo with love <3 
