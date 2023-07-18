@@ -151,7 +151,7 @@ const postTS247DiemThi = (data, given_uri) => {
             if (!err) {
                 Database.ref("Telemetry/ExternalAPICall").child("TS247API").set(ServerValue.increment(1));
                 try {
-                    resolve(body);
+                    resolve(JSON.parse(body));
                 } catch (error) {
                     console.error("Unable to resolve: " + body + "\nError: " + error);
                     resolve(["error"]);
