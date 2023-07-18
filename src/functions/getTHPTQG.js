@@ -212,10 +212,10 @@ async function THPTGet(sender_psid, sbd) {
         Help(sender_psid);
         return;
     }
-    console.log(res);
+    console.log(res.data);
     postMessenger(sender_psid, {
         "text": `
-SBD ${res[0]}. Bạn thuộc hội đồng thi ${HDT[~~(parseInt(sbd)/1000000)-1]}.
+SBD ${sbd}. Bạn thuộc hội đồng thi ${HDT[~~(parseInt(sbd)/1000000)-1]}.
 
 ${parseFloat(res.data.mon_toan) != -1 ? `Toán: ${parseFloat(res.data.mon_toan)}; ` : ""}${parseFloat(res.data.mon_van) != -1 ? `Văn: ${parseFloat(res.data.mon_van)}; ` : ""}${parseFloat(res.data.mon_ngoaingu) != -1 ? `Anh: ${parseFloat(res.data.mon_ngoaingu)} ` : ""}
 ${parseFloat(res.data.mon_ly) != -1 ? `Lý: ${parseFloat(res.data.mon_ly)}; ` : ""}${parseFloat(res.data.mon_hoa) != -1 ? `Hóa: ${parseFloat(res.data.mon_hoa)} ` : ""}${parseFloat(res.data.mon_sinh) != -1 ? `Sinh: ${parseFloat(res.data.mon_sinh)} ` : ""}${parseFloat(res.data.mon_su) != -1 ? `Sử: ${parseFloat(res.data.mon_su)}; ` : ""}${parseFloat(res.data.mon_dia) != -1 ? `Địa: ${parseFloat(res.data.mon_dia)}; ` : ""}${parseFloat(res.data.mon_gdcd) != -1 ? `Công dân: ${parseFloat(res.data.mon_gdcd)} ` : ""}
