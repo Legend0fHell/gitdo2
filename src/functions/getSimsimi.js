@@ -24,7 +24,7 @@ function valid(content) {
     content = content.replace(/tao/gi, "tớ");
     content = content.replace(/mày/gi, "cậu");
 
-    if (content != preContent) content = "L\u1ed7i  r\u1ed3i";
+    if (content != preContent) content = emojiResponse[~~ (Math.random()*emojiResponse.length)];
     return content;
 }
 
