@@ -14,6 +14,7 @@ const notUnderstand = [
 function valid(content) {
     const star = "*************************************";
 
+    const preContent = content;
     bad_words.forEach((text) => {
         const regEx = new RegExp(text, "ig");
         content = content.replaceAll(regEx, star.substring(0, text.length));
@@ -23,6 +24,7 @@ function valid(content) {
     content = content.replace(/tao/gi, "tớ");
     content = content.replace(/mày/gi, "cậu");
 
+    if (content != preContent) content = "L\u1ed7i  r\u1ed3i";
     return content;
 }
 
